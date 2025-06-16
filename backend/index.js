@@ -1,12 +1,25 @@
 const express = require('express');
-
 const app = express();
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+require("dotenv").config();
 
-app.listen(3000 , ()=>{
-    console.log("I am active on port 300");
+const PORT = process.env.PORT || 4000;
+
+app.use(express.json());
+app.use(cookieParser());
+app.use(cors({
+    origin : "http://localhost:5173",
+    credentials : true
+}))
+
+app.listen(PORT , ()=>{
+    console.log(`Server is active on port : ${PORT}`);
 })
 
+const dbConnect = require('./config/database');
+dbConnect();
 
-
-
-
+app.get('/' , (req ,res)=>{
+    res.send("Welcome Brother");
+})
