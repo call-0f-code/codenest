@@ -15,11 +15,13 @@ app.use(cors({
 
 const userRouter = require('./routes/user');
 const blogRouter = require('./routes/blog');
+const interveiwExpRouter = require('./routes/interviewExp');
 
 
 
 app.use("/api/v1" , userRouter);
 app.use("/api/v1" , blogRouter);
+app.use("/api/v1" , interveiwExpRouter);
 
 app.listen(PORT , ()=>{
     console.log(`Server is active on port : ${PORT}`);
