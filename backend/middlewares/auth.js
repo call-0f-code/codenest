@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 require("dotenv").config();
 
 
-xports.isAuthenticated = async (req , res , next)=>{
+exports.isAuthenticated = async (req , res , next)=>{
 
     try{
         const token = req.cookies.token;
@@ -36,6 +36,25 @@ xports.isAuthenticated = async (req , res , next)=>{
         return res.status(401).json({
             success : false,
             message : "Something went wrong while verifying token"
+        })
+    }
+}
+
+exports.isAdmin = async(req , res , next) =>{
+    try{
+        
+        if(req.role !== "admin"){
+            return res.status(401).json({
+                success : false,
+                message : "This is protected route for admin",
+            });
+        }
+        next();
+    }
+    catch(error){
+        return res.status(500).json({
+            success : false,
+            message : "User role is not matching",
         })
     }
 }

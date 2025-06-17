@@ -7,7 +7,7 @@ const blogSchema = new mongoose.Schema(
       required: true,
     },
     author: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: "User",
       required: true,
     },
@@ -56,8 +56,7 @@ const commentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = {
-  Blog: mongoose.model("Blog", blogSchema),
-  BlogLike: mongoose.model("BlogLike", likeSchema),
-  BlogComment: mongoose.model("BlogComment", commentSchema),
-};
+// module.exports = mongoose.model("User" , userSchema);
+module.exports = mongoose.model("Blog" , blogSchema);
+// module.exports = mongoose.model("BlogLike" , likeSchema);
+// module.exports = mongoose.model("BlogComment" , commentSchema);
