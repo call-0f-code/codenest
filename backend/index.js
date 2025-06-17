@@ -13,6 +13,12 @@ app.use(cors({
     credentials : true
 }))
 
+const userRouter = require('./routes/user');
+
+
+
+app.use("/api/v1" , userRouter);
+
 app.listen(PORT , ()=>{
     console.log(`Server is active on port : ${PORT}`);
 })
