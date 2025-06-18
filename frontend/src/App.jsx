@@ -9,6 +9,7 @@ function App() {
   return (
     <>
       <h1 className='text-3xl font-bold text-amber-300'>CodeNest Website Frontend</h1>
+      <p>I will be working on this project for next 2 months</p>
     </>
   )
 }
