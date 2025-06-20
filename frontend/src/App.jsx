@@ -1,17 +1,27 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AppRouter from "./routes/AppRouter";
+import LandingPage from "./pages/LandingPage";
+import Signup from "./pages/Signup";
+
+const appRouter = createBrowserRouter([
+  {
+    path : "/",
+    element : <LandingPage/>
+  },
+  {
+    path : "/signup",
+    element : <Signup/>
+  }
+])
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  return <>
 
-  return (
-    <>
-      <h1 className='text-3xl font-bold text-amber-300'>CodeNest Website Frontend</h1>
-      <p>I will be working on this project for next 2 months</p>
-    </>
-  )
+    <RouterProvider router={appRouter}/>
+  
+  </>;
 }
 
-export default App
+export default App;
