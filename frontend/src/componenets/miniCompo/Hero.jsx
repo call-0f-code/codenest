@@ -1,5 +1,5 @@
 import { ArrowRight, Play } from "lucide-react";
-// import { button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 const Hero = () => {
@@ -35,18 +35,18 @@ const Hero = () => {
             topic-wise questions. Practice, learn, and excel in your coding interviews.
           </p>
 
-          {/* CTA buttons */}
+          {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
             <Link to="/signup">
-              <button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 text-lg">
+              <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 text-lg">
                 Start Learning Free
                 <ArrowRight className="ml-2 w-5 h-5" />
-              </button>
+              </Button>
             </Link>
-            <button variant="outline" size="lg" className="border-gray-600 text-gray-300 hover:bg-gray-800 px-8 py-4 text-lg">
+            <Button variant="outline" size="lg" className="border-gray-600 text-gray-300 hover:bg-gray-800 px-8 py-4 text-lg">
               <Play className="mr-2 w-5 h-5" />
               Watch Demo
-            </button>
+            </Button>
           </div>
 
           {/* Stats */}

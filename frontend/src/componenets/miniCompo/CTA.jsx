@@ -1,6 +1,6 @@
 
 import { ArrowRight, CheckCircle } from "lucide-react";
-// import { button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 const CTA = () => {
@@ -39,17 +39,17 @@ const CTA = () => {
                 ))}
               </div>
 
-              {/* CTA buttons */}
+              {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link to="/auth">
-                  <button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4">
+                  <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4">
                     Start Learning Now
                     <ArrowRight className="ml-2 w-5 h-5" />
-                  </button>
+                  </Button>
                 </Link>
-                <button variant="outline" size="lg" className="border-gray-600 text-gray-300 hover:bg-gray-700 px-8 py-4">
+                <Button variant="outline" size="lg" className="border-gray-600 text-gray-300 hover:bg-gray-700 px-8 py-4">
                   View Sample Questions
-                </button>
+                </Button>
               </div>
             </div>
 

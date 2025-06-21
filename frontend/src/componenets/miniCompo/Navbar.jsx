@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Code, Menu, X } from "lucide-react";
-// import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
@@ -39,25 +39,25 @@ const Navbar = () => {
           {/* Auth Buttons */}
           <div className="hidden md:flex items-center space-x-4">
             <Link to="/auth">
-              <button variant="ghost" className="text-gray-300 hover:text-white">
+              <Button variant="ghost" className="text-gray-300 hover:text-white">
                 Login
-              </button>
+              </Button>
             </Link>
             <Link to="/auth">
-              <button className="bg-purple-600 hover:bg-purple-700 text-white">
+              <Button className="bg-purple-600 hover:bg-purple-700 text-white">
                 Get Started
-              </button>
+              </Button>
             </Link>
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile menu Button */}
           <div className="md:hidden">
-            <button
+            <Button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="text-gray-300 hover:text-white"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -79,14 +79,14 @@ const Navbar = () => {
               </a>
               <div className="pt-4 pb-2 space-y-2">
                 <Link to="/auth" className="block">
-                  <button variant="ghost" className="w-full text-gray-300 hover:text-white">
+                  <Button variant="ghost" className="w-full text-gray-300 hover:text-white">
                     Login
-                  </button>
+                  </Button>
                 </Link>
                 <Link to="/auth" className="block">
-                  <button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                  <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
                     Get Started
-                  </button>
+                  </Button>
                 </Link>
               </div>
             </div>

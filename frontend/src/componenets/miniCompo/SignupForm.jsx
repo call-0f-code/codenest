@@ -3,6 +3,8 @@ import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {useForm} from 'react-hook-form'
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 const SignupForm = () => {
 
@@ -43,7 +45,7 @@ const SignupForm = () => {
           {/* <Label htmlFor="fullName">Full Name</Label> */}
           <div className="relative">
             <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
+            <Input
               type="text"
               placeholder="Enter your username"
 
@@ -57,7 +59,7 @@ const SignupForm = () => {
           {/* <Label htmlFor="email">Email</Label> */}
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
+            <Input
               type="email"
               placeholder="Enter your email"
               className="pl-10 h-12"
@@ -70,19 +72,19 @@ const SignupForm = () => {
           {/* <Label htmlFor="password">Password</Label> */}
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
+            <Input
               type={showPassword ? "text" : "password"}
               placeholder="Create a password"
               className="pl-10 pr-10 h-12"
               {...register("password" , {required : "Password is required"})}
             />
-            <button
-              type="button"
+            <Button
+              type="Button"
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
             >
               {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -90,31 +92,31 @@ const SignupForm = () => {
           {/* <Label htmlFor="confirmPassword">Confirm Password</Label> */}
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
+            <Input
 
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Confirm your password"
               className="pl-10 pr-10 h-12"
               {...register("confirmPassword" , {required : "Confir Password is reuqired"})}
             />
-            <button
-              type="button"
+            <Button
+              type="Button"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
             >
               {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-            </button>
+            </Button>
           </div>
         </div>
 
         
 
-        <button
+        <Button
           type="submit"
           className="w-full h-12 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-[1.02]"
         >
           Create Account
-        </button>
+        </Button>
       </form>
 
       

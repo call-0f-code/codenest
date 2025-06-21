@@ -3,7 +3,8 @@ import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 import axios from "axios";
 import {useForm} from "react-hook-form"
 import { useNavigate } from "react-router-dom";
-
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 function LoginForm() {
 
@@ -42,7 +43,7 @@ function LoginForm() {
 
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
+            <Input
               type="email"
               placeholder="Enter your email"
               className="pl-10 h-12"
@@ -55,14 +56,14 @@ function LoginForm() {
           {/* <Label htmlFor="password">Password</Label> */}
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
+            <Input
               type={showPassword ? "text" : "password"}
               placeholder="Enter your password"
               className="pl-10 pr-10 h-12"
               {...register("password" , {required : "Password is required"})}
             />
-            <button
-              type="button"
+            <Button
+              type="Button"
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
             >
@@ -71,16 +72,16 @@ function LoginForm() {
               ) : (
                 <Eye className="w-5 h-5" />
               )}
-            </button>
+            </Button>
           </div>
         </div>
 
-        <button
+        <Button
           type="submit"
           className="w-full h-12 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-[1.02]"
         >
           Sign In
-        </button>
+        </Button>
       </form>
 
       
