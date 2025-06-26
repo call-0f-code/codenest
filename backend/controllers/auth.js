@@ -91,14 +91,19 @@ exports.login = async (req ,res)=>{
 
             const options = {
                 expires : new Date(Date.now() + 3*24*60*60*1000),
-                httpOnly : true
+                secure : process.env.NODE_ENV === "production",
+                httpOnly : true,
+                sameSite : "Lax"
             }
 
             res.cookie("token" , token , options).status(200).json({
                 success : true,
-                user,
-                token , 
-                message : "User logged in succesfully "
+                user:{
+                    id : user._id,
+                    email : user.email,
+                    role : user.role,
+                },
+                message : "User logged in succesfully ",
             })
         }
         else{
@@ -136,3 +141,21 @@ exports.logout = async (_ , res) =>{
     }
 
 }
+
+exports.getMe = async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ message: "Not authenticated" });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // Optionally fetch fresh user data:
+    const user = await User.findById(decoded.id).select("-password");
+    return res.json({
+      id: user._id,
+      email: user.email,
+      role: user.role,
+    });
+  } catch (err) {
+    return res.status(403).json({ message: "Invalid or expired token" });
+  }
+};

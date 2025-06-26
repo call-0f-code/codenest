@@ -8,23 +8,31 @@ export const routes = [
     {
         path : '/',
         element : <LandingPage/>,
+        roles : ['user' , 'admin']
     },
     {
         path : '/signup',
         element : <Signup/>,
+        roles : ['user' , 'admin']
     
     },
     {
         path : '/blogs',
-        element : <Blogs/>
+        element : <Blogs/>,
+        roles : ['user' , 'admin']
+    
     }
     ,
     {
         path : '/interviewExp',
-        element : <InterviewExp/>
+        element : <InterviewExp/>,
+        roles : ['user' , 'admin']
+    
     },
     {
         path : "*",
         element : <NotFound/>,
+        roles : ['user' , 'admin']
+    
     }
 ];
