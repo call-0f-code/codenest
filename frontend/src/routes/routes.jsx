@@ -4,16 +4,17 @@ import Signup from "../pages/Signup";
 import NotFound from "../pages/NotFound";
 import Blogs from "../pages/Blogs";
 import InterviewExp from "../pages/InterviewExp";
+import Unauthorized from "@/pages/Unauthorized";
 export const routes = [
     {
         path : '/',
         element : <LandingPage/>,
-        roles : ['user' , 'admin']
+        public : true
     },
     {
         path : '/signup',
         element : <Signup/>,
-        roles : ['user' , 'admin']
+        public : true
     
     },
     {
@@ -34,5 +35,10 @@ export const routes = [
         element : <NotFound/>,
         roles : ['user' , 'admin']
     
+    },
+    {
+        path : "/unauthorized",
+        element : <Unauthorized/>,
+        role : ["user" , "admin"]
     }
 ];
