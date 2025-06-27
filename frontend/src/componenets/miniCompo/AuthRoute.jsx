@@ -13,8 +13,8 @@ const AuthRoute = ({ children, requiredRoles }) => {
     return <Navigate to="/signup" replace />;
   }
 
-  if (!requiredRoles.includes(user.role)) {
-    return <Navigate to="/unauthorized" replace />;
+  if(!user.role || !requiredRoles?.includes(user.role)){
+    return <Navigate to="/unauthorized" replace/>
   }
 
   return children;

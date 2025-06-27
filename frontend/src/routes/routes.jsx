@@ -5,6 +5,7 @@ import NotFound from "../pages/NotFound";
 import Blogs from "../pages/Blogs";
 import InterviewExp from "../pages/InterviewExp";
 import Unauthorized from "@/pages/Unauthorized";
+import CreateModule from "@/pages/CreateModule";
 export const routes = [
     {
         path : '/',
@@ -20,7 +21,7 @@ export const routes = [
     {
         path : '/blogs',
         element : <Blogs/>,
-        roles : ['user' , 'admin']
+        roles : ['admin' , 'user']
     
     }
     ,
@@ -29,6 +30,11 @@ export const routes = [
         element : <InterviewExp/>,
         roles : ['user' , 'admin']
     
+    },
+    {
+        path : '/createModule',
+        element : <CreateModule/>,
+        roles : ['admin']
     },
     {
         path : "*",
