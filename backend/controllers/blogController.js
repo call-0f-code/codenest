@@ -64,6 +64,27 @@ exports.deleteBlog = async (req, res) => {
   }
 };
 
+//gettin  a single blog 
+
+exports.getBlog = async (req ,res)=>{
+  try{
+    const blog = await Blog.findById(req.params.id);
+    res.status(200).json({
+      success : true,
+      data : blog,
+      message : "Specific Blog was fetched"
+    });
+  }
+  catch(err){
+    console.log(err);
+    res.status(500).json({
+      succces : false,
+      error : err.message,
+      message : "Unable to get that blog"
+    })
+  }
+};
+
 // exports.likeBlog = async (req, res) => {
 //   try {
 //     const blogId = req.params.blogId;

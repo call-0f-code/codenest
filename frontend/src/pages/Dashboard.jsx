@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useAsyncError } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
@@ -17,8 +17,12 @@ import { Book, MessageSquare, LayoutDashboard, LogOut, Plus, Edit } from "lucide
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Dashboard = () => {
+
+  const navigate = useNavigate();
     console.log("Dashboard rendered");
 
   const location = useLocation();
@@ -46,6 +50,7 @@ const Dashboard = () => {
       url: "/dashboard/forum",
       icon: MessageSquare,
     },
+
     
   ];
 
@@ -64,9 +69,26 @@ const Dashboard = () => {
 
   const menuItems = isAdmin ? [...baseMenuItems, ...adminMenuItems] : baseMenuItems;
 
-  const handleLogout = () => {
+  const handleLogout = async() => {
+
+    try{
+      const res = await axios.get("http://localhost:3000/api/v1/logout",
+        {
+          headers : {"Content-Type" : "application/json"},
+          withCredentials : true,
+        }
+      );
+      if(res.data.success){
+        alert(res.data.message);
+        navigate('/');
+        
+      }
+    }
+    catch(err){
+      alert(err.response.data.message);
+    }
     // logout();
-    console.log("Logout clicked");
+    
   };
 
   return (

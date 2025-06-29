@@ -69,3 +69,24 @@ exports.deleteModule = async (req, res) => {
     });
   }
 };
+
+//getting a single moudule 
+
+exports.getModule = async(req ,res)=>{
+    try{
+        const module = await Module.findById(req.params.id);
+        res.status(200).json({
+            succces : true,
+            data : module,
+            message : "Specific Module Was fetched"
+        });
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).json({
+            succces : false,
+            error : err.message,
+            message : "Unable to get that Module"
+        })
+    }
+};

@@ -7,6 +7,8 @@ import Unauthorized from "@/pages/Unauthorized";
 import CreateModule from "@/pages/CreateModule";
 import Dashboard from "@/pages/Dashboard";
 import Module from "@/pages/Module"
+import BlogSingle from "@/pages/BlogSingle";
+import SingleModule from "@/pages/SingleModule";
 
 export const routes = [
   {
@@ -23,6 +25,16 @@ export const routes = [
     path: "/unauthorized",
     element: <Unauthorized />,
     roles: ["user", "admin"],
+  },
+  {
+    path : "/dashboard/blogs/:id",
+    element : <BlogSingle/>,
+    roles : ["user" , 'admin']
+  },
+  {
+    path : "/dashboard/modules/:id",
+    element : <SingleModule/>,
+    roles : ["user" , "admin"]
   },
   {
     path: "/dashboard",

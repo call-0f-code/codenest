@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Book, Clock, Users, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
+import { Link } from "react-router-dom";
+
 
 const modulesContent = [
   {
     id: 1,
     title: "Arrays & Strings",
-    description: "Master fundamental data structures with arrays and string manipulation techniques",
+    description:
+      "Master fundamental data structures with arrays and string manipulation techniques",
     topics: 45,
     difficulty: "Beginner",
     estimatedTime: "2-3 weeks",
@@ -17,7 +21,8 @@ const modulesContent = [
   {
     id: 2,
     title: "Linked Lists",
-    description: "Deep dive into linked list operations, traversal, and advanced techniques",
+    description:
+      "Deep dive into linked list operations, traversal, and advanced techniques",
     topics: 38,
     difficulty: "Intermediate",
     estimatedTime: "2 weeks",
@@ -28,7 +33,8 @@ const modulesContent = [
   {
     id: 3,
     title: "Trees & Graphs",
-    description: "Explore tree traversals, graph algorithms, and complex data relationships",
+    description:
+      "Explore tree traversals, graph algorithms, and complex data relationships",
     topics: 52,
     difficulty: "Advanced",
     estimatedTime: "3-4 weeks",
@@ -39,7 +45,8 @@ const modulesContent = [
   {
     id: 4,
     title: "Dynamic Programming",
-    description: "Master optimization techniques and solve complex algorithmic problems",
+    description:
+      "Master optimization techniques and solve complex algorithmic problems",
     topics: 35,
     difficulty: "Advanced",
     estimatedTime: "3 weeks",
@@ -50,7 +57,8 @@ const modulesContent = [
   {
     id: 5,
     title: "Sorting & Searching",
-    description: "Learn various sorting algorithms and efficient searching techniques",
+    description:
+      "Learn various sorting algorithms and efficient searching techniques",
     topics: 28,
     difficulty: "Intermediate",
     estimatedTime: "1-2 weeks",
@@ -61,7 +69,8 @@ const modulesContent = [
   {
     id: 6,
     title: "System Design Basics",
-    description: "Introduction to system design concepts and scalability patterns",
+    description:
+      "Introduction to system design concepts and scalability patterns",
     topics: 20,
     difficulty: "Advanced",
     estimatedTime: "2 weeks",
@@ -72,7 +81,9 @@ const modulesContent = [
 ];
 
 const Module = () => {
-    console.log("ViewModules rendered");
+  console.log("ViewModules rendered");
+
+  const [modules, setModules] = useState([]);
 
   const [selectedDifficulty, setSelectedDifficulty] = useState("All");
 
@@ -81,7 +92,9 @@ const Module = () => {
   const filteredModules =
     selectedDifficulty === "All"
       ? modulesContent
-      : modulesContent.filter((module) => module.difficulty === selectedDifficulty);
+      : modulesContent.filter(
+          (module) => module.difficulty === selectedDifficulty
+        );
 
   const getDifficultyColor = (difficulty) => {
     switch (difficulty) {
@@ -96,12 +109,33 @@ const Module = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchModules = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/api/v1/getModules", {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        });
+
+        if (res.data.success) {
+          setModules(res.data.data);
+          console.log("Data from server", res.data.data);
+        }
+      } catch (err) {
+        alert(err.response.data.message);
+      }
+    };
+    fetchModules();
+  }, []);
+
   return (
     <div className="p-6">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-white mb-2">Learning Modules</h1>
-        <p className="text-gray-400">Choose a module to start your DSA journey</p>
+        <p className="text-gray-400">
+          Choose a module to start your DSA journey
+        </p>
       </div>
 
       {/* Filter Buttons */}
@@ -124,46 +158,52 @@ const Module = () => {
 
       {/* Modules Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredModules.map((module) => (
+        {modules.map((module) => (
           <div
-            key={module.id}
+            key={module._id}
             className="bg-gray-800 rounded-lg border border-gray-700 p-6 hover:border-purple-500 transition-all duration-300 hover:transform hover:scale-105"
           >
             <div className="flex justify-between items-start mb-4">
-              <h3 className="text-xl font-semibold text-white mb-2">{module.title}</h3>
-              <span
+              <h3 className="text-xl font-semibold text-white mb-2">
+                {module.title}
+              </h3>
+              {/* <span
                 className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(
                   module.difficulty
                 )}`}
               >
                 {module.difficulty}
-              </span>
+              </span> */}
             </div>
 
-            <p className="text-gray-400 text-sm mb-4 line-clamp-2">{module.description}</p>
+            <p className="text-gray-400 text-sm mb-4 line-clamp-2">
+              {module.description}
+            </p>
 
             <div className="space-y-3 mb-6">
-              <div className="flex items-center text-gray-300 text-sm">
+              {/* <div className="flex items-center text-gray-300 text-sm">
                 <Book className="w-4 h-4 mr-2" />
                 <span>{module.topics} Topics</span>
-              </div>
+              </div> */}
               <div className="flex items-center text-gray-300 text-sm">
-                <Clock className="w-4 h-4 mr-2" />
-                <span>{module.estimatedTime}</span>
+                {/* <Clock className="w-4 h-4 mr-2" />
+                <span>{module.estimatedTime}</span> */}
               </div>
               <div className="flex items-center text-gray-300 text-sm">
                 <Users className="w-4 h-4 mr-2" />
-                <span>{module.enrolled.toLocaleString()} enrolled</span>
+                <span>{module.createdBy} </span>
               </div>
-              <div className="flex items-center text-gray-300 text-sm">
+              {/* <div className="flex items-center text-gray-300 text-sm">
                 <Star className="w-4 h-4 mr-2 text-yellow-400 fill-current" />
                 <span>{module.rating}/5</span>
-              </div>
+              </div> */}
             </div>
 
-            <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
-              Start Learning
-            </Button>
+            <Link to={`/dashboard/modules/${module._id}`}>
+              <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                Start Learning
+              </Button>
+            </Link>
           </div>
         ))}
       </div>

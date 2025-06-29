@@ -38,12 +38,12 @@ const Navbar = () => {
 
           {/* Auth Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link to="/auth">
+            <Link to="/signup">
               <Button variant="ghost" className="text-gray-300 hover:text-white">
                 Login
               </Button>
             </Link>
-            <Link to="/auth">
+            <Link to="/signup">
               <Button className="bg-purple-600 hover:bg-purple-700 text-white">
                 Get Started
               </Button>
