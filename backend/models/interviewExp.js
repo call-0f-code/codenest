@@ -10,6 +10,10 @@ const interviewExpSchema = new mongoose.Schema(
             type : String,
             required : true
         },
+        candidate : {
+            type : String,
+            required : false
+        },
         verdict : {
             type : String,
             enum : ["Selected" , "Rejected" , "Pending"]
@@ -17,7 +21,9 @@ const interviewExpSchema = new mongoose.Schema(
         content : {
             type : String,
             required : true
-        }
+        },
+        
+
     }
 );
 

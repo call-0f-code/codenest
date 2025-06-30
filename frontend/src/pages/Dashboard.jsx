@@ -65,6 +65,11 @@ const Dashboard = () => {
       url: "/dashboard/createBlog",
       icon: Edit,
     },
+    {
+      title : "Create Interview Exp.",
+      url : "/dashboard/createInterviewExp",
+      icon : Edit,
+    }
   ];
 
   const menuItems = isAdmin ? [...baseMenuItems, ...adminMenuItems] : baseMenuItems;

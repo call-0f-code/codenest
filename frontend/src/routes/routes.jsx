@@ -10,6 +10,7 @@ import Module from "@/pages/Module"
 import BlogSingle from "@/pages/BlogSingle";
 import SingleModule from "@/pages/SingleModule";
 import CreateBlog from "@/pages/CreateBlog";
+import CreateInterviewExp from "@/pages/CreateInterviewExp";
 
 export const routes = [
   {
@@ -65,6 +66,11 @@ export const routes = [
       {
         path : "createBlog",
         element : <CreateBlog/>,
+        roles : ["admin"],
+      },
+      {
+        path : "createInterviewExp",
+        element : <CreateInterviewExp/>,
         roles : ["admin"],
       }
     ],
