@@ -9,6 +9,7 @@ import Dashboard from "@/pages/Dashboard";
 import Module from "@/pages/Module"
 import BlogSingle from "@/pages/BlogSingle";
 import SingleModule from "@/pages/SingleModule";
+import CreateBlog from "@/pages/CreateBlog";
 
 export const routes = [
   {
@@ -61,6 +62,11 @@ export const routes = [
         element: <CreateModule />,
         roles: ["admin"],
       },
+      {
+        path : "createBlog",
+        element : <CreateBlog/>,
+        roles : ["admin"],
+      }
     ],
   },
   {

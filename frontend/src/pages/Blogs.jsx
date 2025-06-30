@@ -98,9 +98,7 @@ const Blogs = () => {
 
         if (res.data.success) {
           setBlogs(res.data.data);
-          console.log("data from server", res.data.data);
         }
-        console.log(blogs);
       } catch (err) {
         alert(err.response.data.message);
       }
