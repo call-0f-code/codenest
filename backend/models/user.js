@@ -3,7 +3,9 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
     username : {
         type : String,
-        required  : true
+        required  : function () {
+            return !this.googleId;
+        },
     },
     email : {
         type : String,
@@ -12,11 +14,16 @@ const userSchema = new mongoose.Schema({
     },
     password : {
         type : String ,
-        required : true
+        required : function () {
+            return !this.googleId;
+        }
     },
     role : {
         type : String,
         enum : ['user' , 'admin'] , default : 'user'
+    },
+    googleId : {
+        type : String
     }
 });
 

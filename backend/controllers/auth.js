@@ -142,6 +142,27 @@ exports.logout = async (_ , res) =>{
 
 }
 
+const createToken = (user)=>{
+    return jwt.sign(
+        {id : user._id , username : user.useranme, role : user.role},
+        process.env.JWT_SECRET,
+        {expiresIn : '1d'}
+    )
+};
+
+exports.googleCallback = (req, res) => {
+  const token = createToken(req.user);
+
+  res.cookie('token', token, {
+    httpOnly: true,
+    secure: false, // Set to true in production
+    sameSite: 'Lax',
+    maxAge: 86400000,
+  });
+
+  res.redirect(process.env.CLIENT_HOME_URL);
+};
+
 exports.getMe = async (req, res) => {
   const token = req.cookies.token;
   if (!token) return res.status(401).json({ message: "Not authenticated" });
@@ -159,3 +180,5 @@ exports.getMe = async (req, res) => {
     return res.status(403).json({ message: "Invalid or expired token" });
   }
 };
+
+
