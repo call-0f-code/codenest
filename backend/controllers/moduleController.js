@@ -76,10 +76,11 @@ exports.getModule = async(req ,res)=>{
     try{
         const module = await Module.findById(req.params.id);
         res.status(200).json({
-            succces : true,
-            data : module,
-            message : "Specific Module Was fetched"
-        });
+  success: true,
+  data: module,
+  message: "Specific Module Was fetched"
+});
+
     }
     catch(err){
         console.log(err);

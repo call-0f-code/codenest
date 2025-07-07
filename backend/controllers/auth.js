@@ -54,75 +54,77 @@ exports.signup = async(req ,res) =>{
 }
 
 
-exports.login = async (req ,res)=>{
+exports.login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-    try{
-        const {email , password} = req.body;
-        if(!email || !password){
-            return res.status(400).json({
-                success : false,
-                message : "Please fill all the deatils"
-            })
-        }
-
-        let user = await User.findOne({email});
-        if(!user){
-            return res.status(401).json({
-                success : false,
-                message : "User does not exist , create new one"
-            })
-        }
-
-        const payload = {
-            email : user.email,
-            id : user._id,
-            role : user.role,
-        };
-
-        if(await bcrypt.compare(password , user.password)){
-            let token = jwt.sign(payload , process.env.JWT_SECRET,{
-                expiresIn : "2h",
-            })
-
-            user = user.toObject();
-            user.token = token;
-            user.password = undefined;
-            
-
-            const options = {
-                expires : new Date(Date.now() + 3*24*60*60*1000),
-                secure : process.env.NODE_ENV === "production",
-                httpOnly : true,
-                sameSite : "Lax"
-            }
-
-            res.cookie("token" , token , options).status(200).json({
-                success : true,
-                user:{
-                    id : user._id,
-                    email : user.email,
-                    role : user.role,
-                },
-                message : "User logged in succesfully ",
-            })
-        }
-        else{
-            return res.status(403).json({
-                success : false,
-                message : "Password does not match"
-            })
-        }
-
-        
+    // 1. Validate input
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Please fill all the details",
+      });
     }
-    catch(err){
-        console.log(err);
-        return res.status(500).json({
-            success : false,
-            message : "Login error"
-        })
+
+    // 2. Check if user exists
+    let user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "User does not exist, please register",
+      });
     }
-}
+
+    // 3. Compare password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(403).json({
+        success: false,
+        message: "Incorrect password",
+      });
+    }
+
+    // 4. Generate token
+    const payload = {
+      id: user._id,
+      role: user.role,
+      email: user.email,
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: "2h",
+    });
+
+    // 5. Set cookie
+    const options = {
+      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Lax",
+    };
+
+    // 6. Sanitize user object for frontend (remove password, include token if needed)
+    user = user.toObject();
+    user.password = undefined;
+
+    // 7. Respond
+    res.cookie("token", token, options).status(200).json({
+      success: true,
+      message: "User logged in successfully",
+      user: {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      success: false,
+      message: "Login error",
+    });
+  }
+};
 
 exports.logout = async (_ , res) =>{
 

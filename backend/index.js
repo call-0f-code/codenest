@@ -24,6 +24,7 @@ const userRouter = require('./routes/user');
 const blogRouter = require('./routes/blog');
 const interveiwExpRouter = require('./routes/interviewExp');
 const moduleRouter = require('./routes/module');
+const progressRouter = require('./routes/progress');
 
 
 
@@ -32,6 +33,8 @@ app.use("/api/v1" , userRouter);
 app.use("/api/v1" , blogRouter);
 app.use("/api/v1" , interveiwExpRouter);
 app.use("/api/v1" , moduleRouter);
+app.use("/api/v1/progress" , progressRouter);
+
 
 app.listen(PORT , ()=>{
     console.log(`Server is active on port : ${PORT}`);

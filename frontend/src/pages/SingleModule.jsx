@@ -13,76 +13,67 @@ const SingleModule = () => {
   const [loading, setLoading] = useState(true);
   const [completedQuestions, setCompletedQuestions] = useState(new Set());
 
-  // useEffect(() => {
-  //   const fetchModule = async () => {
-  //     try {
-  //       const response = await axios.get(`http://localhost:3000/api/v1/getModule/${id}`, {
-  //         withCredentials: true,
-  //       });
+  // ✅ Fetch module and progress data
+ useEffect(() => {
+  const fetchModuleAndProgress = async () => {
+    try {
+      setLoading(true);
 
-  //       console.log(response.data.data);
+      const [moduleRes, progressRes] = await Promise.all([
+        axios.get(`http://localhost:3000/api/v1/getModule/${id}`, {
+          withCredentials: true,
+        }),
+        axios.get(`http://localhost:3000/api/v1/progress/${id}`, {
+          withCredentials: true,
+        }),
+      ]);
 
-  //       if (response.data.success) {
-  //         setModule(response.data.data);
-  //         console.log("Module state :" , response.data.data)
-  //       }
-  //     } catch (error) {
-  //       console.error("Failed to load module:", error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+      console.log("Module API Response:", moduleRes.data);
 
-  //   if (id) {
-  //     fetchModule();
-  //   }
-  // }, [id]);
+      const moduleData = moduleRes.data?.data;
+      const moduleSuccess = moduleRes.data?.success;
 
-  useEffect(() => {
-    const fetchModule = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(
-          `http://localhost:3000/api/v1/getModule/${id}`,
-          {
-            withCredentials: true,
-          }
-        );
- // Then log the data property
-
-        // Check if response.data exists and has the expected structure
-        if (response.data) {
-          // Try different possible response structures
-          const moduleData = response.data.data || response.data;
-
-
-          if (moduleData) {
-            setModule(moduleData);
-          } else {
-            console.error("No module data found in response");
-          }
-        }
-      } catch (error) {
-        console.error("Failed to load module:", error);
-        setError(error.message);
-      } finally {
-        setLoading(false);
+      if (!moduleSuccess || !moduleData) {
+        console.error("Invalid module response");
+        setModule(null);
+        return;
       }
-    };
 
-    if (id) {
-      fetchModule();
+      const progressData = progressRes.data?.completedQuestions || [];
+      setModule(moduleData);
+      setCompletedQuestions(new Set(progressData));
+    } catch (error) {
+      console.error("Failed to load module or progress:", error);
+      setModule(null);
+    } finally {
+      setLoading(false);
     }
-  }, [id]);
+  };
 
-  const toggleQuestionCompletion = (questionIndex) => {
+  if (id) fetchModuleAndProgress();
+}, [id]);
+
+  // ✅ Save progress when toggled
+  const toggleQuestionCompletion = async (questionIndex) => {
     const newCompleted = new Set(completedQuestions);
+
     if (newCompleted.has(questionIndex)) {
       newCompleted.delete(questionIndex);
     } else {
       newCompleted.add(questionIndex);
     }
+
     setCompletedQuestions(newCompleted);
+
+    try {
+      await axios.post(
+        `http://localhost:3000/api/v1/progress/${id}`,
+        { completedQuestions: Array.from(newCompleted) },
+        { withCredentials: true }
+      );
+    } catch (err) {
+      console.error("Failed to save progress", err);
+    }
   };
 
   const getDifficultyColor = (difficulty) => {
@@ -106,17 +97,7 @@ const SingleModule = () => {
   if (loading) {
     return (
       <div className="p-6 bg-gray-900 min-h-screen">
-        <div className="max-w-6xl mx-auto">
-          <div className="animate-pulse">
-            <div className="h-8 bg-gray-700 rounded mb-4"></div>
-            <div className="h-4 bg-gray-700 rounded w-1/3 mb-6"></div>
-            <div className="space-y-4">
-              {[...Array(5)].map((_, i) => (
-                <div key={i} className="h-20 bg-gray-800 rounded"></div>
-              ))}
-            </div>
-          </div>
-        </div>
+        <div className="max-w-6xl mx-auto">Loading...</div>
       </div>
     );
   }
@@ -128,9 +109,6 @@ const SingleModule = () => {
           <h1 className="text-2xl font-bold text-white mb-4">
             Module Not Found
           </h1>
-          <p className="text-gray-400 mb-6">
-            The module you're looking for doesn't exist.
-          </p>
           <Link to="/dashboard">
             <Button className="bg-purple-600 hover:bg-purple-700 text-white">
               <ArrowLeft className="w-4 h-4 mr-2" />
@@ -169,7 +147,6 @@ const SingleModule = () => {
             </p>
           </CardHeader>
           <CardContent>
-            {/* Progress Bar */}
             <div className="mb-4">
               <div className="flex justify-between items-center mb-2">
                 <span className="text-sm font-medium text-gray-300">

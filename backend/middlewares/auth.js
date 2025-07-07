@@ -2,59 +2,52 @@ const jwt = require('jsonwebtoken');
 require("dotenv").config();
 
 
-exports.isAuthenticated = async (req , res , next)=>{
+exports.isAuthenticated = async (req, res, next) => {
+  try {
+    const token = req.cookies.token;
 
-    try{
-        const token = req.cookies.token;
-
-        
-
-        if(!token || token == undefined){
-            return res.status(401).json({
-                success : false,
-                message : "Token Missing"
-            })
-        }
-
-        try{
-            const decode = jwt.verify(token , process.env.JWT_SECRET);
-            
-            req.role = decode.role;
-            
-        }
-
-        catch(e){
-            return res.status(401).json({
-                success : false,
-                message : "Token is invalid"
-            })
-        }
-        next();
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: "Token Missing",
+      });
     }
-    catch(err){
-        console.log(err);
-        return res.status(401).json({
-            success : false,
-            message : "Something went wrong while verifying token"
-        })
-    }
-}
 
-exports.isAdmin = async(req , res , next) =>{
-    try{
-        
-        if(req.role !== "admin"){
-            return res.status(401).json({
-                success : false,
-                message : "This is protected route for admin",
-            });
-        }
-        next();
+    try {
+      const decode = jwt.verify(token, process.env.JWT_SECRET);
+
+      // Attach the full payload to req.user so we can access both id and role
+      req.user = decode;
+
+      next();
+    } catch (e) {
+      return res.status(401).json({
+        success: false,
+        message: "Token is invalid",
+      });
     }
-    catch(error){
-        return res.status(500).json({
-            success : false,
-            message : "User role is not matching",
-        })
+  } catch (err) {
+    console.log(err);
+    return res.status(401).json({
+      success: false,
+      message: "Something went wrong while verifying token",
+    });
+  }
+};
+
+exports.isAdmin = async (req, res, next) => {
+  try {
+    if (req.user?.role !== "admin") {
+      return res.status(401).json({
+        success: false,
+        message: "This is a protected route for admin",
+      });
     }
-}
+    next();
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "User role is not matching",
+    });
+  }
+};
