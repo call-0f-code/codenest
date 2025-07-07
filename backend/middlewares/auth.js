@@ -2,36 +2,43 @@ const jwt = require('jsonwebtoken');
 require("dotenv").config();
 
 
-exports.isAuthenticated = (req, res, next) => {
-  try {
-    const token = req.cookies.token;
+exports.isAuthenticated = async (req , res , next)=>{
 
-    if (!token) {
-      return res.status(401).json({
-        success: false,
-        message: "Token is missing",
-      });
+    try{
+        const token = req.cookies.token;
+
+        
+
+        if(!token || token == undefined){
+            return res.status(401).json({
+                success : false,
+                message : "Token Missing"
+            })
+        }
+
+        try{
+            const decode = jwt.verify(token , process.env.JWT_SECRET);
+            
+            req.role = decode.role;
+            
+        }
+
+        catch(e){
+            return res.status(401).json({
+                success : false,
+                message : "Token is invalid"
+            })
+        }
+        next();
     }
-
-    // Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    // Attach user data to request
-    req.user = {
-      id: decoded.id,
-      role: decoded.role,
-    };
-
-    next();
-  } catch (error) {
-    console.error("Auth error:", error.message);
-
-    return res.status(401).json({
-      success: false,
-      message: "Invalid or expired token",
-    });
-  }
-};
+    catch(err){
+        console.log(err);
+        return res.status(401).json({
+            success : false,
+            message : "Something went wrong while verifying token"
+        })
+    }
+}
 
 exports.isAdmin = async(req , res , next) =>{
     try{
