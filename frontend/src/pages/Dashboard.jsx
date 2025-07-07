@@ -98,33 +98,46 @@ const Dashboard = () => {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-gray-900">
-        <Sidebar className="border-r border-gray-800">
-          <SidebarHeader className="p-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">CN</span>
+      <div className="min-h-screen flex w-full bg-gray-950">
+        <Sidebar className="border-r border-gray-700/50 bg-slate-800 shadow-xl">
+          <SidebarHeader className="p-6 border-b border-slate-600/40 bg-slate-900/80">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl flex items-center justify-center shadow-lg">
+                <span className="text-white font-bold text-lg">CN</span>
               </div>
-              <span className="text-xl font-bold text-white">
-                code<span className="text-purple-400">Nest</span>
-              </span>
+              <div className="flex flex-col">
+                <span className="text-xl font-bold text-slate-100">
+                  code<span className="text-purple-400">Nest</span>
+                </span>
+                <span className="text-xs text-slate-400">Development Hub</span>
+              </div>
             </div>
           </SidebarHeader>
           
-          <SidebarContent>
+          <SidebarContent className="p-4">
             <SidebarGroup>
               <SidebarGroupContent>
-                <SidebarMenu>
+                <SidebarMenu className="space-y-2">
                   {menuItems.map((item) => (
                     <SidebarMenuItem key={item.title}>
                       <SidebarMenuButton 
                         asChild 
                         isActive={location.pathname === item.url}
-                        className="text-gray-300 hover:text-white hover:bg-gray-800"
+                        className={`
+                          relative overflow-hidden rounded-lg transition-all duration-200 ease-in-out
+                          ${location.pathname === item.url 
+                            ? 'bg-gradient-to-r from-purple-500/25 to-purple-600/25 text-white border border-purple-400/50 shadow-lg shadow-purple-500/20' 
+                            : 'text-slate-300 hover:text-white hover:bg-slate-700/70 border border-transparent'
+                          }
+                          group px-4 py-3
+                        `}
                       >
-                        <Link to={item.url}>
-                          <item.icon className="w-5 h-5" />
-                          <span>{item.title}</span>
+                        <Link to={item.url} className="flex items-center space-x-3 w-full">
+                          <item.icon className={`w-5 h-5 transition-transform duration-200 ${location.pathname === item.url ? 'scale-110' : 'group-hover:scale-105'}`} />
+                          <span className="font-medium">{item.title}</span>
+                          {location.pathname === item.url && (
+                            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-transparent rounded-lg" />
+                          )}
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -134,23 +147,23 @@ const Dashboard = () => {
             </SidebarGroup>
           </SidebarContent>
 
-          <SidebarFooter className="p-4">
+          <SidebarFooter className="p-4 border-t border-slate-600/40 bg-slate-900/50">
             <Button 
               variant="ghost" 
-              className="w-full justify-start text-gray-300 hover:text-white hover:bg-gray-800"
+              className="w-full justify-start text-gray-300 hover:text-gray-100 hover:bg-red-500/10 hover:border-red-500/20 border border-transparent transition-all duration-200 rounded-lg px-4 py-3 group"
               onClick={handleLogout}
             >
-              <LogOut className="w-5 h-5 mr-2" />
-              Logout
+              <LogOut className="w-5 h-5 mr-3 group-hover:scale-105 transition-transform duration-200" />
+              <span className="font-medium">Logout</span>
             </Button>
           </SidebarFooter>
         </Sidebar>
 
         <main className="flex-1 flex flex-col">
-          <div className="bg-gray-900 border-b border-gray-800 p-4">
-            <SidebarTrigger className="text-white" />
+          <div className="bg-gray-900/95 backdrop-blur-sm border-b border-gray-700/50 p-4">
+            <SidebarTrigger className="text-gray-300 hover:text-gray-100 hover:bg-gray-800/60 transition-all duration-200 rounded-lg p-2" />
           </div>
-          <div className="flex-1 bg-gray-900 text-white">
+          <div className="flex-1 bg-gray-950 text-gray-100">
             <Outlet/>
           </div>
         </main>
