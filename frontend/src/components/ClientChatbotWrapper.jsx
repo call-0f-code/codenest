@@ -13,7 +13,37 @@ export default function ClientChatbotWrapper() {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
 
-  const toggleChat = () => setIsOpen((prev) => !prev);
+  // const toggleChat = () => setIsOpen((prev) => !prev);
+ const toggleChat = () => {
+  setIsOpen((prev) => {
+    const newState = !prev;
+
+    if (newState && messages.length === 0) {
+      const welcome = "Hi! I’m Cortex. Ask me anything 🚀";
+      let currentText = "";
+      let index = 0;
+      
+      // 👇 Start typing the welcome message after 1 second
+      setTimeout(() => {
+        const typeWelcome = () => {
+          if (index < welcome.length) {
+            currentText += welcome.charAt(index);
+            setMessages([{ from: "bot", text: currentText }]);
+            index++;
+            setTimeout(typeWelcome, 25); // Typing speed
+          }
+        };
+
+        typeWelcome();
+      }, 1000); 
+    }
+
+    return newState;
+  });
+};
+
+
+
   const toggleFullScreen = () => setIsFull((prev) => !prev);
   const abortTypingRef = useRef(false);
 
@@ -30,15 +60,15 @@ export default function ClientChatbotWrapper() {
 
 
 
-  const sendMessage = async () => {
+const sendMessage = async () => {
   if (!input.trim()) return;
 
   const updatedMessages = [...messages, { from: "user", text: input }];
-  setMessages(updatedMessages);
+  setMessages([...updatedMessages, { from: "bot", text: "Thinking..." }]);
   setInput("");
   setIsTyping(true);
 
-  abortTypingRef.current = false; // ✅ Reset before streaming
+  abortTypingRef.current = false;
 
   const fullReply = await fetchGeminiResponse(input, updatedMessages);
 
@@ -46,14 +76,17 @@ export default function ClientChatbotWrapper() {
   let index = 0;
 
   const streamReply = () => {
-    if (abortTypingRef.current) { // ✅ check using ref
+    if (abortTypingRef.current) {
       setIsTyping(false);
       return;
     }
 
     if (index < fullReply.length) {
       currentText += fullReply.charAt(index);
+
+      // Replace the "Thinking..." message with streamed response
       setMessages([...updatedMessages, { from: "bot", text: currentText }]);
+
       index++;
       setTimeout(streamReply, 10); // typing speed
     } else {
@@ -63,6 +96,7 @@ export default function ClientChatbotWrapper() {
 
   streamReply();
 };
+
 
 
 const stopStreaming = () => {
@@ -211,19 +245,20 @@ const stopStreaming = () => {
                   {/* CONDITIONAL BUTTON- when user typing it will show 'send' icon otherwise square when bot is typing */}
                   {isTyping ? (
                     <button
-                      onClick={stopStreaming}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 bg-purple-600 hover:bg-purple-700 rounded-full text-white"
-                      title="Stop generating"
-                    >
-                      <svg
-                        className="w-3.5 h-3.5"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <rect x="8" y="8" width="10" height="10" rx="1" />
-                      </svg>
-                    </button>
+  onClick={stopStreaming}
+  className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 bg-purple-600 hover:bg-purple-700 rounded-full text-white"
+  title="Stop generating"
+>
+  <svg
+    className="w-4.5 h-4.5"  // You can even try w-5 if needed
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect x="6" y="6" width="12" height="12" rx="2" />
+  </svg>
+</button>
+
                   ) : (
                     <button
                       onClick={sendMessage}
