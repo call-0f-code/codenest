@@ -1,0 +1,18 @@
+{
+  "name": "coc-member",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "install:frontend": "cd frontend && bun install",
+    "install:all": "bun install && (cd backend && bun install) && (cd frontend && bun install)",
+    "install:backend": "cd backend && bun install",
+    "dev": "concurrently \"bun run backend-dev\" \"bun run frontend-dev\"",
+    "backend-dev": "cd backend && bun run dev",
+    "frontend-dev": "cd frontend && bun run dev"
+  },
+  "dependencies": {},
+
+  "devDependencies": {
+    "concurrently": "^9.2.0"
+  }
+}
