@@ -29,7 +29,7 @@ const Navbar = () => {
               <Code className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-bold">
-              Code<span className="text-purple-400">Nest</span>
+              code<span className="text-purple-400">Nest</span>
             </span>
           </div>
 

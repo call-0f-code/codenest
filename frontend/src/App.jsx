@@ -1,15 +1,16 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppRouter from "./routes/AppRouter";
-import ClientChatbotWrapper from "./components/ClientChatbotWrapper"; 
+
+
+
 
 function App() {
-  return (
-    <>
-      <RouterProvider router={AppRouter()} />
-      <ClientChatbotWrapper /> 
-    </>
-  );
+  return <>
+
+    <RouterProvider router={AppRouter()}/>
+  
+  </>;
 }
 
 export default App;
