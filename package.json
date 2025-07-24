@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "framer-motion": "^12.23.6",
-    "react-draggable": "^4.5.0",
-    "react-markdown": "^10.1.0",
-    "tailwind-scrollbar-hide": "^4.0.0"
-  }
-}

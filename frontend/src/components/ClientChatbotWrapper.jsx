@@ -12,35 +12,77 @@ export default function ClientChatbotWrapper() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  
+
+
+  const startListening = () => {
+  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+  recognition.lang = "en-US";
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  // Step 1: Show "Listening..." like a bot message
+  const updatedMessages = [...messages, { from: "bot", text: "Listening..." }];
+  setMessages(updatedMessages);
+
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+
+    // Step 2: Remove "Listening..." message
+    const cleanedMessages = updatedMessages.slice(0, -1); // remove last message
+    setMessages(cleanedMessages);
+    setInput(transcript);
+  };
+
+  recognition.onerror = (event) => {
+    console.error("Speech recognition error:", event.error);
+    
+    // Remove "Listening..." message
+    const cleanedMessages = updatedMessages.slice(0, -1);
+    setMessages(cleanedMessages);
+  };
+
+  recognition.onend = () => {
+    // If nothing was spoken and no result, also remove "Listening..."
+    const last = messages[messages.length - 1];
+    if (last?.text === "Listening...") {
+      setMessages(messages.slice(0, -1));
+    }
+  };
+
+  recognition.start();
+};
+
+
 
   // const toggleChat = () => setIsOpen((prev) => !prev);
- const toggleChat = () => {
-  setIsOpen((prev) => {
-    const newState = !prev;
+  const toggleChat = () => {
+    setIsOpen((prev) => {
+      const newState = !prev;
 
-    if (newState && messages.length === 0) {
-      const welcome = "Hi! I’m Cortex. Ask me anything 🚀";
-      let currentText = "";
-      let index = 0;
-      
-      // 👇 Start typing the welcome message after 1 second
-      setTimeout(() => {
-        const typeWelcome = () => {
-          if (index < welcome.length) {
-            currentText += welcome.charAt(index);
-            setMessages([{ from: "bot", text: currentText }]);
-            index++;
-            setTimeout(typeWelcome, 25); // Typing speed
-          }
-        };
+      if (newState && messages.length === 0) {
+        const welcome = "Hi! I’m Cortex. Ask me anything 🚀";
+        let currentText = "";
+        let index = 0;
 
-        typeWelcome();
-      }, 1000); 
-    }
+        // 👇 Start typing the welcome message after 1 second
+        setTimeout(() => {
+          const typeWelcome = () => {
+            if (index < welcome.length) {
+              currentText += welcome.charAt(index);
+              setMessages([{ from: "bot", text: currentText }]);
+              index++;
+              setTimeout(typeWelcome, 25); // Typing speed
+            }
+          };
 
-    return newState;
-  });
-};
+          typeWelcome();
+        }, 1000);
+      }
+
+      return newState;
+    });
+  };
 
 
 
@@ -60,48 +102,48 @@ export default function ClientChatbotWrapper() {
 
 
 
-const sendMessage = async () => {
-  if (!input.trim()) return;
+  const sendMessage = async () => {
+    if (!input.trim()) return;
 
-  const updatedMessages = [...messages, { from: "user", text: input }];
-  setMessages([...updatedMessages, { from: "bot", text: "Thinking..." }]);
-  setInput("");
-  setIsTyping(true);
+    const updatedMessages = [...messages, { from: "user", text: input }];
+    setMessages([...updatedMessages, { from: "bot", text: "Thinking..." }]);
+    setInput("");
+    setIsTyping(true);
 
-  abortTypingRef.current = false;
+    abortTypingRef.current = false;
 
-  const fullReply = await fetchGeminiResponse(input, updatedMessages);
+    const fullReply = await fetchGeminiResponse(input, updatedMessages);
 
-  let currentText = "";
-  let index = 0;
+    let currentText = "";
+    let index = 0;
 
-  const streamReply = () => {
-    if (abortTypingRef.current) {
-      setIsTyping(false);
-      return;
-    }
+    const streamReply = () => {
+      if (abortTypingRef.current) {
+        setIsTyping(false);
+        return;
+      }
 
-    if (index < fullReply.length) {
-      currentText += fullReply.charAt(index);
+      if (index < fullReply.length) {
+        currentText += fullReply.charAt(index);
 
-      // Replace the "Thinking..." message with streamed response
-      setMessages([...updatedMessages, { from: "bot", text: currentText }]);
+        // Replace the "Thinking..." message with streamed response
+        setMessages([...updatedMessages, { from: "bot", text: currentText }]);
 
-      index++;
-      setTimeout(streamReply, 10); // typing speed
-    } else {
-      setIsTyping(false);
-    }
+        index++;
+        setTimeout(streamReply, 10); // typing speed
+      } else {
+        setIsTyping(false);
+      }
+    };
+
+    streamReply();
   };
 
-  streamReply();
-};
 
 
-
-const stopStreaming = () => {
-  abortTypingRef.current = true;
-};
+  const stopStreaming = () => {
+    abortTypingRef.current = true;
+  };
 
 
   return (
@@ -232,33 +274,40 @@ const stopStreaming = () => {
             {/* Input Bar */}
             <div className="p-6 border-t border-black">
               <div className="max-w-2xl mx-auto">
+
                 <div className="relative">
+                  {/* Input Field */}
                   <input
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                     placeholder="Send a message..."
-                    className="w-full bg-gray-900 border border-black rounded-full px-6 py-4 text-white pr-20 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black"
+                    className="w-full bg-gray-900 border border-black rounded-full px-6 py-4 text-white pr-28 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black"
                   />
 
-                  {/* CONDITIONAL BUTTON- when user typing it will show 'send' icon otherwise square when bot is typing */}
+                  {/* Mic Button (RIGHT side, just before send) */}
+                  <button
+                    onClick={startListening}
+                    className="absolute right-14 top-1/2 transform -translate-y-1/2 p-2 text-white hover:text-purple-400"
+                    title="Speak"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 1v10m4-5a4 4 0 01-8 0M19 10v1a7 7 0 01-14 0v-1m7 10v2m-4 0h8" />
+                    </svg>
+                  </button>
+
+                  {/* Conditional Send/Stop Button */}
                   {isTyping ? (
                     <button
-  onClick={stopStreaming}
-  className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 bg-purple-600 hover:bg-purple-700 rounded-full text-white"
-  title="Stop generating"
->
-  <svg
-    className="w-4.5 h-4.5"  // You can even try w-5 if needed
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <rect x="6" y="6" width="12" height="12" rx="2" />
-  </svg>
-</button>
-
+                      onClick={stopStreaming}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 bg-purple-600 hover:bg-purple-700 rounded-full text-white"
+                      title="Stop generating"
+                    >
+                      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                        <rect x="6" y="6" width="12" height="12" rx="2" />
+                      </svg>
+                    </button>
                   ) : (
                     <button
                       onClick={sendMessage}
@@ -272,6 +321,8 @@ const stopStreaming = () => {
                     </button>
                   )}
                 </div>
+
+
               </div>
             </div>
 
