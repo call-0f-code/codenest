@@ -5,6 +5,9 @@ import { Request, Response, NextFunction } from 'express';
 export const auth = async(req: Request, res: Response, next: NextFunction) => {
   let token;
 
+  //check for oauth
+  if(req.userId) return next();
+
   if (req.headers.authorization?.startsWith('Bearer')) {
     token = req.headers.authorization.split(' ')[1];
 

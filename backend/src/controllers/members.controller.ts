@@ -4,27 +4,44 @@ import { CreateUserSchema, SigninSchema } from "../validation/members.validator"
 import bcrypt from 'bcrypt';
 import config from "../config";
 import jwt from 'jsonwebtoken';
-import { success } from "zod";
+import axios from "axios";
+import FormData from "form-data";
+import { ApiError } from "../utils/apiError";
 
-//image url logic pending
 export const createMember = async(req: Request, res:Response) => {
-    const {email, name, password} = req.body;
     
-    const parsedData = CreateUserSchema.safeParse(req.body);
+    if(!req.file) throw new ApiError("Missing file", 401);
+    let parsed = JSON.parse(req.body.adminData);
+    const parsedData = CreateUserSchema.safeParse(parsed);
     if (!parsedData.success) {
-      res.status(403).json({
-        success: false,
+        res.status(403).json({
+        error: true,
         message: parsedData.error.message,
-      });
-      return;
+    });
+        return;
     }
+  
+    const password = parsed.password;
+    const file = req.file;
 
-    const hashedPassword = await bcrypt.hash(password, config.SALTING);
-    const newUser = await api.post('/members', {email, name, hashedPassword})
+    const formData = new FormData();
+
+    formData.append('file', file.buffer, file.originalname);
+
+    const hashedPassword = await bcrypt.hash(password, Number(config.SALTING));
+    parsed.password = hashedPassword;
+    formData.append('email', parsed.email);
+    formData.append('name', parsed.name);
+    formData.append('password', hashedPassword);
+    formData.append('passoutYear', String(parsed.passoutYear));
+
+    const newUser = await axios.post(`${config.API_URL}/api/v1/members/`, formData, {
+    headers: formData.getHeaders(),
+    })
 
     if(!newUser.data.success) {
         return res.status(403).json({
-            success: false,
+            error: true,
             message: newUser.data.message
         })
     }
