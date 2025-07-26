@@ -3,6 +3,7 @@ import { json,urlencoded } from 'body-parser';
 import cors from 'cors';
 import config from './config';
 import { errorHandler } from './utils/apiError';
+import routes from './routes';
 
 const app = express();
 
@@ -16,6 +17,9 @@ app.use(
 
 app.use(json());
 app.use(urlencoded({ extended: true }));
+
+
+app.use("/api/v1",routes());
 
 app.get('/', (req, res) => {
   res.send('Hello, World!');
