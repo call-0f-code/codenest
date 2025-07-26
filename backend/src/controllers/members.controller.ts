@@ -26,7 +26,7 @@ export const createMember = async(req: Request, res:Response) => {
 
     const formData = new FormData();
 
-    formData.append('file', file.buffer, file.originalname);
+    if(file) formData.append('file', file.buffer, file.originalname);
 
     const hashedPassword = await bcrypt.hash(password, Number(config.SALTING));
     parsed.password = hashedPassword;
@@ -53,37 +53,36 @@ export const createMember = async(req: Request, res:Response) => {
 
 export const login = async(req: Request, res:Response) => {
 
+    try {
     const parsedData = SigninSchema.safeParse(req.body);
     if (!parsedData.success) {
-      res.status(400).json({
+      return res.status(400).json({
         success: false,
         message: parsedData.error.message,
       });
-      return;
     }
 
     const { email, password } = parsedData.data;
-
-    const check = await api.get(`members/?email=${email}&password=${password}`);
+    const check = await api.get(`${config.API_URL}/api/v1/members/?email=${email}&password=${password}`);
 
     if(!check.data.success) {
-      res.status(400).json({message: "Error signing in"});
+      return res.status(400).json({message: "Error signing in"});
     }
 
-    const userId = check.data.id;
-    const hashedPassword = check.data.password;
-    const isApproved = check.data.isApproved;
+    const userId = check.data.user.id;
+    const hashedPassword = check.data.user.accounts[0];
+    const isApproved = check.data.user.isApproved;
 
     if(!isApproved) {
-      res.json(403).json({
+      return res.status(403).json({
         success: false,
         message: "Unauthorized access detected"
       })
     }
 
-    const isPasswordValid = bcrypt.compare(password, hashedPassword);
+    const isPasswordValid = await bcrypt.compare(password, hashedPassword.password);
     if(!isPasswordValid) {
-      res.status(403).json({
+      return res.status(403).json({
         success: false,
         message: "Invalid password"
       })
@@ -98,30 +97,34 @@ export const login = async(req: Request, res:Response) => {
       message: "Signin successful",
       token,
     });
-    return;
+}catch(err) {
+    console.log(err);
+}
 }
 
 export const getDetails = async(req: Request, res: Response) => {
 
-    const memberId = req.userId;
-    const user = api.get(`/members/${memberId}`);
+    const {memberId} = req.params;
+    const user = await api.get(`${config.API_URL}/api/v1/members/${memberId}`);
+    console.log(user);
 
-    if(!user) {
+
+    if(!user.data) {
         return res.status(400).json({
             success: false,
             message: "Error fetching details"
         })
     }
 
+    const users = user.data.user;
     res.status(200).json({
-        success: true,
-        user
-    })    
+        users
+    })   
 }
 
 export const listAllApprovedMembers = async(req:Request, res:Response) => {
 
-    const members = await api.get('members/');
+    const members = await api.get(`${config.API_URL}/api/v1/members/`);
     if(!members) {
         return res.status(402).json({
             success: false,
@@ -140,7 +143,7 @@ export const updateMember = async(req: Request, res:Response) => {
     const memberId = req.userId;
     const body = req.body;
     
-    const updation = await api.patch(`members/${memberId}`, {body});
+    const updation = await api.patch(`${config.API_URL}/api/v1/members/${memberId}`, {body});
     if(!updation.data.success) {
         return res.status(402).json({
             message: updation.data.message
@@ -157,15 +160,16 @@ export const updateMember = async(req: Request, res:Response) => {
 
 export const getAchievements = async(req: Request, res:Response) => {
 
-    const memberId = req.userId;
-    const achievements = await api.get(`/members/achievements/${memberId}`);
-    if(!achievements) {
+    const {memberId} = req.params;
+    const achievement = await api.get(`${config.API_URL}/api/v1/members/achievements/${memberId}`);
+    if(!achievement.data.success) {
         return res.status(402).json({
             success: false,
             message: "Error fetching achievements"
         })
     }
 
+    const achievements = achievement.data.achievements;
     res.status(200).json({
         success: true,
         achievements
@@ -174,16 +178,17 @@ export const getAchievements = async(req: Request, res:Response) => {
 
 export const getInterviews = async(req:Request, res:Response) => {
 
-    const memberId = req.userId;
+    const {memberId} = req.params;
 
-    const interviews = await api.get(`members/interviews/${memberId}`);
-    if(!interviews) {
+    const interview = await api.get(`${config.API_URL}/api/v1/members/interviews/${memberId}`);
+    if(!interview.data.success) {
         res.status(402).json({
             success: false,
             message: "Error fetching interviews"
         })
     }
 
+    const interviews = interview.data.interviews;
     res.status(200).json({
         success: true,
         interviews
@@ -192,16 +197,17 @@ export const getInterviews = async(req:Request, res:Response) => {
 
 export const getProjects = async(req:Request, res:Response) => {
 
-    const memberId = req.userId;
-    const projects = await api.get(`members/projects/${memberId}`);
+    const {memberId} = req.params;
+    const project = await api.get(`${config.API_URL}/api/v1/members/projects/${memberId}`);
 
-    if(!projects) {
+    if(!project.data.success) {
         res.status(402).json({
             success:false,
             message: "Error fetching projects"
         })
     }
 
+    const projects = project.data.projects;
     res.status(200).json({
         success: true,
         projects
