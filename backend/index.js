@@ -10,8 +10,13 @@ require('./google-config/passport')(passport);
 const PORT = process.env.PORT || 4000;
 
 
+const allowedOrigins = [
+  "http://localhost:5173", // for local dev
+  "https://codenest-frontend.vercel.app" // for Vercel frontend
+];
+
 app.use(cors({
-    origin : "http://localhost:5173",
+    origin : allowedOrigins,
     credentials : true
 }))
 app.use(express.json());
