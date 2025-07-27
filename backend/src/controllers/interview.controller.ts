@@ -98,8 +98,6 @@ export const updateInterview = async (req: Request, res: Response) => {
 };
 
 
-
-
 export const deleteInterview = async (req: Request, res: Response) => {
   const interviewId = req.params.id;
   const memberId = req.memberId;
