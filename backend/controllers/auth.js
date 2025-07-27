@@ -123,10 +123,22 @@ exports.login = async (req, res) => {
 
 exports.logout = async (_, res) => {
   try {
-    return res.status(200).cookie("token", "", { maxAge: 0 }).json({
-      success: true,
-      message: "User Logout succesful",
-    });
+    // Define the same cookie options used during login for clearing
+    // The key here are `secure` and `sameSite` matching the original cookie
+    const cookieClearOptions = {
+      httpOnly: true, // Important to match
+      secure: true,   // Must be true because the original cookie was set with secure: true
+      sameSite: "None", // Must be "None" because the original cookie was set with sameSite: "None"
+      // maxAge: 0 is fine, or you can use `expires: new Date(0)` for immediate expiration
+      expires: new Date(0), // Set to a past date for immediate expiration
+    };
+
+    return res.status(200)
+              .cookie("token", "", cookieClearOptions) // Apply the options when clearing
+              .json({
+                success: true,
+                message: "User Logout successful",
+              });
   } catch (err) {
     console.log(err);
     return res.status(500).json({
