@@ -15,7 +15,7 @@ function LoginForm() {
 
    const onSubmitHandler = async (user) => {
       try{
-        const res = await axios.post(`${import.meta.env.VITE_API_BAURL}/login` , user , {
+        const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/login` , user , {
           headers : {"Content-Type" : "application/json"},
           withCredentials : true,
         });

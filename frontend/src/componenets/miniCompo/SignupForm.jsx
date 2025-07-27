@@ -17,7 +17,7 @@ const SignupForm = () => {
 
     const onSubmitHandler = async(user) =>{
         try{
-          const res = await axios.post(`${import.meta.env.VITE_API_BAURL}/signup` , user , {
+          const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/signup` , user , {
             headers : {"Content-Type" : "application/json"},
             withCredentials : true
           });
@@ -34,7 +34,7 @@ const SignupForm = () => {
     }
 
     const handleGoogleLogin = () => {
-      window.open(`${import.meta.env.VITE_API_BAURL}/google` ,"_self");
+      window.open(`${import.meta.env.VITE_API_BASE_URL}/google` ,"_self");
     };
 
 
