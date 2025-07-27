@@ -77,7 +77,7 @@ const Dashboard = () => {
   const handleLogout = async() => {
 
     try{
-      const res = await axios.get("http://localhost:3000/api/v1/logout",
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/logout`,
         {
           headers : {"Content-Type" : "application/json"},
           withCredentials : true,

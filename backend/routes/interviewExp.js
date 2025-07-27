@@ -7,7 +7,7 @@ const {isAuthenticated , isAdmin} = require("../middlewares/auth");
 
 
 router.post('/admin/createInterviewExp' , isAuthenticated , isAdmin , createInterviewExp);
-router.get('/getInteviewExp' , isAuthenticated , getAllInterviewExp);
+router.get('/getInterviewExp' , isAuthenticated , getAllInterviewExp);
 router.delete('/admin/deleteInterviewExp/:id' , isAuthenticated , isAdmin , deleteInterviewExp);
 //pending : routes for updating the interview exp .
 

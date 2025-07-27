@@ -48,7 +48,7 @@ const CreateModule = () => {
     );
     const finalData = { ...data, questions: cleanedQuestions };
     try{
-        const res = await axios.post("http://localhost:3000/api/v1/admin/createModule" , finalData , {
+        const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/admin/createModule` , finalData , {
             headers : {"Content-Type" : "application/json"},
             withCredentials : true
         } );

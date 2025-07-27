@@ -92,7 +92,7 @@ const InterviewExp = () => {
   useEffect(()=>{
     const fetchExperiences = async()=>{
       try{
-        const res = await axios.get("http://localhost:3000/api/v1/getInteviewExp" , {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/getInterviewExp` , {
           headers : {"Content-Type" : "application/json"},
           withCredentials : true,
         });

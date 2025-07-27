@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: codenest-backend
+    env: node
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm run dev
+    envVars:
+      - key: PORT
+        value: 10000

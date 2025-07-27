@@ -20,10 +20,11 @@ const SingleModule = () => {
       setLoading(true);
 
       const [moduleRes, progressRes] = await Promise.all([
-        axios.get(`http://localhost:3000/api/v1/getModule/${id}`, {
+        axios.get(`${import.meta.env.VITE_API_BASE_URL}/getModule/${id}`, {
           withCredentials: true,
         }),
-        axios.get(`http://localhost:3000/api/v1/progress/${id}`, {
+        
+        axios.get(`${import.meta.env.VITE_API_BASE_URL}/progress/${id}`, {
           withCredentials: true,
         }),
       ]);
@@ -67,7 +68,7 @@ const SingleModule = () => {
 
     try {
       await axios.post(
-        `http://localhost:3000/api/v1/progress/${id}`,
+        `${import.meta.env.VITE_API_BASE_URL}/progress/${id}`,
         { completedQuestions: Array.from(newCompleted) },
         { withCredentials: true }
       );

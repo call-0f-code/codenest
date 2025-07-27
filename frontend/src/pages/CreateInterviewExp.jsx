@@ -24,7 +24,7 @@ const CreateInterviewExp = () => {
     console.log("Creating interview experience:", data);
     
     try{
-        const res = await axios.post("http://localhost:3000/api/v1/admin/createInterviewExp" , data , {
+        const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/admin/createInterviewExp` , data , {
             headers : {"Content-Type" : "application/json"},
             withCredentials : true
         });

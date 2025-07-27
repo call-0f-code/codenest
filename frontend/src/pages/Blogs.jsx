@@ -91,7 +91,7 @@ const Blogs = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/v1/getBlogs", {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/getBlogs`, {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         });

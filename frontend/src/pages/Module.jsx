@@ -112,7 +112,7 @@ const Module = () => {
   useEffect(() => {
     const fetchModules = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/v1/getModules", {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/getModules`, {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         });

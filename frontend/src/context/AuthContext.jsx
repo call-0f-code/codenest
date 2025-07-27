@@ -12,7 +12,7 @@ export const AuthProvider = ({children}) => {
         const fetchUser = async ()=>{
             
             try{
-                const res = await axios.get("http://localhost:3000/api/v1/me" , {
+                const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/me` , {
                     withCredentials : true,
                 });
                 setUser(res.data);
