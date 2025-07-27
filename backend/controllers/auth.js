@@ -91,12 +91,8 @@ exports.login = async (req, res) => {
     const options = {
       expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
       httpOnly: true,
-      secure: true, // Force true in production
-      sameSite: "none", // Required for cross-site cookies
-      domain:
-        process.env.NODE_ENV === "production"
-          ? "https://codenest-backend-hgir.onrender.com" // Your Render domain
-          : undefined, // Local development
+      secure: true, // ALWAYS true when sameSite is "None" for production deployments
+      sameSite: "None", // Allow cross-site requests to send cookies
     };
 
     // 6. Sanitize user object for frontend (remove password, include token if needed)

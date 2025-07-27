@@ -9,19 +9,26 @@ require('./google-config/passport')(passport);
 
 const PORT = process.env.PORT || 4000;
 
-
 const allowedOrigins = [
-  "http://localhost:5173", // for local dev
-  "https://codenest-frontend.vercel.app" ,// for Vercel frontend
-  "https://www.codenest-frontend.vercel.app"
+  'http://localhost:5173', // For local frontend development
+  'https://codenest-lyart.vercel.app' // YOUR VERCELL FRONTEND URL
 ];
 
 app.use(cors({
-    origin : allowedOrigins,
-    exposedHeaders: ['set-cookie'], // Important for cookies
-    credentials : true,
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
-}))
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    // and allow your specified origins
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true, // IMPORTANT: Allows cookies (like session IDs) to be sent
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Explicitly allow methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Explicitly allow headers
+}));
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -50,6 +57,8 @@ app.listen(PORT , ()=>{
 
 const dbConnect = require('./config/database');
 dbConnect();
+
+
 
 app.get('/' , (req ,res)=>{
     res.send("Welcome Brother");
