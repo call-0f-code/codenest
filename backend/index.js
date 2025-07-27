@@ -12,12 +12,15 @@ const PORT = process.env.PORT || 4000;
 
 const allowedOrigins = [
   "http://localhost:5173", // for local dev
-  "https://codenest-frontend.vercel.app" // for Vercel frontend
+  "https://codenest-frontend.vercel.app" ,// for Vercel frontend
+  "https://www.codenest-frontend.vercel.app"
 ];
 
 app.use(cors({
     origin : allowedOrigins,
-    credentials : true
+    exposedHeaders: ['set-cookie'], // Important for cookies
+    credentials : true,
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }))
 app.use(express.json());
 app.use(cookieParser());

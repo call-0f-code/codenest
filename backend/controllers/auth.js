@@ -1,58 +1,50 @@
-const bcrypt = require('bcrypt');
-const User = require('../models/user');
-const jwt = require("jsonwebtoken")
+const bcrypt = require("bcrypt");
+const User = require("../models/user");
+const jwt = require("jsonwebtoken");
 
+exports.signup = async (req, res) => {
+  try {
+    const { username, email, password, role } = req.body;
 
-exports.signup = async(req ,res) =>{
-    try{
-        
-        
-        const {username , email , password , role} = req.body;
+    const exisitingUser = await User.findOne({ email });
 
-        const exisitingUser = await User.findOne({email});
-
-        if(exisitingUser){
-            return res.status(400).json({
-                success : false,
-                message : "User Already Exist",
-            })
-        }
-
-        
-        let hashedPassword;
-        try{
-            hashedPassword = await bcrypt.hash(password,10);
-        }
-        catch(err){
-            return res.status(500).json({
-                success : false,
-                message : "Error in hashing password",
-            })
-        }
-
-       
-        let user = await User.create({
-            username , email , password:hashedPassword, role
-        });
-
-        return res.status(200).json({
-            success : true,
-            message : "User created succesfully",
-            data : user
-        });
-
-
-
+    if (exisitingUser) {
+      return res.status(400).json({
+        success: false,
+        message: "User Already Exist",
+      });
     }
-    catch(err){
-        console.log(err)
-        return res.status(500).json({
-            success : false,
-            message : "User cannot be registerd"
-        })
-    }
-}
 
+    let hashedPassword;
+    try {
+      hashedPassword = await bcrypt.hash(password, 10);
+    } catch (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Error in hashing password",
+      });
+    }
+
+    let user = await User.create({
+      username,
+      email,
+      password: hashedPassword,
+      role,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "User created succesfully",
+      data: user,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      success: false,
+      message: "User cannot be registerd",
+    });
+  }
+};
 
 exports.login = async (req, res) => {
   try {
@@ -99,8 +91,12 @@ exports.login = async (req, res) => {
     const options = {
       expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "Lax",
+      secure: true, // Force true in production
+      sameSite: "none", // Required for cross-site cookies
+      domain:
+        process.env.NODE_ENV === "production"
+          ? "https://codenest-backend-hgir.onrender.com" // Your Render domain
+          : undefined, // Local development
     };
 
     // 6. Sanitize user object for frontend (remove password, include token if needed)
@@ -108,15 +104,18 @@ exports.login = async (req, res) => {
     user.password = undefined;
 
     // 7. Respond
-    res.cookie("token", token, options).status(200).json({
-      success: true,
-      message: "User logged in successfully",
-      user: {
-        id: user._id,
-        email: user.email,
-        role: user.role,
-      },
-    });
+    res
+      .cookie("token", token, options)
+      .status(200)
+      .json({
+        success: true,
+        message: "User logged in successfully",
+        user: {
+          id: user._id,
+          email: user.email,
+          role: user.role,
+        },
+      });
   } catch (err) {
     console.log(err);
     return res.status(500).json({
@@ -126,39 +125,36 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.logout = async (_ , res) =>{
+exports.logout = async (_, res) => {
+  try {
+    return res.status(200).cookie("token", "", { maxAge: 0 }).json({
+      success: true,
+      message: "User Logout succesful",
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      success: false,
+      message: "Logout Failed",
+    });
+  }
+};
 
-    try{
-        return res.status(200).cookie("token" , "" , {maxAge : 0}).json({
-            success : true,
-            message :"User Logout succesful"
-        });
-    }
-    catch(err){
-        console.log(err);
-        return res.status(500).json({
-            success : false,
-            message : "Logout Failed"
-        })
-    }
-
-}
-
-const createToken = (user)=>{
-    return jwt.sign(
-        {id : user._id , username : user.useranme, role : user.role},
-        process.env.JWT_SECRET,
-        {expiresIn : '1d'}
-    )
+const createToken = (user) => {
+  return jwt.sign(
+    { id: user._id, username: user.useranme, role: user.role },
+    process.env.JWT_SECRET,
+    { expiresIn: "1d" }
+  );
 };
 
 exports.googleCallback = (req, res) => {
   const token = createToken(req.user);
 
-  res.cookie('token', token, {
+  res.cookie("token", token, {
     httpOnly: true,
     secure: false, // Set to true in production
-    sameSite: 'Lax',
+    sameSite: "Lax",
     maxAge: 86400000,
   });
 
@@ -182,5 +178,3 @@ exports.getMe = async (req, res) => {
     return res.status(403).json({ message: "Invalid or expired token" });
   }
 };
-
-
