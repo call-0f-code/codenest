@@ -131,7 +131,7 @@ const BlogSingle = () => {
                   lineHeight: '1.8',
                   fontSize: '1.1rem'
                 }}
-                dangerouslySetInnerHTML={{ __html: blog.content }}
+                dangerouslySetInnerHTML={{ __html: blog.content.replace(/\n/g, "<br/>") }}
               />
             </div>
           </CardContent>
