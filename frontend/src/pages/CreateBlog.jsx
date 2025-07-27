@@ -23,7 +23,7 @@ const CreateBlog = () => {
     };
 
     try{
-        const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/createBlog` ,blogData , {
+        const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/admin/createBlog` ,blogData , {
             headers : {"Content-Type" : "application/json"},
             withCredentials : true 
         } );
