@@ -161,8 +161,8 @@ exports.googleCallback = (req, res) => {
 
   res.cookie("token", token, {
     httpOnly: true,
-    secure: false, // Set to true in production
-    sameSite: "Lax",
+    secure: true, // Set to true in production
+    sameSite: "None",
     maxAge: 86400000,
   });
 
