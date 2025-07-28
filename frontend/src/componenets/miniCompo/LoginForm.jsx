@@ -30,7 +30,7 @@ function LoginForm() {
       }
    }
        const handleGoogleLogin = () => {
-      window.open(`${import.meta.env.VITE_API_BAURL}/google`,"_self");
+      window.open(`${import.meta.env.VITE_API_BASE_URL}/google`,"_self");
     };
 
   return (

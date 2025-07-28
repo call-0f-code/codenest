@@ -75,12 +75,12 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <Link to="/auth">
+                <Link to="/signup">
                   <Button variant="ghost" className="text-gray-300 hover:text-white">
                     Login
                   </Button>
                 </Link>
-                <Link to="/auth">
+                <Link to="/signup">
                   <Button className="bg-purple-600 hover:bg-purple-700 text-white">
                     Get Started
                   </Button>
@@ -141,12 +141,12 @@ const Navbar = () => {
                   </>
                 ) : (
                   <>
-                    <Link to="/auth" className="block">
+                    <Link to="/signup" className="block">
                       <Button variant="ghost" className="w-full text-gray-300 hover:text-white">
                         Login
                       </Button>
                     </Link>
-                    <Link to="/auth" className="block">
+                    <Link to="/signup" className="block">
                       <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
                         Get Started
                       </Button>
