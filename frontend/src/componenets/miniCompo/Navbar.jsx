@@ -4,18 +4,47 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import axios from "axios";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isAuthenticated, user, logout } = useAuth();
 
-  const handleLogout = () => {
-    logout();
-    setIsMobileMenuOpen(false);
+  const handleLogout = async () => {
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL}/logout`,
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+          validateStatus: function (status) {
+            // Accept all 2xx and 3xx as "non-errors"
+            return status >= 200 && status < 400;
+          },
+        }
+      );
+
+      console.log("Logout response:", res);
+
+      if (res?.data?.success) {
+        alert(res.data.message);
+        navigate("/");
+      } else {
+        alert("Logout failed. Please try again.");
+      }
+    } catch (err) {
+      console.error("Logout error:", err);
+
+      if (err?.response?.data?.message) {
+        alert(err.response.data.message);
+      } else {
+        alert("Something went wrong during logout.");
+      }
+    }
   };
 
   // Generate a random avatar using Dicebear API
-  const avatarUrl = user?.username 
+  const avatarUrl = user?.username
     ? `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.username}`
     : `https://api.dicebear.com/7.x/avataaars/svg?seed=default`;
 
@@ -35,16 +64,28 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <a href="#features" className="text-gray-300 hover:text-white transition-colors">
+            <a
+              href="#features"
+              className="text-gray-300 hover:text-white transition-colors"
+            >
               Features
             </a>
-            <a href="/dashboard" className="text-gray-300 hover:text-white transition-colors">
+            <a
+              href="/dashboard"
+              className="text-gray-300 hover:text-white transition-colors"
+            >
               Dashboard
             </a>
-            <a href="#about" className="text-gray-300 hover:text-white transition-colors">
+            <a
+              href="#about"
+              className="text-gray-300 hover:text-white transition-colors"
+            >
               About
             </a>
-            <a href="#contact" className="text-gray-300 hover:text-white transition-colors">
+            <a
+              href="#contact"
+              className="text-gray-300 hover:text-white transition-colors"
+            >
               Contact
             </a>
           </div>
@@ -57,15 +98,15 @@ const Navbar = () => {
                   <Avatar className="w-8 h-8">
                     <AvatarImage src={avatarUrl} alt="User Avatar" />
                     <AvatarFallback className="bg-purple-600 text-white text-sm">
-                      {user?.username?.charAt(0).toUpperCase() || 'U'}
+                      {user?.username?.charAt(0).toUpperCase() || "U"}
                     </AvatarFallback>
                   </Avatar>
                   <span className="text-gray-300 text-sm">
                     {user?.username || user?.email}
                   </span>
                 </div>
-                <Button 
-                  variant="ghost" 
+                <Button
+                  variant="ghost"
                   className="text-gray-300 hover:text-white"
                   onClick={handleLogout}
                 >
@@ -76,7 +117,10 @@ const Navbar = () => {
             ) : (
               <>
                 <Link to="/signup">
-                  <Button variant="ghost" className="text-gray-300 hover:text-white">
+                  <Button
+                    variant="ghost"
+                    className="text-gray-300 hover:text-white"
+                  >
                     Login
                   </Button>
                 </Link>
@@ -95,7 +139,11 @@ const Navbar = () => {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="text-gray-300 hover:text-white"
             >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
           </div>
         </div>
@@ -104,16 +152,28 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-gray-800 rounded-lg mt-2">
-              <a href="#features" className="block px-3 py-2 text-gray-300 hover:text-white">
+              <a
+                href="#features"
+                className="block px-3 py-2 text-gray-300 hover:text-white"
+              >
                 Features
               </a>
-              <a href="#pricing" className="block px-3 py-2 text-gray-300 hover:text-white">
+              <a
+                href="#pricing"
+                className="block px-3 py-2 text-gray-300 hover:text-white"
+              >
                 Pricing
               </a>
-              <a href="#about" className="block px-3 py-2 text-gray-300 hover:text-white">
+              <a
+                href="#about"
+                className="block px-3 py-2 text-gray-300 hover:text-white"
+              >
                 About
               </a>
-              <a href="#contact" className="block px-3 py-2 text-gray-300 hover:text-white">
+              <a
+                href="#contact"
+                className="block px-3 py-2 text-gray-300 hover:text-white"
+              >
                 Contact
               </a>
               <div className="pt-4 pb-2 space-y-2">
@@ -123,15 +183,15 @@ const Navbar = () => {
                       <Avatar className="w-8 h-8">
                         <AvatarImage src={avatarUrl} alt="User Avatar" />
                         <AvatarFallback className="bg-purple-600 text-white text-sm">
-                          {user?.username?.charAt(0).toUpperCase() || 'U'}
+                          {user?.username?.charAt(0).toUpperCase() || "U"}
                         </AvatarFallback>
                       </Avatar>
                       <span className="text-gray-300 text-sm">
                         {user?.username || user?.email}
                       </span>
                     </div>
-                    <Button 
-                      variant="ghost" 
+                    <Button
+                      variant="ghost"
                       className="w-full text-gray-300 hover:text-white justify-start"
                       onClick={handleLogout}
                     >
@@ -142,7 +202,10 @@ const Navbar = () => {
                 ) : (
                   <>
                     <Link to="/signup" className="block">
-                      <Button variant="ghost" className="w-full text-gray-300 hover:text-white">
+                      <Button
+                        variant="ghost"
+                        className="w-full text-gray-300 hover:text-white"
+                      >
                         Login
                       </Button>
                     </Link>
