@@ -176,7 +176,7 @@ const SingleModule = () => {
         </Card>
 
         {/* Questions List */}
-        <div className="space-y-4">
+        <div className="space-y-3">
           <h2 className="text-2xl font-bold text-white mb-6">Questions</h2>
 
           {module.questions && module.questions.length > 0 ? (
@@ -185,72 +185,71 @@ const SingleModule = () => {
                 key={index}
                 className={`bg-gray-800 border-gray-700 transition-all duration-300 ${
                   completedQuestions.has(index)
-                    ? "ring-2 ring-green-500 bg-gray-800/50"
+                    ? "ring-1 ring-green-500 bg-gray-800/50"
                     : "hover:border-purple-500"
                 }`}
               >
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-3">
                     {/* Checkbox */}
-                    <div className="mt-1">
-                      <Checkbox
-                        id={`question-${index}`}
-                        checked={completedQuestions.has(index)}
-                        onCheckedChange={() => toggleQuestionCompletion(index)}
-                        className="data-[state=checked]:bg-green-600 data-[state=checked]:border-green-600"
-                      />
-                    </div>
+                    <Checkbox
+                      id={`question-${index}`}
+                      checked={completedQuestions.has(index)}
+                      onCheckedChange={() => toggleQuestionCompletion(index)}
+                      className="data-[state=checked]:bg-green-600 data-[state=checked]:border-green-600 flex-shrink-0"
+                    />
 
                     {/* Question Content */}
-                    <div className="flex-1">
-                      <div className="flex items-start justify-between mb-3">
-                        <h3
-                          className={`text-lg font-semibold transition-colors ${
+                    <div className="flex-1 min-w-0">
+                      <h3
+                        className={`text-base font-medium transition-colors truncate ${
+                          completedQuestions.has(index)
+                            ? "text-green-400 line-through"
+                            : "text-white"
+                        }`}
+                        title={question.questionName}
+                      >
+                        {question.questionName}
+                      </h3>
+                    </div>
+
+                    {/* Status and Difficulty */}
+                    <div className="flex items-center gap-3 flex-shrink-0">
+                      <div className="flex items-center gap-1">
+                        {completedQuestions.has(index) ? (
+                          <CheckCircle2 className="w-4 h-4 text-green-400" />
+                        ) : (
+                          <Circle className="w-4 h-4 text-gray-400" />
+                        )}
+                        <span
+                          className={`text-xs hidden sm:inline ${
                             completedQuestions.has(index)
-                              ? "text-green-400 line-through"
-                              : "text-white"
+                              ? "text-green-400"
+                              : "text-gray-400"
                           }`}
                         >
-                          {question.questionName}
-                        </h3>
-                        <Badge
-                          className={`ml-4 ${getDifficultyColor(
-                            question.difficulty
-                          )}`}
-                        >
-                          {question.difficulty}
-                        </Badge>
+                          {completedQuestions.has(index)
+                            ? "Done"
+                            : "Todo"}
+                        </span>
                       </div>
 
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          {completedQuestions.has(index) ? (
-                            <CheckCircle2 className="w-5 h-5 text-green-400" />
-                          ) : (
-                            <Circle className="w-5 h-5 text-gray-400" />
-                          )}
-                          <span
-                            className={`text-sm ${
-                              completedQuestions.has(index)
-                                ? "text-green-400"
-                                : "text-gray-400"
-                            }`}
-                          >
-                            {completedQuestions.has(index)
-                              ? "Completed"
-                              : "Not Started"}
-                          </span>
-                        </div>
+                      <Badge
+                        className={`text-xs px-2 py-1 ${getDifficultyColor(
+                          question.difficulty
+                        )}`}
+                      >
+                        {question.difficulty}
+                      </Badge>
 
-                        <Button
-                          size="sm"
-                          className="bg-purple-600 hover:bg-purple-700 text-white"
-                          onClick={() => window.open(question.link, "_blank")}
-                        >
-                          <ExternalLink className="w-4 h-4 mr-2" />
-                          Solve Problem
-                        </Button>
-                      </div>
+                      <Button
+                        size="sm"
+                        className="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 h-8 text-xs"
+                        onClick={() => window.open(question.link, "_blank")}
+                      >
+                        <ExternalLink className="w-3 h-3 mr-1" />
+                        <span className="hidden sm:inline">Solve</span>
+                      </Button>
                     </div>
                   </div>
                 </CardContent>
