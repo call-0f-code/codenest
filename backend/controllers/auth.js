@@ -150,7 +150,7 @@ exports.logout = async (_, res) => {
 
 const createToken = (user) => {
   return jwt.sign(
-    { id: user._id, username: user.useranme, role: user.role },
+    { id: user._id, username: user.username, role: user.role },
     process.env.JWT_SECRET,
     { expiresIn: "1d" }
   );
