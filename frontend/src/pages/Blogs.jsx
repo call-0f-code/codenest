@@ -3,6 +3,7 @@ import { Calendar, User, Clock, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import toast from 'react-hot-toast';
 
 const blogPosts = [
   {
@@ -100,7 +101,7 @@ const Blogs = () => {
           setBlogs(res.data.data);
         }
       } catch (err) {
-        alert(err.response.data.message);
+        toast.error(err.response.data.message);
       }
     };
     fetchBlogs();

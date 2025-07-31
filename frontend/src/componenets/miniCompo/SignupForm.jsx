@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import {useForm} from 'react-hook-form'
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import toast from 'react-hot-toast';
 
 axios.defaults.withCredentials = true;
 const SignupForm = () => {
@@ -23,12 +24,12 @@ const SignupForm = () => {
           });
           console.log(res);
           if(res.data.success){
-            alert(res.data.message);
+            toast.success(res.data.message);
             navigate("/dashboard")
           }
         }
         catch(err){
-          alert("Singup Failed");
+          toast.error("Singup Failed");
         }
      
     }

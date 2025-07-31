@@ -14,6 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, Trash2, Save } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
+import toast from 'react-hot-toast';
 
 const CreateModule = () => {
   const { user } = useAuth();
@@ -53,11 +54,11 @@ const CreateModule = () => {
             withCredentials : true
         } );
         if(res.data.success){
-            alert(res.data.message);
+            toast.success(res.data.message);
         }
     }
     catch(err){
-        alert("Module Create Failed")
+        toast.error("Module Create Failed")
     }
   };
 

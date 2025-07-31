@@ -5,6 +5,7 @@ import {useForm} from "react-hook-form"
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import toast from 'react-hot-toast';
 
 function LoginForm() {
 
@@ -21,12 +22,12 @@ function LoginForm() {
         });
         console.log(res);
         if(res.data.success){
-          alert(res.data.message);
+          toast.success(res.data.message);
           navigate("/")
         }
       }
       catch(err){
-        alert("Login failed");
+        toast.error("Login failed");
       }
    }
        const handleGoogleLogin = () => {
