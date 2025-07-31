@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import axios from "axios";
+import toast from 'react-hot-toast';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -27,18 +28,18 @@ const Navbar = () => {
       console.log("Logout response:", res);
 
       if (res?.data?.success) {
-        alert(res.data.message);
+        toast.success(res.data.message);
         navigate("/");
       } else {
-        alert("Logout failed. Please try again.");
+        toast.error("Logout failed. Please try again.");
       }
     } catch (err) {
       console.error("Logout error:", err);
 
       if (err?.response?.data?.message) {
-        alert(err.response.data.message);
+        toast(err.response.data.message);
       } else {
-        alert("Something went wrong during logout.");
+        toast.error("Something went wrong during logout.");
       }
     }
   };

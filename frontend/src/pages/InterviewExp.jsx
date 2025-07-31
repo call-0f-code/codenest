@@ -3,6 +3,7 @@ import { Building, Calendar, MapPin, ChevronDown, ChevronUp } from "lucide-react
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import axios from "axios";
+import toast from 'react-hot-toast';
 
 const interviewExperiences = [
   {
@@ -103,7 +104,7 @@ const InterviewExp = () => {
 
       }
       catch(err){
-        alert(err.response.data.message);
+        toast.error(err.response.data.message);
       }
     };
     fetchExperiences();

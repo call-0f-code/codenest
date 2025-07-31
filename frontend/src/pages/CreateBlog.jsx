@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
+import toast from 'react-hot-toast';
 
 const CreateBlog = () => {
   const {
@@ -28,12 +29,12 @@ const CreateBlog = () => {
             withCredentials : true 
         } );
         if(res.data.success){
-            alert(res.data.message);
+            toast.success(res.data.message);
         }
 
     }
     catch(err){
-       alert(err.response.data.message);
+       toast.error(err.response.data.message);
     }
     
   };

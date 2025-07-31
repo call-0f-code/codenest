@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import axios from "axios";
+import toast from 'react-hot-toast';
 
 const CreateInterviewExp = () => {
   const {
@@ -30,11 +31,11 @@ const CreateInterviewExp = () => {
         });
 
         if(res.data.success){
-            alert(res.data.message);
+            toast.success(res.data.message);
         }
     }
     catch(err){
-        alert(err.response.data.message);
+        toast.error(err.response.data.message);
     }
   };
 

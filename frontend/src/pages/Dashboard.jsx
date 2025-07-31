@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast from 'react-hot-toast';
 
 const Dashboard = () => {
 
@@ -84,13 +85,13 @@ const Dashboard = () => {
         }
       );
       if(res.data.success){
-        alert(res.data.message);
+        toast.success(res.data.message);
         navigate('/');
         
       }
     }
     catch(err){
-      alert(err.response.data.message);
+      toast.error(err.response.data.message);
     }
     // logout();
     

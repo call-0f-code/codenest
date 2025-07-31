@@ -3,7 +3,7 @@ import { Book, Clock, Users, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
+import toast from 'react-hot-toast';
 
 const modulesContent = [
   {
@@ -122,7 +122,7 @@ const Module = () => {
           console.log("Data from server", res.data.data);
         }
       } catch (err) {
-        alert(err.response.data.message);
+        toast.error(err.response.data.message);
       }
     };
     fetchModules();
