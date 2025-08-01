@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as memberCtrl from "../config/controllers/members.controller";
+import * as memberCtrl from "../controllers/members.controller";
 import { auth } from "../middleware/memberAuth";
 import {Multer} from 'multer'
 import { validate } from "../middleware/validate";
