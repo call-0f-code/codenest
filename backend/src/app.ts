@@ -23,9 +23,6 @@ const upload = multer({ storage: multer.memoryStorage(),
   limits: { fileSize: 2 * 1024 * 1024 }
 });
 
-// 4) Mount your routes, injecting `upload` middleware where needed
-//    For endpoints that accept file uploads, you can do e.g.:
-//    router.post('/members/:memberId/photo', upload.single('photo'), ...)
 
 app.use("/api/v1", routes(upload));
 

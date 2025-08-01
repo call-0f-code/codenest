@@ -1,53 +1,24 @@
 import { Router } from "express";
-import * as memberCtrl from "../controllers/members.controller";
+import * as memberCtrl from "../config/controllers/members.controller";
 import { auth } from "../middleware/memberAuth";
-//import passport from "passport";
-//import config from "../config";
 import {Multer} from 'multer'
+import { validate } from "../middleware/validate";
+import { SigninSchema } from "../validation/members.validator";
 
 export default function memberRouter(upload: Multer){
     const router = Router();
 
-    // Route to get questions by topic ID
-    router.post('/signup', memberCtrl.createMember);
-    router.post('/signin', memberCtrl.login);
-
-    //   // OAuth Login - Google
-    // router.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
-
-    // router.get("/auth/google/callback", passport.authenticate("google", {
-    //   failureRedirect: "/login", // adjust to  frontend login page
-    //   session: true,
-    // }),
-    // (req, res) => {
-    //   // Redirect to frontend with session or token if you choose JWT
-    //   res.redirect(config.GOOGLE_CALLBACK_URL);
-    // }
-  //);
-
-  // OAuth Login - GitHub
-  // router.get("/auth/github", passport.authenticate("github", { scope: ["user:email"] }));
-
-  // router.get(
-  //   "/auth/github/callback",
-  //   passport.authenticate("github", {
-  //     failureRedirect: "/login",
-  //     session: true,
-  //   }),
-  //   (req, res) => {
-  //     res.redirect(process.env.CLIENT_REDIRECT_URL!);
-  //   }
-  // );
-
+    router.post('/signup' ,memberCtrl.createMember);
+    router.post('/signin', validate(SigninSchema), memberCtrl.login);
     router.get('/:memberId', memberCtrl.getDetails);
     router.get('/', memberCtrl.listAllApprovedMembers);
-    router.get('/achievements/:memberId', memberCtrl.getAchievements);
-    router.get('/projects/:memberId', memberCtrl.getProjects);
-    router.get('/interviews/:memberId', memberCtrl.getInterviews);
+    router.get('/:memberId/achievements', memberCtrl.getAchievements);
+    router.get('/:memberId/projects', memberCtrl.getProjects);
+    router.get('/:memberId/interviews', memberCtrl.getInterviews);
 
     router.use(auth);
 
-    router.patch('/members/:memberId', memberCtrl.updateMember);
+    router.patch('/:memberId', memberCtrl.updateMember);
 
     return router;
 }

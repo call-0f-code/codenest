@@ -1,42 +1,36 @@
 import { Request, Response } from "express";
 import api from "../utils/api";
-import { CreateUserSchema, SigninSchema } from "../validation/members.validator";
 import bcrypt from 'bcrypt';
 import config from "../config";
 import jwt from 'jsonwebtoken';
-import axios from "axios";
 import FormData from "form-data";
 import { ApiError } from "../utils/apiError";
+import { CreateUserSchema } from "../validation/members.validator";
+import axios from "axios";
 
 export const createMember = async(req: Request, res:Response) => {
     
-    if(!req.file) throw new ApiError("Missing file", 401);
-    let parsed = JSON.parse(req.body.adminData);
-    const parsedData = CreateUserSchema.safeParse(parsed);
-    if (!parsedData.success) {
-        res.status(403).json({
-        error: true,
-        message: parsedData.error.message,
-    });
-        return;
-    }
-  
-    const password = parsed.password;
+    const rawmemberData = req.body.memberData;
+    
+    let memberData=JSON.parse(rawmemberData);
+    const check = CreateUserSchema.safeParse(memberData);
+
+    if(!check) throw new ApiError('Validation error', 400);
     const file = req.file;
 
     const formData = new FormData();
 
     if(file) formData.append('file', file.buffer, file.originalname);
+    const hashedPassword = await bcrypt.hash(memberData.password, Number(config.SALTING));
 
-    const hashedPassword = await bcrypt.hash(password, Number(config.SALTING));
-    parsed.password = hashedPassword;
-    formData.append('email', parsed.email);
-    formData.append('name', parsed.name);
+    formData.append('email', memberData.email);
+    formData.append('name', memberData.name);
     formData.append('password', hashedPassword);
-    formData.append('passoutYear', String(parsed.passoutYear));
+    formData.append('passoutYear', String(memberData.passoutYear));
+    formData.append('provider', memberData.provider);
 
     const newUser = await axios.post(`${config.API_URL}/api/v1/members/`, formData, {
-    headers: formData.getHeaders(),
+        headers: formData.getHeaders(),
     })
 
     if(!newUser.data.success) {
@@ -53,21 +47,9 @@ export const createMember = async(req: Request, res:Response) => {
 
 export const login = async(req: Request, res:Response) => {
 
-    try {
-    const parsedData = SigninSchema.safeParse(req.body);
-    if (!parsedData.success) {
-      return res.status(400).json({
-        success: false,
-        message: parsedData.error.message,
-      });
-    }
+    const { email, password } = req.body;
 
-    const { email, password } = parsedData.data;
-    const check = await api.get(`${config.API_URL}/api/v1/members/?email=${email}&password=${password}`);
-
-    if(!check.data.success) {
-      return res.status(400).json({message: "Error signing in"});
-    }
+    const check = await api.get(`/members/?email=${email}`);
 
     const userId = check.data.user.id;
     const hashedPassword = check.data.user.accounts[0];
@@ -97,79 +79,59 @@ export const login = async(req: Request, res:Response) => {
       message: "Signin successful",
       token,
     });
-}catch(err) {
-    console.log(err);
-}
 }
 
 export const getDetails = async(req: Request, res: Response) => {
 
     const {memberId} = req.params;
-    const user = await api.get(`${config.API_URL}/api/v1/members/${memberId}`);
-    console.log(user);
 
-
-    if(!user.data) {
-        return res.status(400).json({
-            success: false,
-            message: "Error fetching details"
-        })
-    }
+    if(!memberId) throw new ApiError('Required fields absent', 400);
+    const user = await api.get(`/members/${memberId}`);
 
     const users = user.data.user;
     res.status(200).json({
+        success: true,
         users
     })   
 }
 
 export const listAllApprovedMembers = async(req:Request, res:Response) => {
 
-    const members = await api.get(`${config.API_URL}/api/v1/members/`);
-    if(!members) {
-        return res.status(402).json({
-            success: false,
-            message: "Error fetching users"
-        })
-    }
-
+    const members = await api.get('/members');
     res.status(200).json({
         success: true,
-        members
+        users: members.data.user
     })
 }
 
 export const updateMember = async(req: Request, res:Response) => {
 
     const memberId = req.userId;
-    const body = req.body;
     
-    const updation = await api.patch(`${config.API_URL}/api/v1/members/${memberId}`, {body});
-    if(!updation.data.success) {
-        return res.status(402).json({
-            message: updation.data.message
-        })
+    const formData = new FormData();
+
+    formData.append("memberData", req.body.memberData);
+    if (req.file) {
+    formData.append("file", req.file.buffer, req.file.originalname);
     }
 
+    const updation = await axios.patch(`${config.API_URL}/api/v1/members/${memberId}`, formData);
+
+    console.log(updation.data);
     res.status(200).json({
         success :true,
-        message: res.status(200).json({
-            message: updation.data.message
-        })
+        user: updation.data.user
     })
 }
 
 export const getAchievements = async(req: Request, res:Response) => {
 
     const {memberId} = req.params;
-    const achievement = await api.get(`${config.API_URL}/api/v1/members/achievements/${memberId}`);
-    if(!achievement.data.success) {
-        return res.status(402).json({
-            success: false,
-            message: "Error fetching achievements"
-        })
-    }
 
+    if(!memberId) throw new ApiError('Required fields absent', 400);
+    const achievement = await api.get(`/members/${memberId}/achievements`);
     const achievements = achievement.data.achievements;
+
     res.status(200).json({
         success: true,
         achievements
@@ -180,7 +142,8 @@ export const getInterviews = async(req:Request, res:Response) => {
 
     const {memberId} = req.params;
 
-    const interview = await api.get(`${config.API_URL}/api/v1/members/interviews/${memberId}`);
+    if(!memberId) throw new ApiError('Required fields absent', 400);
+    const interview = await api.get(`/members/${memberId}/interviews`);
     if(!interview.data.success) {
         res.status(402).json({
             success: false,
@@ -198,16 +161,11 @@ export const getInterviews = async(req:Request, res:Response) => {
 export const getProjects = async(req:Request, res:Response) => {
 
     const {memberId} = req.params;
-    const project = await api.get(`${config.API_URL}/api/v1/members/projects/${memberId}`);
 
-    if(!project.data.success) {
-        res.status(402).json({
-            success:false,
-            message: "Error fetching projects"
-        })
-    }
-
+    if(!memberId) throw new ApiError('Required fields absent', 400);
+    const project = await api.get(`members/${memberId}/projects`);
     const projects = project.data.projects;
+
     res.status(200).json({
         success: true,
         projects

@@ -35,3 +35,6 @@ Thumbs.db
 dist/
 build/
 coverage/
+
+backend/src/strategies/
+backend/src/utils/passport

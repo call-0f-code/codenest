@@ -4,7 +4,7 @@ import { ApiError } from "./apiError";
 const apiurl = process.env.API_URL;
 
 const api = axios.create({
-  baseURL: `${apiurl}`,
+  baseURL: `${apiurl}/api/v1`,
   headers: {
     "Content-Type": "application/json",
   },
