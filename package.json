@@ -10,12 +10,6 @@
     "backend-dev": "cd backend && bun run dev",
     "frontend-dev": "cd frontend && bun run dev"
   },
-  "dependencies": {
-    "@types/form-data": "^2.5.2",
-    "@types/multer": "^2.0.0",
-    "form-data": "^4.0.4",
-    "multer": "^2.0.2"
-  },
   "devDependencies": {
     "concurrently": "^9.2.0"
   }
