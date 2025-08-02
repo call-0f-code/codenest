@@ -6,8 +6,6 @@ declare global {
         interface Request {
             adminId?: string;
             userId?: string;
-            projectId ?: string;
-            achievementId ?: string;
             file?: MulterFile;
         }
     }

@@ -33,12 +33,6 @@ export const createMember = async(req: Request, res:Response) => {
         headers: formData.getHeaders(),
     })
 
-    if(!newUser.data.success) {
-        return res.status(403).json({
-            error: true,
-            message: newUser.data.message
-        })
-    }
     res.status(201).json({
         success: true,
         message: newUser.data.message
@@ -144,12 +138,6 @@ export const getInterviews = async(req:Request, res:Response) => {
 
     if(!memberId) throw new ApiError('Required fields absent', 400);
     const interview = await api.get(`/members/${memberId}/interviews`);
-    if(!interview.data.success) {
-        res.status(402).json({
-            success: false,
-            message: "Error fetching interviews"
-        })
-    }
 
     const interviews = interview.data.interviews;
     res.status(200).json({
