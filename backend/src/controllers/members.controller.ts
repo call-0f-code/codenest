@@ -10,7 +10,6 @@ import axios from "axios";
 
 export const createMember = async(req: Request, res:Response) => {
         
-    console.log(req.body);
     const hashedPassword = await bcrypt.hash(req.body.password, Number(config.SALTING));
 
     req.body.password = hashedPassword;
@@ -33,18 +32,12 @@ export const login = async(req: Request, res:Response) => {
     const isApproved = check.data.user.isApproved;
 
     if(!isApproved) {
-      return res.status(403).json({
-        success: false,
-        message: "Unauthorized access detected"
-      })
+        throw new ApiError("Unauthorized access detected", 403)
     }
     
     const isPasswordValid = await bcrypt.compare(password, hashedPassword.password);
     if(!isPasswordValid) {
-      return res.status(403).json({
-        success: false,
-        message: "Invalid password"
-      })
+      throw new ApiError("Invalid password", 403)
     }
 
     // Generate JWT token
