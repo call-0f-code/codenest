@@ -3,6 +3,7 @@ import { z } from 'zod';
 // Email Schema
 export const emailSchema = z
   .email({ message: "Please enter a valid email address" })
+  .trim()
   .nonempty({ message: "Email is required" });
 
 // Password Schema
@@ -27,7 +28,6 @@ export const passwordSchema = z
 export const nameSchema = z
   .string()
   .trim()
-  .nonempty({ message: "Name is required" })
   .min(2, { message: "Name must be at least 2 characters long" })
   .max(50, { message: "Name cannot exceed 50 characters" });
 
@@ -35,10 +35,26 @@ export const nameSchema = z
 export const CreateUserSchema = z.object({
   email: emailSchema,
   password: passwordSchema,
-  name: nameSchema,
+  name: nameSchema.nonempty({ message: "Name is required" }),
+  provider: z.enum(['credentials', 'google', 'github']),
+  passoutYear: z.number().optional()
 });
 
 export const SigninSchema = z.object({
   email: emailSchema,
   password: passwordSchema
 });
+
+export const UpdateSchema = z.object({
+  name: nameSchema.optional(),
+  phone: z.string().trim().optional(),
+  bio: z.string().trim().optional(),
+  profilePhoto: z.string().trim().optional(),
+  github: z.string().trim().optional(),
+  linkedin: z.string().trim().optional(),
+  twitter: z.string().trim().optional(),
+  geeksforgeeks: z.string().trim().optional(),
+  leetcode: z.string().trim().optional(),
+  codechef: z.string().trim().optional(),
+  codeforces: z.string().trim().optional(),
+})
