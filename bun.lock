@@ -2,14 +2,8 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "dependencies": {
-        "@types/form-data": "^2.5.2",
-        "@types/multer": "^2.0.0",
-        "form-data": "^4.0.4",
-        "multer": "^2.0.2",
-      },
       "devDependencies": {
-        "concurrently": "^9.2.0",
+        "concurrently": "^9.2.0"
       },
     },
   },
