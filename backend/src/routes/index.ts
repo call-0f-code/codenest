@@ -3,8 +3,8 @@ import memberRouter from "./member.routes";
 import { Multer } from "multer";
 import topicRouter from "./topics.routes";
 import questionRoutes from "./question.routes";
-import progresRoutes from "./progress.routes";
 import { auth } from "../middleware/memberAuth";
+import progressRoutes from "./progress.routes";
 
 export default function routes(upload:Multer){
     const router = Router();
@@ -17,7 +17,7 @@ export default function routes(upload:Multer){
 
     router.use('/questions',questionRoutes());
 
-    router.use('/progress',progresRoutes());
+    router.use('/progress',progressRoutes());
 
     return router;
 }
