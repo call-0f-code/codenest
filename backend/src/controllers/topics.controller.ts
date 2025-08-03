@@ -7,7 +7,7 @@ export const getAllTopics = async(req:Request,res:Response)=>{
     const topics =response.data;
     
     res.status(200).json({
-        status:"SUCCESS",
+        success: true,
         topics
     }) 
 }
@@ -24,7 +24,7 @@ export const getQusetionBytopicId = async(req:Request,res:Response)=>{
     const {questions} = response.data;
 
     res.status(200).json({
-        status:"SUCCESS",
+        success: true,
         questions
     })
 }

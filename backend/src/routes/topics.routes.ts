@@ -9,7 +9,6 @@ export default function topicRouter(){
 
     router.get('/',getAllTopics);
 
-    router.get('/:topicId/questions',getQusetionBytopicId);
 
     return router;
 }
