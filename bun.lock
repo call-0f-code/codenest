@@ -2,6 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
+      "name": "coc-member",
       "devDependencies": {
         "concurrently": "^9.2.0",
       },

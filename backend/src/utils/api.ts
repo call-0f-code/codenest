@@ -1,7 +1,6 @@
 import axios from "axios";
 import { ApiError } from "./apiError";
 
-
 const apiurl = process.env.API_URL;
 
 const api = axios.create({
@@ -26,6 +25,7 @@ api.interceptors.response.use(
   },
   (error) => {
     
+    // Handle 500 server errors
     if (error.response && error.response.status >= 500) {
       throw new ApiError('Internal Server Error', 500);
     }
