@@ -5,10 +5,6 @@ import api from "../utils/api";
 export const getAllInterviews = async (req: Request, res: Response) => {
   const response = await api.get("/interviews");
 
-  if (!response?.data?.data) {
-    throw new ApiError("Failed to fetch interviews", 500);
-  }
-
   res.status(200).json({
     success: true,
     data: response.data.data,
