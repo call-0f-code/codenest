@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const createInterviewValidator = z.object({
+export const createInterviewSchema = z.object({
   company: z.string().min(1, "Company is required"),
   role: z.string().min(1, "Role is required"),
   verdict: z.enum(["Selected", "Rejected", "Pending"] as const, {
@@ -19,10 +19,7 @@ const optionalFields = z.object({
   isAnonymous: z.boolean().optional(),
 });
 
-export const updateInterviewValidator = optionalFields
-  .extend({
-    memberId: z.string(),
-  })
+export const updateInterviewSchema = optionalFields
   .refine(
     (data) =>
       Object.keys(data).some((key) =>

@@ -12,8 +12,8 @@ export default function routes(upload:Multer){
     router.use('/members', upload.single('file'), memberRouter(upload));
 
     router.use(auth);
-
     router.use("/interviews", interviewRouter());
+
     
     router.use('/topics',topicRouter());
 

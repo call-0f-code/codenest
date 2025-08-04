@@ -5,7 +5,6 @@ import config from './config';
 import multer from "multer";
 import routes from './routes';
 import { errorHandler } from './utils/apiError';
-import routes from './routes';
 
 const app = express();
 

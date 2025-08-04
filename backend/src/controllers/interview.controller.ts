@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { ApiError } from "../utils/apiError";
 import api from "../utils/api";
-import { createInterviewValidator,updateInterviewValidator } from "../validators/interview.validator";
 
 export const getAllInterviews = async (req: Request, res: Response) => {
   const response = await api.get("/interviews");
@@ -38,23 +37,14 @@ export const getInterviewById = async (req: Request, res: Response) => {
 
 
 export const createInterview = async (req: Request, res: Response) => {
-  const memberId = req.memberId;
+  const memberId = req.userId;
 
   if (!memberId) {
     throw new ApiError("Unauthorized: Member ID not found", 401);
   }
 
-  const parsed = createInterviewValidator.safeParse(req.body);
 
-   if (!parsed.success) {
-    const formattedErrors = parsed.error.issues.map(issue => {
-      return `${issue.path.join(".")}: ${issue.message}`;
-    });
-    throw new ApiError(`Validation failed: ${formattedErrors.join(", ")}`, 400);
-  }
-
-
-  const validatedData = parsed.data;
+  const validatedData = req.body;
 
   const response = await api.post(`/interviews/${memberId}`, validatedData);
 
@@ -67,7 +57,7 @@ export const createInterview = async (req: Request, res: Response) => {
 
 export const updateInterview = async (req: Request, res: Response) => {
   const interviewId = req.params.id;
-  const memberId = req.memberId;
+  const memberId = req.userId;
 
   if (!interviewId) {
     throw new ApiError("Interview ID is required", 400);
@@ -77,17 +67,11 @@ export const updateInterview = async (req: Request, res: Response) => {
     throw new ApiError("Unauthorized: Member ID not found", 401);
   }
 
-  const parsed = updateInterviewValidator.safeParse({
-    ...req.body,
-    memberId,
-  });
-
-  if (!parsed.success) {
-    const errorMessages = parsed.error.issues.map(err => err.message).join(", ");
-    throw new ApiError(`Validation failed: ${errorMessages}`, 400);
-  }
-
-  const validatedData = parsed.data;
+  
+  const validatedData = {
+    ...req.body,      
+    memberId,         
+  };
 
   const response = await api.patch(`/interviews/${interviewId}`, validatedData);
 
@@ -100,7 +84,7 @@ export const updateInterview = async (req: Request, res: Response) => {
 
 export const deleteInterview = async (req: Request, res: Response) => {
   const interviewId = req.params.id;
-  const memberId = req.memberId;
+  const memberId = req.userId;
 
   if (!interviewId) {
     throw new ApiError("Interview ID is required", 400);
@@ -110,7 +94,9 @@ export const deleteInterview = async (req: Request, res: Response) => {
     throw new ApiError("Unauthorized: Member ID not found", 401);
   }
 
-  const response = await api.delete(`/interviews/${interviewId}`);
+  const response = await api.delete(`/interviews/${interviewId}`, {
+    data: { memberId },
+  });
 
   res.status(200).json({
     success: true,
