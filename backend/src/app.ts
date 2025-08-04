@@ -2,6 +2,8 @@ import express from 'express';
 import { json,urlencoded } from 'body-parser';
 import cors from 'cors';
 import config from './config';
+import multer from "multer";
+import routes from './routes';
 import { errorHandler } from './utils/apiError';
 import routes from './routes';
 
@@ -18,11 +20,16 @@ app.use(
 app.use(json());
 app.use(urlencoded({ extended: true }));
 
+const upload = multer({ storage: multer.memoryStorage(),
+  limits: { fileSize: 2 * 1024 * 1024 }
+});
 
-app.use("/api/v1",routes());
 
-app.get('/', (req, res) => {
-  res.send('Hello, World!');
+app.use("/api/v1", routes(upload));
+
+// 5) 404 handler
+app.use((req, res) => {
+  res.status(404).json({ message: "Not Found" });
 });
 
 app.use(errorHandler);
