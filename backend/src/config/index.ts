@@ -19,7 +19,7 @@ export default{
     GITHUB_CLIENT_ID: validateEnvVar('GITHUB_CLIENT_ID', process.env.GITHUB_CLIENT_ID),
     GITHUB_CLIENT_SECRET: validateEnvVar('GITHUB_CLIENT_SECRET', process.env.GITHUB_CLIENT_SECRET),
     GITHUB_CALLBACK_URL: validateEnvVar('GITHUB_CALLBACK_URL', process.env.GITHUB_CALLBACK_URL),
-    emailId: validateEnvVar('emailId', process.env.emailId),
-    emailpass: validateEnvVar('emailpass', process.env.emailpass),
-    emailservices: validateEnvVar('emailservices', process.env.emailservices)
+    EMAIL_ID: validateEnvVar('EMAIL_ID', process.env.EMAIL_ID),
+    EMAIL_PASS: validateEnvVar('EMAIL_PASS', process.env.EMAIL_PASS),
+    EMAIL_SERVICES: validateEnvVar('EMAIL_SERVICES', process.env.EMAIL_SERVICES)
 }

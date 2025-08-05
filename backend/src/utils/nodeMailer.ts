@@ -3,15 +3,15 @@ import config from '../config/index'
 
 export const sendOTP = async(email:string,otp:string)=>{
     const transport = nodemailer.createTransport({
-        service: config.emailservices,
+        service: config.EMAIL_SERVICES,
         auth: {
-            user: config.emailId,
-            pass: config.emailpass
+            user: config.EMAIL_ID,
+            pass: config.EMAIL_PASS
         }
     });
 
     const mailOptions = {
-        from: config.emailId,
+        from: config.EMAIL_ID,
         to: email,
         subject: 'Password Reset OTP - Call Of Code',
         html: `
@@ -26,7 +26,7 @@ export const sendOTP = async(email:string,otp:string)=>{
             <div style="background: white; display: inline-block; padding: 15px 30px; border-radius: 8px; margin: 10px 0;">
                 <span style="font-size: 32px; font-weight: bold; color: #333; letter-spacing: 5px;">${otp}</span>
             </div>
-            <p style="color: white; margin: 15px 0 0 0; font-size: 14px;">This code will expire in 10 minutes</p>
+            <p style="color: white; margin: 15px 0 0 0; font-size: 14px;">This code will expire in 3 minutes</p>
             </div>
             
             <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
