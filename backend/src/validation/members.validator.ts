@@ -58,3 +58,11 @@ export const UpdateSchema = z.object({
   codechef: z.url().trim().optional(),
   codeforces: z.url().trim().optional(),
 })
+
+export const resetPasswordSchema = z.object({  
+    password: passwordSchema
+})  
+
+export const forgotPasswordSchema = z.object({
+    email: emailSchema
+})

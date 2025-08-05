@@ -5,8 +5,14 @@ import config from "../config";
 import jwt from 'jsonwebtoken';
 import FormData from "form-data";
 import { ApiError } from "../utils/apiError";
-import { UpdateSchema } from "../validation/members.validator";
+import { resetPasswordSchema, UpdateSchema } from "../validation/members.validator";
 import axios from "axios";
+import { otpStorage } from "../utils/otpStore";
+import { sendOTP } from "../utils/nodeMailer";
+
+const generateOtp = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+}
 
 export const createMember = async(req: Request, res:Response) => {
         
@@ -24,6 +30,7 @@ export const createMember = async(req: Request, res:Response) => {
 export const login = async(req: Request, res:Response) => {
 
     const { email, password } = req.body;
+    if(!email || !password) throw new ApiError("Email or password field absent", 400);
 
     const check = await api.get(`/members/?email=${email}`);
 
@@ -41,7 +48,7 @@ export const login = async(req: Request, res:Response) => {
     }
 
     // Generate JWT token
-    const token = jwt.sign({ userId }, config.JWT_SECRET as string, { expiresIn: "1d" });
+    const token = await jwt.sign({ userId }, config.JWT_SECRET as string, { expiresIn: "1d" });
 
     // Send response
     res.status(200).json({
@@ -55,7 +62,6 @@ export const getDetails = async(req: Request, res: Response) => {
 
     const memberId = req.userId;
 
-    if(!memberId) throw new ApiError('Required fields absent', 400);
     const user = await api.get(`/members/${memberId}`);
 
     const users = user.data.user;
@@ -95,7 +101,6 @@ export const getAchievements = async(req: Request, res:Response) => {
 
     const memberId = req.userId;
 
-    if(!memberId) throw new ApiError('Required fields absent', 400);
     const achievement = await api.get(`/members/${memberId}/achievements`);
     const achievements = achievement.data.achievements;
 
@@ -109,7 +114,6 @@ export const getInterviews = async(req:Request, res:Response) => {
 
     const memberId = req.userId;
 
-    if(!memberId) throw new ApiError('Required fields absent', 400);
     const interview = await api.get(`/members/${memberId}/interviews`);
 
     const interviews = interview.data.interviews;
@@ -123,7 +127,6 @@ export const getProjects = async(req:Request, res:Response) => {
 
     const memberId = req.userId;
 
-    if(!memberId) throw new ApiError('Required fields absent', 400);
     const project = await api.get(`members/${memberId}/projects`);
     const projects = project.data.projects;
 
@@ -132,3 +135,64 @@ export const getProjects = async(req:Request, res:Response) => {
         projects
     })
 }
+
+export const forgotpassword = async (req: Request, res: Response) => {
+    const { email } = req.body;
+
+    if(!email) throw new ApiError('email field absent', 400);
+
+    const check = await api.get(`/members/?email=${email}`);
+    const user = check.data.user;
+    if(!user) throw new ApiError('Member not found', 404); 
+
+    const otp = generateOtp();
+    otpStorage.store(email, otp);
+    await sendOTP(email, otp);
+
+    res.status(200).json({
+        success: true,
+        message: 'OTP sent to your email'
+    })
+};
+
+export const verifyOtp = async(req:Request,res:Response) => {
+
+    const {email ,otp} = req.body;
+    if(!email || !otp) throw new ApiError("email or otp field absent", 400);
+   
+    const isValid = otpStorage.verify(email,otp);
+    if(!isValid) throw new ApiError("OTP is not valid", 403);
+
+    const check = await api.get(`/members/?email=${email}`);
+    const userId = check.data.user.id;
+
+    const token = await jwt.sign({ userId }, config.JWT_SECRET as string, { expiresIn: "1d" });
+    res.status(200).json({
+        success: true,
+        token: token
+    })
+};
+
+export const resetpassword = async (req: Request, res: Response) => {
+   
+    const memberId = req.userId;
+    const rawmemberData = req.body.memberData; 
+    let memberData = JSON.parse(rawmemberData);
+
+    let check = await resetPasswordSchema.safeParse(memberData);
+    if(!check.success) throw new ApiError('Validation error', 400);
+
+    const password = memberData.password;
+
+    if( !password) throw new ApiError("Password absent", 400)
+    const hashedPassword = await bcrypt.hash(password, Number(config.SALTING));
+    memberData.password = hashedPassword
+    const formData = new FormData();
+    
+    formData.append("memberData", JSON.stringify(memberData));
+    const updation = await axios.patch(`${config.API_URL}/api/v1/members/${memberId}`, formData);
+    res.status(200).json({
+        success: true,
+        user: updation.data.user
+    })
+};
