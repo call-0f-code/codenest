@@ -3,16 +3,19 @@ import * as memberCtrl from "../controllers/members.controller";
 import { auth } from "../middleware/memberAuth";
 import {Multer} from 'multer'
 import { validate } from "../middleware/validate";
-import { CreateUserSchema, SigninSchema } from "../validation/members.validator";
+import { CreateUserSchema, SigninSchema, forgotPasswordSchema, resetPasswordSchema } from "../validation/members.validator";
 
 export default function memberRouter(upload: Multer){
     const router = Router();
 
     router.post('/signup', validate(CreateUserSchema), memberCtrl.createMember);
     router.post('/signin', validate(SigninSchema), memberCtrl.login);
+    router.post('/forgotPassword',validate(forgotPasswordSchema), memberCtrl.forgotpassword);
+    router.post('/verifyOtp',memberCtrl.verifyOtp)
 
     router.use(auth);
 
+    router.post('/resetPassword', memberCtrl.resetpassword);
     router.patch('/:memberId', memberCtrl.updateMember);
     router.get('/:memberId', memberCtrl.getDetails);
     router.get('/:memberId/achievements', memberCtrl.getAchievements);

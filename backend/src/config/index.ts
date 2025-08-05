@@ -7,7 +7,7 @@ const validateEnvVar = (name: string, value: string | undefined): string => {
 
 
 export default{
-    port: process.env.PORT || 3000,
+    port: process.env.PORT || 8000,
     allowed_origins: process.env.ALLOWED_ORIGINS || "*",
 
     JWT_SECRET: validateEnvVar('JWT_SECRET', process.env.JWT_SECRET),
@@ -18,5 +18,8 @@ export default{
     GOOGLE_CALLBACK_URL: validateEnvVar('GOOGLE_CALLBACK_URL', process.env.GOOGLE_CALLBACK_URL),
     GITHUB_CLIENT_ID: validateEnvVar('GITHUB_CLIENT_ID', process.env.GITHUB_CLIENT_ID),
     GITHUB_CLIENT_SECRET: validateEnvVar('GITHUB_CLIENT_SECRET', process.env.GITHUB_CLIENT_SECRET),
-    GITHUB_CALLBACK_URL: validateEnvVar('GITHUB_CALLBACK_URL', process.env.GITHUB_CALLBACK_URL)
+    GITHUB_CALLBACK_URL: validateEnvVar('GITHUB_CALLBACK_URL', process.env.GITHUB_CALLBACK_URL),
+    emailId: validateEnvVar('emailId', process.env.emailId),
+    emailpass: validateEnvVar('emailpass', process.env.emailpass),
+    emailservices: validateEnvVar('emailservices', process.env.emailservices)
 }
