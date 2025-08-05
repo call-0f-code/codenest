@@ -7,7 +7,7 @@ const validateEnvVar = (name: string, value: string | undefined): string => {
 
 
 export default{
-    port: process.env.PORT || 8000,
+    port: process.env.PORT || 3000,
     allowed_origins: process.env.ALLOWED_ORIGINS || "*",
 
     JWT_SECRET: validateEnvVar('JWT_SECRET', process.env.JWT_SECRET),

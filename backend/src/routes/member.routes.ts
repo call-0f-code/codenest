@@ -3,7 +3,7 @@ import * as memberCtrl from "../controllers/members.controller";
 import { auth } from "../middleware/memberAuth";
 import {Multer} from 'multer'
 import { validate } from "../middleware/validate";
-import { CreateUserSchema, SigninSchema, forgotPasswordSchema, resetPasswordSchema } from "../validation/members.validator";
+import { CreateUserSchema, SigninSchema, forgotPasswordSchema } from "../validation/members.validator";
 
 export default function memberRouter(upload: Multer){
     const router = Router();
