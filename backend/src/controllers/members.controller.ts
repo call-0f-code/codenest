@@ -143,7 +143,6 @@ export const forgotpassword = async (req: Request, res: Response) => {
 
     const check = await api.get(`/members/?email=${email}`);
     const user = check.data.user;
-    if(!user) throw new ApiError('Member not found', 404); 
 
     const otp = generateOtp();
     otpStorage.store(email, otp);
