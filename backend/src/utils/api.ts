@@ -31,7 +31,11 @@ api.interceptors.response.use(
     }
 
     if(error.response && error.response.status === 400) {
-        throw new ApiError('Bad Request', 400);
+      throw new ApiError('Bad Request', 400);
+    }
+
+    if(error.response && error.response.status === 404) {
+      throw new ApiError('Not Found', 404);
     }
 
     return Promise.reject(error)
