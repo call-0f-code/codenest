@@ -20,6 +20,9 @@ export function useMembers(){
     },
     onSuccess: () => {
       queryclient.invalidateQueries({ queryKey: ['members'] });
+      if (token) {
+        localStorage.setItem('token', token);
+      }
     },
   });
 
