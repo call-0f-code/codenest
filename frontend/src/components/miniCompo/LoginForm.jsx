@@ -3,6 +3,7 @@ import { Eye, EyeOff, Mail, Lock } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import { useMembers } from "@/hooks/useMember"
+import { Input } from "../ui/input"
 
 function LoginForm({setIsLogin}) {
   const navigate = useNavigate()
@@ -35,8 +36,8 @@ function LoginForm({setIsLogin}) {
         <div className="space-y-1">
           <label className="text-xs font-semibold tracking-wider text-[#5f6b72]">EMAIL</label>
           <div className="relative">
-            <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#5f6b72]" />
-            <input
+            <Mail className="pointeinputr-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#5f6b72]" />
+            <Input
               type="email"
               placeholder="name@domain.com"
               className="h-11 border-2 border-[#cfd5da] pl-10 focus-visible:ring-2 focus-visible:ring-[#2fbe84] rounded-none"
@@ -50,7 +51,7 @@ function LoginForm({setIsLogin}) {
           <label className="text-xs font-semibold tracking-wider text-[#5f6b72]">PASSWORD</label>
           <div className="relative">
             <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#5f6b72]" />
-            <input
+            <Input
               type={showPassword ? "text" : "password"}
               placeholder="••••••••"
               className="h-11 pl-10 pr-48.5 focus-visible:ring-2 focus-visible:ring-[#2fbe84] border-2 border-[#cfd5da]"
