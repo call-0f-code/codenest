@@ -1,10 +1,10 @@
 import React from 'react'
-import Navbar from '../componenets/miniCompo/Navbar'
-import Hero from '../componenets/miniCompo/Hero'
-import TrustedBy from '../componenets/miniCompo/TrustedBy'
-import Features from '../componenets/miniCompo/Features'
-import CTA from '../componenets/miniCompo/CTA'
-import Footer from '../componenets/miniCompo/Footer'
+import Navbar from '../components/miniCompo/Navbar'
+import Hero from '../components/miniCompo/Hero'
+import TrustedBy from '../components/miniCompo/TrustedBy'
+import Features from '../components/miniCompo/Features'
+import CTA from '../components/miniCompo/CTA'
+import Footer from '../components/miniCompo/Footer'
 
 
 const LandingPage = () => {

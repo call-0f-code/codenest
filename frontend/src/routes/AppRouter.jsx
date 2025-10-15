@@ -1,7 +1,7 @@
 // AppRouter.jsx
 import { createBrowserRouter } from "react-router-dom";
 import { routes } from "./routes";
-import AuthRoute from "../componenets/miniCompo/AuthRoute";
+import AuthRoute from "../components/miniCompo/AuthRoute";
 
 const wrapRoute = (route) => {
   const wrapped = {

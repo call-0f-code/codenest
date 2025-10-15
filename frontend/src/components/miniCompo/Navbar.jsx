@@ -2,12 +2,10 @@ import { useState } from "react";
 import { Code, Menu, X, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { useAuth } from "@/context/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { isAuthenticated, user, logout } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -15,9 +13,7 @@ const Navbar = () => {
   };
 
   // Generate a random avatar using Dicebear API
-  const avatarUrl = user?.username 
-    ? `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.username}`
-    : `https://api.dicebear.com/7.x/avataaars/svg?seed=default`;
+
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-sm border-b border-gray-800">
@@ -51,18 +47,15 @@ const Navbar = () => {
 
           {/* Auth Section */}
           <div className="hidden md:flex items-center space-x-4">
-            {isAuthenticated ? (
               <>
                 <div className="flex items-center space-x-3">
                   <Avatar className="w-8 h-8">
-                    <AvatarImage src={avatarUrl} alt="User Avatar" />
+                    <AvatarImage alt="User Avatar" />
                     <AvatarFallback className="bg-purple-600 text-white text-sm">
-                      {user?.username?.charAt(0).toUpperCase() || 'U'}
+                      U
                     </AvatarFallback>
                   </Avatar>
-                  <span className="text-gray-300 text-sm">
-                    {user?.username || user?.email}
-                  </span>
+                  
                 </div>
                 <Button 
                   variant="ghost" 
@@ -73,20 +66,7 @@ const Navbar = () => {
                   Logout
                 </Button>
               </>
-            ) : (
-              <>
-                <Link to="/auth">
-                  <Button variant="ghost" className="text-gray-300 hover:text-white">
-                    Login
-                  </Button>
-                </Link>
-                <Link to="/auth">
-                  <Button className="bg-purple-600 hover:bg-purple-700 text-white">
-                    Get Started
-                  </Button>
-                </Link>
-              </>
-            )}
+            
           </div>
 
           {/* Mobile menu button */}
@@ -117,17 +97,15 @@ const Navbar = () => {
                 Contact
               </a>
               <div className="pt-4 pb-2 space-y-2">
-                {isAuthenticated ? (
-                  <>
                     <div className="flex items-center space-x-3 px-3 py-2">
                       <Avatar className="w-8 h-8">
-                        <AvatarImage src={avatarUrl} alt="User Avatar" />
+                        <AvatarImage alt="User Avatar" />
                         <AvatarFallback className="bg-purple-600 text-white text-sm">
-                          {user?.username?.charAt(0).toUpperCase() || 'U'}
+                          'U'
                         </AvatarFallback>
                       </Avatar>
                       <span className="text-gray-300 text-sm">
-                        {user?.username || user?.email}
+                        name
                       </span>
                     </div>
                     <Button 
@@ -138,21 +116,6 @@ const Navbar = () => {
                       <LogOut className="w-4 h-4 mr-2" />
                       Logout
                     </Button>
-                  </>
-                ) : (
-                  <>
-                    <Link to="/auth" className="block">
-                      <Button variant="ghost" className="w-full text-gray-300 hover:text-white">
-                        Login
-                      </Button>
-                    </Link>
-                    <Link to="/auth" className="block">
-                      <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
-                        Get Started
-                      </Button>
-                    </Link>
-                  </>
-                )}
               </div>
             </div>
           </div>
