@@ -11,15 +11,14 @@ function LoginForm({setIsLogin}) {
 
   const {login} = useMembers();
 
-  const [loginForm, setLoginForm] = useState<LoginForm>({
+  const [loginForm, setLoginForm] = useState({
     email: '',
     password: '',
   });
 
-  const onSubmitHandler = async (user) => {
+  const onSubmitHandler = async () => {
 
-    e.preventDefault();
-    login.mutate(
+    await login.mutate(
       { email: loginForm.email, password: loginForm.password },
       {
           onSuccess: () => {
@@ -97,9 +96,6 @@ function LoginForm({setIsLogin}) {
                 </>
                 ) : (
                 <>
-                    <div className="w-6 h-6 bg-black flex items-center justify-center">
-                    <Cpu className="w-4 h-4 text-white" />
-                    </div>
                     <span>Log In →</span>
                 </>
                 )}

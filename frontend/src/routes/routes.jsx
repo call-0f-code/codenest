@@ -1,5 +1,4 @@
 import LandingPage from "../pages/LandingPage";
-import Signup from "../pages/Signup";
 import NotFound from "../pages/NotFound";
 import Blogs from "@/pages/Blogs";
 import InterviewExp from "@/pages/InterviewExp";
@@ -27,58 +26,58 @@ export const routes = [
   {
     path: "/unauthorized",
     element: <Unauthorized />,
-    roles: ["user", "admin"],
+    public: true,
   },
   {
     path : "/dashboard/blogs/:id",
     element : <BlogSingle/>,
-    roles : ["user" , 'admin']
+    public: true,
   },
   {
     path : "/dashboard/modules/:id",
     element : <SingleModule/>,
-    roles : ["user" , "admin"]
+    public: true,
   },
   {
     path: "/dashboard",
     element: <Dashboard />,
-    roles: ["user", "admin"],
+    public: true,
     children: [
       {
         index: true,
         element: <Module/>,
-        roles: ["user", "admin"],
+        public: true,
       },
       {
         path: "blogs",
         element: <Blogs />,
-        roles: ["user", "admin"],
+        public: true,
       },
       {
         path: "interviewExp",
         element: <InterviewExp />,
-        roles: ["user", "admin"],
+        public: true,
       },
       {
         path: "createModule",
         element: <CreateModule />,
-        roles: ["admin"],
+        public: true,
       },
       {
         path : "createBlog",
         element : <CreateBlog/>,
-        roles : ["admin"],
+        public: true,
       },
       {
         path : "createInterviewExp",
         element : <CreateInterviewExp/>,
-        roles : ["admin"],
+        public: true,
       }
     ],
   },
   {
     path: "*",
     element: <NotFound />,
-    roles: ["user", "admin"],
+    public: true,
   },
 ];

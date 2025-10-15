@@ -6,16 +6,16 @@ export function useMembers(){
     const queryclient = useQueryClient();
 
   const { data: members = [], isLoading, error } = useQuery({
-    queryKey: ['members']   ,
+    queryKey: ['members'],
     queryFn: async (memberId) => {
       const data = await getDetails(memberId);
-      return data.members;
+      return data;
     }
 });
 
   const login = useMutation({
     mutationFn: async(memberData) =>
-      await signUp(memberData.email, memberData.password),
+      await signIn(memberData.email, memberData.password),
     onSuccess: () => {
       queryclient.invalidateQueries({ queryKey: ['members'] });
     },
@@ -23,7 +23,7 @@ export function useMembers(){
 
   const createNewMember = useMutation({
     mutationFn: async(memberData) => 
-        await signIn(memberData.email, memberData.password, memberData.name),
+        await signUp(memberData.email, memberData.password, memberData.name, memberData.passoutYear),
     onSuccess: () => {
         queryclient.invalidateQueries({queryKey: ['members']});
     }

@@ -2,10 +2,10 @@ import React, { useState, createContext, useEffect } from 'react';
 import ToastContainer from './ToastContainer';
 import { globalToast } from '../../../utils/toast';
 
-export const ToastContext = createContext<ToastContextType | undefined>(undefined);
+export const ToastContext = createContext(undefined);
 
 export const ToastProvider = ({ children }) => {
-  const [toasts, setToasts] = useState<Toast[]>([]);
+  const [toasts, setToasts] = useState([]);
 
   const addToast = (toast) => {
     const id = Math.random().toString(36).substr(2, 9);

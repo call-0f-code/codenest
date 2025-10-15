@@ -175,8 +175,7 @@
 
 // export default SignupForm;
 import { useState } from "react"
-import { Eye, EyeOff, Mail, Lock, User } from "lucide-react"
-import axios from "axios"
+import { Eye, EyeOff, Mail, Lock, User, GraduationCap } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { Input } from "../ui/input"
@@ -195,15 +194,15 @@ const SignupForm = ({setIsLogin}) => {
   const [signupForm, setSignupForm] = useState({
     email: '',
     password: '',
-    name: ''
+    fullName: '',
+    passoutYear: ''
   });
 
 
  const onSubmitHandler = async (user) => {
 
-    e.preventDefault();
-    createNewMember.mutate(
-      { email: signupForm.email, password: signupForm.password, name: signupForm.name },
+    await createNewMember.mutate(
+      { email: user.email, password: user.password, name: user.fullName, passoutYear: user.passoutYear },
       {
           onSuccess: () => {
               globalToast.success("Signup Successful");
@@ -226,7 +225,7 @@ const SignupForm = ({setIsLogin}) => {
               placeholder="Enter your username"
               className="h-11 border-2 border-[#cfd5da] pl-10 focus-visible:ring-2 focus-visible:ring-[#2fbe84] rounded-none"
               {...register("username", { required: "Username is required" })}
-              onChange={(e) => setSignupForm({ ...SignupForm, name: e.target.value })}
+              onChange={(e) => setSignupForm({ ...signupForm, fullName: e.target.value })}
             />
           </div>
         </div>
@@ -240,7 +239,7 @@ const SignupForm = ({setIsLogin}) => {
               placeholder="Enter your email"
               className="h-11 border-2 border-[#cfd5da] pl-10 focus-visible:ring-2 focus-visible:ring-[#2fbe84] rounded-none"
               {...register("email", { required: "Email is required" })}
-              onChange={(e) => setSignupForm({ ...SignupForm, email: e.target.value })}
+              onChange={(e) => setSignupForm({ ...signupForm, email: e.target.value })}
             />
           </div>
         </div>
@@ -254,7 +253,7 @@ const SignupForm = ({setIsLogin}) => {
               placeholder="Create a password"
               className="h-11 border-2 border-[#cfd5da] pl-10 pr-10 focus-visible:ring-2 focus-visible:ring-[#2fbe84] rounded-none"
               {...register("password", { required: "Password is required" })}
-              onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
+              onChange={(e) => setSignupForm({ ...signupForm, password: e.target.value })}
             />
             <button
               type="button"
@@ -270,26 +269,17 @@ const SignupForm = ({setIsLogin}) => {
         </div>
 
         <div className="space-y-1">
-          <label className="text-xs font-semibold tracking-wider text-[#5f6b72]">CONFIRM PASSWORD</label>
+          <label className="text-xs font-semibold tracking-wider text-[#5f6b72]">PASSOUT YEAR</label>
           <div className="relative">
-            <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#5f6b72]" />
+            <GraduationCap className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#5f6b72]" />
             <Input
-              type={showConfirmPassword ? "text" : "password"}
-              placeholder="Confirm your password"
+              type={"text"}
+              placeholder="eg. 2027"
               className="h-11 border-2 border-[#cfd5da] pl-10 pr-10 focus-visible:ring-2 focus-visible:ring-[#2fbe84] rounded-none"
-              {...register("confirmPassword", { required: "Confirm Password is required" })}
+              {...register("passoutYear", { required: "Passout Year is required" })}
+              onChange={(e) => setSignupForm({ ...signupForm, passoutYear: e.target.value })}
             />
-            <button
-              type="button"
-              variant="ghost"
-              size="icon"
-              disabled={createNewMember.isPending}
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute right-1.5 top-1/2 -translate-y-1/2"
-              aria-label={showConfirmPassword ? "Hide password" : "Show password"}
-            >
-              {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-            </button>
+            
           </div>
         </div>
 
