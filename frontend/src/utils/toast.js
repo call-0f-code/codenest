@@ -1,9 +1,3 @@
-// interface ToastEvent {
-//   type: 'success' | 'error' | 'info' | 'warning';
-//   message: string;
-//   duration?: number;
-// }
-
 class GlobalToast {
    eventTarget = new EventTarget();
 

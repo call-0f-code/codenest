@@ -11,6 +11,7 @@ import BlogSingle from "@/pages/BlogSingle";
 import SingleModule from "@/pages/SingleModule";
 import CreateBlog from "@/pages/CreateBlog";
 import CreateInterviewExp from "@/pages/CreateInterviewExp";
+import AuthPage from "../pages/Signup";
 
 export const routes = [
   {
@@ -20,7 +21,7 @@ export const routes = [
   },
   {
     path: "/signup",
-    element: <Signup />,
+    element: <AuthPage />,
     public: true,
   },
   {
