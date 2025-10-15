@@ -18,8 +18,7 @@ export const auth = async(req: Request, res: Response, next: NextFunction) => {
   }
 
   const decoded = await jwt.verify(token, config.JWT_SECRET);
-  if(!decoded) {
-
+  if(!decoded) {    
     throw new ApiError("Invalid or expired token", 403);
   }
 
