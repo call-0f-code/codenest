@@ -14,8 +14,10 @@ export function useMembers(){
 });
 
   const login = useMutation({
-    mutationFn: async(memberData) =>
-      await signIn(memberData.email, memberData.password),
+    mutationFn: async(memberData) => {
+      const data = await signIn(member.email, member.password);
+      return data.token;
+    },
     onSuccess: () => {
       queryclient.invalidateQueries({ queryKey: ['members'] });
     },
