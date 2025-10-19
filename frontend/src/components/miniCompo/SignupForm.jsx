@@ -1,147 +1,136 @@
-import { useState } from "react"
-import { Eye, EyeOff, Mail, Lock, User, GraduationCap } from "lucide-react"
-import { useNavigate } from "react-router-dom"
-import { useForm } from "react-hook-form"
-import { Input } from "../ui/input"
-import { useMembers } from "@/hooks/useMember"
+import { useState } from "react";
+import { Eye, EyeOff, Mail, Lock, User, GraduationCap, ArrowRight } from "lucide-react";
 
-const SignupForm = ({setIsLogin}) => {
-  const navigate = useNavigate()
-  const [showPassword, setShowPassword] = useState(false)
-  const {
-    register,
-    handleSubmit,
-  } = useForm()
-
-  const {createNewMember} = useMembers();
-  const [signupForm, setSignupForm] = useState({
-    email: '',
-    password: '',
-    fullName: '',
-    passoutYear: ''
+const SignupForm = ({ setIsLogin }) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    passoutYear: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
-
- const onSubmitHandler = async (user) => {
-
-    await createNewMember.mutate(
-      { email: user.email, password: user.password, name: user.username, passoutYear: Number(user.passoutYear) },
-      {
-          onSuccess: () => {
-              globalToast.success("Signup Successful");
-          }
-      }
-
-    );
-    await navigate('/signup');
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setTimeout(() => setIsLoading(false), 1500);
+  };
 
   return (
-    <div className="space-y-5">
-      <form onSubmit={handleSubmit(onSubmitHandler)} className="space-y-4">
-        <div className="space-y-1">
-          <label className="text-xs font-semibold tracking-wider text-[#5f6b72]">USERNAME</label>
-          <div className="relative">
-            <User className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#5f6b72]" />
-            <Input
-              type="text"
-              placeholder="Enter your username"
-              className="h-11 border-2 border-[#cfd5da] pl-10 focus-visible:ring-2 focus-visible:ring-[#2fbe84] rounded-none"
-              {...register("username", { required: "Username is required" })}
-              onChange={(e) => setSignupForm({ ...signupForm, fullName: e.target.value })}
-            />
-          </div>
-        </div>
-
-        <div className="space-y-1">
-          <label className="text-xs font-semibold tracking-wider text-[#5f6b72]">EMAIL</label>
-          <div className="relative">
-            <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#5f6b72]" />
-            <Input
-              type="email"
-              placeholder="Enter your email"
-              className="h-11 border-2 border-[#cfd5da] pl-10 focus-visible:ring-2 focus-visible:ring-[#2fbe84] rounded-none"
-              {...register("email", { required: "Email is required" })}
-              onChange={(e) => setSignupForm({ ...signupForm, email: e.target.value })}
-            />
-          </div>
-        </div>
-
-        <div className="space-y-1">
-          <label className="text-xs font-semibold tracking-wider text-[#5f6b72]">PASSWORD</label>
-          <div className="relative">
-            <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#5f6b72]" />
-            <Input
-              type={showPassword ? "text" : "password"}
-              placeholder="Create a password"
-              className="h-11 border-2 border-[#cfd5da] pl-10 pr-10 focus-visible:ring-2 focus-visible:ring-[#2fbe84] rounded-none"
-              {...register("password", { required: "Password is required" })}
-              onChange={(e) => setSignupForm({ ...signupForm, password: e.target.value })}
-            />
-            <button
-              type="button"
-              variant="ghost"
-              size="icon"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-1.5 top-1/2 -translate-y-1/2"
-              aria-label={showPassword ? "Hide password" : "Show password"}
-            >
-              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-            </button>
-          </div>
-        </div>
-
-        <div className="space-y-1">
-          <label className="text-xs font-semibold tracking-wider text-[#5f6b72]">PASSOUT YEAR</label>
-          <div className="relative">
-            <GraduationCap className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#5f6b72]" />
-            <Input
-              type={"text"}
-              placeholder="eg. 2027"
-              className="h-11 border-2 border-[#cfd5da] pl-10 pr-10 focus-visible:ring-2 focus-visible:ring-[#2fbe84] rounded-none"
-              {...register("passoutYear", { required: "Passout Year is required" })}
-              onChange={(e) => setSignupForm({ ...signupForm, passoutYear: e.target.value })}
-            />
-            
-          </div>
-        </div>
-
-        {/* Submit with offset block shadow */}
+    <form onSubmit={handleSubmit} className="space-y-4 h-[420px] flex flex-col justify-center">
+      <div className="space-y-2">
+        <label className="font-orbitron text-xs font-bold tracking-wider text-black dark:text-white">
+          USERNAME
+        </label>
         <div className="relative">
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 translate-x-[6px] translate-y-[6px] border-2 border-[#1a1c1eCC] rounded-none bg-[#1a1c1e]"
+          <User className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-black dark:text-white" />
+          <input
+            type="text"
+            placeholder="Enter your username"
+            value={formData.username}
+            onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-4 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+            required
           />
-          <div className="relative group active:translate-x-[6px] active:translate-y-[6px] transition-transform duration-150">
-          {/* Shadow layer */}
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 translate-x-[6px] translate-y-[6px] bg-[#1a1c1e] rounded-none transition-transform duration-150 group-active:translate-x-0 group-active:translate-y-0"
-          />
+        </div>
+      </div>
 
-          {/* Actual button */}
-          <button
-            type="submit"
-            className="relative z-10 h-11 w-full bg-[#2fbe84] text-[#ffffff] font-semibold rounded-none border-2 border-[#1a1c1e] 
-              shadow-[4px_4px_0_#1a1c1e] group-active:shadow-none transition-all duration-150"
-          >
-            Create Account →
-          </button>
+      <div className="space-y-2">
+        <label className="font-orbitron text-xs font-bold tracking-wider text-black dark:text-white">
+          EMAIL
+        </label>
+        <div className="relative">
+          <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-black dark:text-white" />
+          <input
+            type="email"
+            placeholder="Enter your email"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-4 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+            required
+          />
         </div>
-        </div>
-        <div className="text-center text-xs text-muted-foreground">
-          Already have an account?{" "}
+      </div>
+
+      <div className="space-y-2">
+        <label className="font-orbitron text-xs font-bold tracking-wider text-black dark:text-white">
+          PASSWORD
+        </label>
+        <div className="relative">
+          <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-black dark:text-white" />
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Create a password"
+            value={formData.password}
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-12 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+            required
+          />
           <button
             type="button"
-            onClick={() => setIsLogin(true)}
-            className="text-[#2fbe84] underline underline-offset-4 hover:text-[#1a1c1e]"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-[#5f6b72] dark:text-[#8b96a5] hover:text-[#3dd68c] transition-colors"
+            aria-label={showPassword ? "Hide password" : "Show password"}
           >
-            Login here
+            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
           </button>
         </div>
-      </form>
-    </div>
-  )
-}
+      </div>
 
-export default SignupForm
+      <div className="space-y-2">
+        <label className="font-orbitron text-xs font-bold tracking-wider text-black dark:text-white">
+          PASSOUT YEAR
+        </label>
+        <div className="relative">
+          <GraduationCap className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-black dark:text-white" />
+          <input
+            type="text"
+            placeholder="eg. 2027"
+            value={formData.passoutYear}
+            onChange={(e) => setFormData({ ...formData, passoutYear: e.target.value })}
+            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-4 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+            required
+          />
+        </div>
+      </div>
+
+      <div className="relative">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 translate-x-1 translate-y-1 bg-[#2a2d35] dark:bg-[#0f1419]"
+        />
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="relative h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] font-orbitron text-sm font-bold text-[#1a1f2e] hover:bg-[#35c17d] transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        >
+          {isLoading ? (
+            <>
+              <div className="h-4 w-4 animate-spin border-2 border-[#1a1f2e] border-t-transparent rounded-full" />
+              <span>CREATING ACCOUNT...</span>
+            </>
+          ) : (
+            <>
+              <span>Create Account</span>
+              <ArrowRight className="h-4 w-4" />
+            </>
+          )}
+        </button>
+      </div>
+
+      <div className="text-center font-orbitron text-xs text-black dark:text-white">
+        Already have an account?{" "}
+        <button
+          type="button"
+          onClick={() => setIsLogin(true)}
+          className="text-[#3dd68c] hover:text-[#2fbe84] transition-colors"
+        >
+          Login here
+        </button>
+      </div>
+    </form>
+  );
+};
+
+export default SignupForm;

@@ -1,124 +1,106 @@
-import { useState } from "react"
-import { Eye, EyeOff, Mail, Lock } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { useNavigate } from "react-router-dom"
-import { useMembers } from "@/hooks/useMember"
-import { Input } from "../ui/input"
+import { useState } from "react";
+import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
 
-function LoginForm({setIsLogin}) {
-  const navigate = useNavigate()
-  const { register, handleSubmit } = useForm()
-  const [showPassword, setShowPassword] = useState(false)
+const LoginForm = ({ setIsLogin }) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const {login} = useMembers();
-
-  const [loginForm, setLoginForm] = useState({
-    email: '',
-    password: '',
-  });
-
-  const onSubmitHandler = async () => {
-
-    await login.mutate(
-      { email: loginForm.email, password: loginForm.password },
-      {
-          onSuccess: () => {
-              globalToast.success("Login Successful");
-          }
-      }
-    );
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setTimeout(() => setIsLoading(false), 1500);
+  };
 
   return (
-    <div className="space-y-5">
-      {/* Form */}
-      <form onSubmit={handleSubmit(onSubmitHandler)} className="space-y-4">
-        <div className="space-y-1">
-          <label className="text-xs font-semibold tracking-wider text-[#5f6b72]">EMAIL</label>
-          <div className="relative">
-            <Mail className="pointeinputr-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#5f6b72]" />
-            <Input
-              type="email"
-              placeholder="name@domain.com"
-              className="h-11 border-2 border-[#cfd5da] pl-10 focus-visible:ring-2 focus-visible:ring-[#2fbe84] rounded-none"
-              {...register("email", { required: "Email is required" })}
-              onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
-            />
-          </div>
-        </div>
-
-        <div className="space-y-1">
-          <label className="text-xs font-semibold tracking-wider text-[#5f6b72]">PASSWORD</label>
-          <div className="relative">
-            <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#5f6b72]" />
-            <Input
-              type={showPassword ? "text" : "password"}
-              placeholder="••••••••"
-              className="h-11 pl-10 pr-48.5 focus-visible:ring-2 focus-visible:ring-[#2fbe84] border-2 border-[#cfd5da]"
-              {...register("password", { required: "Password is required" })}
-              onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
-            />
-            <button
-              type="button"
-              variant="ghost"
-              size="icon"
-              onClick={() => setShowPassword((s) => !s)}
-              className="absolute right-1.5 top-1/2 -translate-y-1/2"
-              aria-label={showPassword ? "Hide password" : "Show password"}
-            >
-              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-            </button>
-          </div>
-          <div className="mt-1 text-right">
-            <a className="text-xs text-[#5f6b72] underline underline-offset-4 hover:text-[#1a1c1e]">Forgot password?</a>
-          </div>
-        </div>
-
-        {/* Submit with stronger offset block shadow */}
-        <div className="relative group active:translate-x-[6px] active:translate-y-[6px] transition-transform duration-150">
-          {/* Shadow layer */}
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 translate-x-[6px] translate-y-[6px] bg-[#1a1c1e] rounded-none transition-transform duration-150 group-active:translate-x-0 group-active:translate-y-0"
+    <form onSubmit={handleSubmit} className="space-y-5 h-[420px] flex flex-col justify-center">
+      <div className="space-y-2">
+        <label className="font-orbitron text-xs font-bold tracking-wider text-black dark:text-white">
+          EMAIL
+        </label>
+        <div className="relative">
+          <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-black dark:text-white" />
+          <input
+            type="email"
+            placeholder="name@domain.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-4 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+            required
           />
-
-          {/* Actual button */}
-          <button
-            type="submit"
-            disabled={login.isPending}
-            className="relative z-10 h-11 w-full bg-[#2fbe84] text-[#ffffff] font-semibold rounded-none border-2 border-[#1a1c1e] 
-              shadow-[4px_4px_0_#1a1c1e] group-active:shadow-none transition-all duration-150"
-          >
-            <div>
-              {login.isPending ? (
-                <>
-                    <div className="w-6 h-6 border-[3px] border-black border-t-transparent animate-spin"></div>
-                    <span>AUTHENTICATING...</span>
-                </>
-                ) : (
-                <>
-                    <span>Log In →</span>
-                </>
-                )}
-            </div>
-          </button>
         </div>
+      </div>
 
-
-        <div className="text-center text-xs text-muted-foreground">
-          New here?{" "}
+      <div className="space-y-2">
+        <label className="font-orbitron text-xs font-bold tracking-wider text-black dark:text-white">
+          PASSWORD
+        </label>
+        <div className="relative">
+          <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-black dark:text-white" />
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="••••••••"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-12 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+            required
+          />
           <button
             type="button"
-            onClick={() => setIsLogin(false)}
-            className="text-[#2fbe84] underline underline-offset-4 hover:text-[#1a1c1e]"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-[#5f6b72] dark:text-[#8b96a5] hover:text-[#3dd68c] transition-colors"
+            aria-label={showPassword ? "Hide password" : "Show password"}
           >
-            Create an account
+            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
           </button>
         </div>
-      </form>
-    </div>
-  )
-}
+        <div className="text-right">
+          <button
+            type="button"
+            className="font-orbitron text-xs text-[#3dd68c] hover:text-[#2fbe84] transition-colors"
+          >
+            Forgot password?
+          </button>
+        </div>
+      </div>
 
-export default LoginForm
+      <div className="relative">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 translate-x-1 translate-y-1 bg-[#2a2d35] dark:bg-[#0f1419]"
+        />
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="relative h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] font-orbitron text-sm font-bold text-[#1a1f2e] hover:bg-[#35c17d] transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        >
+          {isLoading ? (
+            <>
+              <div className="h-4 w-4 animate-spin border-2 border-[#1a1f2e] border-t-transparent rounded-full" />
+              <span>AUTHENTICATING...</span>
+            </>
+          ) : (
+            <>
+              <span>Log In</span>
+              <ArrowRight className="h-4 w-4" />
+            </>
+          )}
+        </button>
+      </div>
 
+      <div className="text-center font-orbitron text-xs text-black dark:text-white">
+        New here?{" "}
+        <button
+          type="button"
+          onClick={() => setIsLogin(false)}
+          className="text-[#3dd68c] hover:text-[#2fbe84] transition-colors"
+        >
+          Create an account
+        </button>
+      </div>
+    </form>
+  );
+};
+
+export default LoginForm;
