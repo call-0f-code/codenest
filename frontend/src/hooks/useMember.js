@@ -3,22 +3,20 @@ import { signIn, signUp, getDetails } from "../utils/api/memberApi";
 
 
 export function useMembers(){
-    const queryclient = useQueryClient();
-    const tokenInstore = localStorage.getItem('token')
-
+  const queryclient = useQueryClient();
+  
   const { data: members = [], isLoading, error } = useQuery({
     queryKey: ['members'],
     queryFn: async () => {
       const data = await getDetails();
       return data;
     },
-    enabled:!!tokenInstore
+    enabled:!!localStorage.getItem('token')
 });
 
   const login = useMutation({
     mutationFn: async(memberData) => {
       const data = await signIn(memberData.email, memberData.password);
-      console.log(data)
       return data.token;
     },
     onSuccess: (token) => {
