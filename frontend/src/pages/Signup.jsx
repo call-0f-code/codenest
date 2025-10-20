@@ -1,7 +1,7 @@
 import { useState } from "react";
 import BrandingSection from "@/components/miniCompo/BrandingSection";
-import LoginForm from "@/components/miniCompo/LoginForm";
-import SignupForm from "@/components/miniCompo/SignupForm";
+import LoginForm from "@/components/auth/LoginForm";
+import SignupForm from "@/components/auth/SignupForm";
 import { useTheme } from "@/context/ThemeContext";
 import { Moon, Sun } from "lucide-react";
 

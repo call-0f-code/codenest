@@ -1,20 +1,52 @@
 import { useState } from "react";
-import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, User, GraduationCap, ArrowRight } from "lucide-react";
+import { useMembers } from "@/hooks/useMember";
+import { globalToast } from "@/utils/toast";
 
-const LoginForm = ({ setIsLogin }) => {
+const SignupForm = ({ setIsLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    passoutYear: "",
+  });
   const [isLoading, setIsLoading] = useState(false);
+  const {createNewMember} = useMembers()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 1500);
+    createNewMember.mutate({email:formData.email,password:formData.password,name:formData.username,passoutYear:Number(formData.passoutYear)},{
+      onSuccess: ()=>{
+        globalToast.success("Member Sent for Approval")
+        setIsLoading(false)
+      },
+      onError :()=>{
+        setIsLoading(false)
+      }
+    })
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5 h-[420px] flex flex-col justify-center">
+    <form onSubmit={handleSubmit} className="space-y-4 h-[420px] flex flex-col justify-center">
+      <div className="space-y-2">
+        <label className="font-orbitron text-xs font-bold tracking-wider text-black dark:text-white">
+          Full Name
+        </label>
+        <div className="relative">
+          <User className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-black dark:text-white" />
+          <input
+            type="text"
+            placeholder="Enter your Full Name"
+            value={formData.username}
+            onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-4 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+            required
+          />
+        </div>
+      </div>
+
       <div className="space-y-2">
         <label className="font-orbitron text-xs font-bold tracking-wider text-black dark:text-white">
           EMAIL
@@ -23,9 +55,9 @@ const LoginForm = ({ setIsLogin }) => {
           <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-black dark:text-white" />
           <input
             type="email"
-            placeholder="name@domain.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-4 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
             required
           />
@@ -40,9 +72,9 @@ const LoginForm = ({ setIsLogin }) => {
           <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-black dark:text-white" />
           <input
             type={showPassword ? "text" : "password"}
-            placeholder="••••••••"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Create a password"
+            value={formData.password}
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-12 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
             required
           />
@@ -55,13 +87,22 @@ const LoginForm = ({ setIsLogin }) => {
             {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
           </button>
         </div>
-        <div className="text-right">
-          <button
-            type="button"
-            className="font-orbitron text-xs text-[#3dd68c] hover:text-[#2fbe84] transition-colors"
-          >
-            Forgot password?
-          </button>
+      </div>
+
+      <div className="space-y-2">
+        <label className="font-orbitron text-xs font-bold tracking-wider text-black dark:text-white">
+          PASSOUT YEAR
+        </label>
+        <div className="relative">
+          <GraduationCap className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-black dark:text-white" />
+          <input
+            type="text"
+            placeholder="eg. 2027"
+            value={formData.passoutYear}
+            onChange={(e) => setFormData({ ...formData, passoutYear: e.target.value })}
+            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-4 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+            required
+          />
         </div>
       </div>
 
@@ -78,11 +119,11 @@ const LoginForm = ({ setIsLogin }) => {
           {isLoading ? (
             <>
               <div className="h-4 w-4 animate-spin border-2 border-[#1a1f2e] border-t-transparent rounded-full" />
-              <span>AUTHENTICATING...</span>
+              <span>CREATING ACCOUNT...</span>
             </>
           ) : (
             <>
-              <span>Log In</span>
+              <span>Create Account</span>
               <ArrowRight className="h-4 w-4" />
             </>
           )}
@@ -90,17 +131,17 @@ const LoginForm = ({ setIsLogin }) => {
       </div>
 
       <div className="text-center font-orbitron text-xs text-black dark:text-white">
-        New here?{" "}
+        Already have an account?{" "}
         <button
           type="button"
-          onClick={() => setIsLogin(false)}
+          onClick={() => setIsLogin(true)}
           className="text-[#3dd68c] hover:text-[#2fbe84] transition-colors"
         >
-          Create an account
+          Login here
         </button>
       </div>
     </form>
   );
 };
 
-export default LoginForm;
+export default SignupForm;

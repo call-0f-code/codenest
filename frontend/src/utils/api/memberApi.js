@@ -10,7 +10,7 @@ export const signUp = async(email, password, fullName, passoutYear) => {
     return response.data;
 }
 
-export const getDetails = async(memberId) => {
-    const response  = await api.get(`/members/${memberId}`);
+export const getDetails = async() => {
+    const response  = await api.get(`/members/`);
     return response.data;
 }
