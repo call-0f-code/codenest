@@ -208,7 +208,7 @@ const ForgotPasswordForm = ({ setIsLogin, setShowForgotPassword }) => {
               </button>
             </div>
             <p className="font-orbitron text-xs text-[#5f6b72] dark:text-[#8b96a5]">
-              Must be at least 8 characters long
+              Must be 8–64 characters with uppercase, lowercase, number, and special character
             </p>
           </div>
 
