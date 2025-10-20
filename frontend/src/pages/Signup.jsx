@@ -1,98 +1,100 @@
-import { useState } from "react"
-import BrandingSection from "../components/miniCompo/BrandingSection"
-import SignupForm from "../components/miniCompo/SignupForm"
-import LoginForm from "../components/miniCompo/LoginForm"
+import { useState } from "react";
+import BrandingSection from "@/components/miniCompo/BrandingSection";
+import LoginForm from "@/components/auth/LoginForm";
+import SignupForm from "@/components/auth/SignupForm";
+import { useTheme } from "@/context/ThemeContext";
+import { Moon, Sun } from "lucide-react";
 
 const AuthPage = () => {
-  const [isLogin, setIsLogin] = useState(true)
-
+  const [isLogin, setIsLogin] = useState(true);
+  const { theme, toggleTheme } = useTheme();
 
   return (
-    <main className="min-h-screen bg-[#eef0f3]/40">
-      <header className="mx-auto max-w-6xl px-4 pt-6">
+    <main className="min-h-screen bg-[#e8eaed] dark:bg-[#1a1f2e] transition-colors duration-300">
+      <header className="mx-auto max-w-7xl px-4 pt-6">
         <div className="flex items-center justify-between">
-          <div className="relative">
-            <div className="relative flex items-stretch"></div>
+          <div className="flex items-center gap-3">
+            <div className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] px-4 py-2 font-orbitron text-sm font-bold text-[#1a1f2e]">
+              CALL OF CODE
+            </div>
           </div>
-          {/* Right button: Home */}
-          <button className="border-1 p-2">Home</button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={toggleTheme}
+              className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] p-2 text-[#2a2d35] dark:text-[#c5d1de] hover:bg-[#f5f5f5] dark:hover:bg-[#2d3848] transition-colors"
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? (
+                <Sun className="h-5 w-5" />
+              ) : (
+                <Moon className="h-5 w-5" />
+              )}
+            </button>
+            <button className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] px-6 py-2 font-orbitron text-sm text-[#2a2d35] dark:text-[#c5d1de] hover:bg-[#f5f5f5] dark:hover:bg-[#2d3848] transition-colors">
+              Home
+            </button>
+          </div>
         </div>
       </header>
 
-      <div className="max-w-6xl px-4 py-8 md:py-12">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10">
-          {/* Left: Branding */}
-          <BrandingSection/>
+      <div className="mx-auto max-w-7xl px-4 py-12 md:py-16">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-12">
+          <BrandingSection />
 
-          {/* Right: Auth Card */}
           <div className="relative">
-            {/* strong offset block shadow */}
             <div
               aria-hidden="true"
-              className="absolute inset-0 translate-x-3 translate-y-3 border-2 border-[#1a1c1eCC] rounded-none text-[#1a1c1e] bg-[#1a1c1e]"
+              className="absolute inset-0 translate-x-3 translate-y-3 bg-[#2a2d35] dark:bg-[#0f1419]"
             />
-            <section className="relative border-[#1a1c1e] bg-[#ffffff] p-5 md:p-7 text-[#1a1c1e] rounded-none border-0">
-              {/* big diagonal corner ribbon */}
+            <section className="relative border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] p-6 md:p-8">
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute right-0 top-0 h-0 w-0 border-l-[100px] border-b-[100px] -rotate-90 border-l-transparent border-b-[#2fbe8433]"
+                className="pointer-events-none absolute right-0 top-0 h-0 w-0 border-b-[80px] border-l-[80px] border-b-[#3dd68c]/20 border-l-transparent"
               />
-              
-              {/* Tabs header */}
-              
-              <div className="mb-6 flex items-center justify-center">
-                <div
-                  onClick={() => setIsLogin(!isLogin)}
-                  className="relative flex w-56 cursor-pointer select-none items-center justify-between border-2 font-semibold text-sm overflow-hidden rounded-lg"
-                >
-                  {/* Sliding button */}
-                  <div
-                    className={`absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] border-2 border-[#1a1c1e] bg-[#2fbe84] transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] transform ${
-                      !isLogin ? "translate-x-[100%]" : "translate-x-0"
-                    }`}
-                    style={{
-                      boxShadow: "4px 4px 0 #1a1c1e",
-                    }}
-                  />
 
-                  {/* Labels */}
-                  <span
-                    className={`z-10 flex-1 py-2 text-center transition-colors duration-300 ${
-                      isLogin ? "text-[#ffffff]" : "text-[#1a1c1e]"
+              <div className="mb-6 flex items-center justify-center">
+                <div className="relative flex w-64 items-center justify-between overflow-hidden border-2 border-[#2a2d35] dark:border-[#3a4a5f] font-orbitron text-sm font-bold">
+                  <div
+                    className={`absolute left-0 top-0 h-full w-1/2 bg-[#3dd68c] transition-transform duration-500 ease-out ${
+                      !isLogin ? "translate-x-full" : "translate-x-0"
+                    }`}
+                  />
+                  <button
+                    onClick={() => setIsLogin(true)}
+                    className={`relative z-10 flex-1 py-3 text-center transition-colors duration-300 ${
+                      isLogin
+                        ? "text-[#1a1f2e]"
+                        : "text-[#2a2d35] dark:text-[#8b96a5]"
                     }`}
                   >
                     Login
-                  </span>
-                  <span
-                    className={`z-10 flex-1 py-2 text-center transition-colors duration-300 ${
-                      !isLogin ? "text-[#ffffff]" : "text-[#1a1c1e]"
+                  </button>
+                  <button
+                    onClick={() => setIsLogin(false)}
+                    className={`relative z-10 flex-1 py-3 text-center transition-colors duration-300 ${
+                      !isLogin
+                        ? "text-[#1a1f2e]"
+                        : "text-[#2a2d35] dark:text-[#8b96a5]"
                     }`}
                   >
                     Signup
-                  </span>
+                  </button>
                 </div>
               </div>
 
-              {/* Forms */}
-              <div className="transition-all duration-300">{isLogin ? <LoginForm setIsLogin={setIsLogin}/> : <SignupForm setIsLogin={setIsLogin}/>}</div>
+              <div className="transition-all duration-300">
+                {isLogin ? (
+                  <LoginForm setIsLogin={setIsLogin} />
+                ) : (
+                  <SignupForm setIsLogin={setIsLogin} />
+                )}
+              </div>
             </section>
           </div>
         </div>
-
-        {/* Footer meta */}
-        <div className="mt-33 flex items-center justify-between text-xs text-muted-foreground">
-          <span>Secure by design</span>
-          <span className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-sm bg-[#2fbe84]" aria-hidden="true" />
-            Neo‑brutal aesthetics
-          </span>
-        </div>
       </div>
-
-      {/* hidden reference image to satisfy asset usage */}
-      <img src="/images/auth-reference.jpeg" alt="" className="hidden" aria-hidden="true" />
     </main>
-  )
-}
+  );
+};
 
-export default AuthPage
+export default AuthPage;

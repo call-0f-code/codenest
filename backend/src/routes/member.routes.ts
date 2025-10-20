@@ -17,7 +17,7 @@ export default function memberRouter(upload: Multer){
 
     router.post('/resetPassword', memberCtrl.resetpassword);
     router.patch('/:memberId', memberCtrl.updateMember);
-    router.get('/:memberId', memberCtrl.getDetails);
+    router.get('/', memberCtrl.getDetails);
     router.get('/:memberId/achievements', memberCtrl.getAchievements);
     router.get('/:memberId/projects', memberCtrl.getProjects);
     router.get('/:memberId/interviews', memberCtrl.getInterviews);
