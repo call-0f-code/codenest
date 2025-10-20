@@ -14,3 +14,19 @@ export const getDetails = async() => {
     const response  = await api.get(`/members/`);
     return response.data;
 }
+
+export const verifyOtp = async(email,otp) =>{
+    const response = await api.post('/members/verifyOtp',{email,otp})
+    return response.data;
+}
+
+export const forgotPassword = async(email)=>{
+    const response = await api.post('/members/forgotPassword',{email})
+    return response.data;
+}
+
+export const resetPassword = async(memberData)=>{
+    
+    const response = await api.post('/members/resetPassword',{memberData})
+    return response.data;
+}
