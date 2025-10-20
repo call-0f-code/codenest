@@ -4,9 +4,11 @@ import LoginForm from "@/components/auth/LoginForm";
 import SignupForm from "@/components/auth/SignupForm";
 import { useTheme } from "@/context/ThemeContext";
 import { Moon, Sun } from "lucide-react";
+import ForgotPasswordForm from "@/components/auth/ForgotPassword";
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
   const { theme, toggleTheme } = useTheme();
 
   return (
@@ -82,9 +84,25 @@ const AuthPage = () => {
                 </div>
               </div>
 
+               {showForgotPassword && (
+                <div className="mb-6">
+                  <h2 className="font-orbitron text-2xl font-bold text-center text-[#1a1f2e] dark:text-white">
+                    Reset Password
+                  </h2>
+                </div>
+              )}
+
               <div className="transition-all duration-300">
-                {isLogin ? (
-                  <LoginForm setIsLogin={setIsLogin} />
+                {showForgotPassword ? (
+                  <ForgotPasswordForm
+                    setIsLogin={setIsLogin}
+                    setShowForgotPassword={setShowForgotPassword}
+                  />
+                ) : isLogin ? (
+                  <LoginForm 
+                    setIsLogin={setIsLogin}
+                    setShowForgotPassword={setShowForgotPassword}
+                  />
                 ) : (
                   <SignupForm setIsLogin={setIsLogin} />
                 )}

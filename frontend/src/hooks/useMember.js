@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { signIn, signUp, getDetails } from "../utils/api/memberApi";
+import { signIn, signUp, getDetails, forgotPassword, verifyOtp, resetPassword } from "../utils/api/memberApi";
+import { globalToast } from "@/utils/toast";
 
 
 export function useMembers(){
@@ -30,10 +31,39 @@ export function useMembers(){
   const createNewMember = useMutation({
     mutationFn: async(memberData) => 
         await signUp(memberData.email, memberData.password, memberData.name, memberData.passoutYear),
-    onSuccess: () => {
-        queryclient.invalidateQueries({queryKey: ['members']});
-    }
     
+  })
+
+  const forgotpassword = useMutation({
+    mutationFn : async(email) =>{
+      await forgotPassword(email)
+    },
+    onSuccess : ()=>{
+      globalToast.success("OTP Sent Successfully")
+    }
+  })
+
+  const verifyotp = useMutation({
+    mutationFn : async({email,otp}) =>{
+      const data = await verifyOtp(email,otp)
+      return data.token
+    },
+    onSuccess : (token)=>{
+      globalToast.success("OTP verified")
+      if (token) {
+        localStorage.setItem('token', token);
+      }
+    }
+  })
+
+  const resetpassword = useMutation({
+     mutationFn : async(memberData) =>{
+      await resetPassword(memberData)
+    },
+    onSuccess : ()=>{
+      localStorage.removeItem('token')
+      globalToast.success("Password reset successfully");
+    }
   })
 
   return {
@@ -42,5 +72,8 @@ export function useMembers(){
     isLoading,
     createNewMember,
     login,
+    forgotpassword,
+    verifyotp,
+    resetpassword
   };
 }

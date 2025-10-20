@@ -173,10 +173,9 @@ export const verifyOtp = async(req:Request,res:Response) => {
 };
 
 export const resetpassword = async (req: Request, res: Response) => {
-   
+
     const memberId = req.userId;
-    const rawmemberData = req.body.memberData; 
-    let memberData = JSON.parse(rawmemberData);
+    const memberData = req.body.memberData; 
 
     let check = await resetPasswordSchema.safeParse(memberData);
     if(!check.success) throw new ApiError('Validation error', 400);

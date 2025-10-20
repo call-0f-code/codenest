@@ -51,6 +51,7 @@ api.interceptors.response.use(
     }
 
     if (error.response && error.response.status >= 500) {
+      
       toast.error("Server error. Please try again later.")
 
     } else if (!error.response || error.code === "ERR_NETWORK") {
