@@ -30,7 +30,7 @@ const SignupForm = ({ setIsLogin }) => {
         email: formData.email,
         password: formData.password,
         name: formData.username,
-        passoutYear: Number(formData.passoutYear),
+        passoutYear: new Date(formData.passoutYear),
       },
       {
         onSuccess: () => {

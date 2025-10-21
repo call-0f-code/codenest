@@ -37,7 +37,7 @@ export const CreateUserSchema = z.object({
   password: passwordSchema,
   name: nameSchema.nonempty({ message: "Name is required" }),
   provider: z.enum(['credentials', 'google', 'github']),
-  passoutYear: z.number().optional()
+ passoutYear:z.union([z.string(), z.date()]).optional(),
 });
 
 export const SigninSchema = z.object({
