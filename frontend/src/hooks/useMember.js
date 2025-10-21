@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { signIn, signUp, getDetails, forgotPassword, verifyOtp, resetPassword } from "../utils/api/memberApi";
+import { signIn, signUp, getDetails, forgotPassword, verifyOtp, resetPassword, updateMember } from "../utils/api/memberApi";
 import { globalToast } from "@/utils/toast";
 
 
@@ -10,7 +10,7 @@ export function useMembers(){
     queryKey: ['members'],
     queryFn: async () => {
       const data = await getDetails();
-      return data;
+      return data.users;
     },
     enabled:!!localStorage.getItem('token')
 });
@@ -66,6 +66,14 @@ export function useMembers(){
     }
   })
 
+  const update = useMutation({
+    mutationFn:updateMember,
+    onSuccess:()=>{
+      queryclient.invalidateQueries({ queryKey: ['members'] });
+      globalToast.success("Profile Updated")
+    }
+  })
+
   return {
     members,
     error,
@@ -74,6 +82,7 @@ export function useMembers(){
     login,
     forgotpassword,
     verifyotp,
-    resetpassword
+    resetpassword,
+    update
   };
 }

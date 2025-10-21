@@ -59,7 +59,7 @@ export const UpdateSchema = z.object({
     codeforces: z.url().trim().optional(),
     passoutYear:z.union([z.string(), z.date()]).optional(),
     birth_date:z.union([z.string(), z.date()]).optional()
-  }) || undefined
+  })
 })
 
 export const resetPasswordSchema = z.object({  
