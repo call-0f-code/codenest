@@ -46,17 +46,20 @@ export const SigninSchema = z.object({
 });
 
 export const UpdateSchema = z.object({
-  name: nameSchema.optional(),
-  phone: z.string().trim().optional(),
-  bio: z.string().trim().optional(),
-  profilePhoto: z.string().trim().optional(),
-  github: z.url().trim().optional(),
-  linkedin: z.url().trim().optional(),
-  twitter: z.url().trim().optional(),
-  geeksforgeeks: z.url().trim().optional(),
-  leetcode: z.url().trim().optional(),
-  codechef: z.url().trim().optional(),
-  codeforces: z.url().trim().optional(),
+  memberData : z.object({
+    name: nameSchema.optional(),
+    phone: z.string().trim().optional(),
+    bio: z.string().trim().optional(),
+    github: z.url().trim().optional(),
+    linkedin: z.url().trim().optional(),
+    twitter: z.url().trim().optional(),
+    geeksforgeeks: z.url().trim().optional(),
+    leetcode: z.url().trim().optional(),
+    codechef: z.url().trim().optional(),
+    codeforces: z.url().trim().optional(),
+    passoutYear:z.union([z.string(), z.date()]).optional(),
+    birth_date:z.union([z.string(), z.date()]).optional()
+  }) || undefined
 })
 
 export const resetPasswordSchema = z.object({  

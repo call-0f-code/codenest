@@ -74,16 +74,14 @@ export const getDetails = async(req: Request, res: Response) => {
 export const updateMember = async(req: Request, res:Response) => {
 
     const memberId = req.userId;
-    const rawmemberData = req.body.memberData;
-    
-    let memberData = JSON.parse(rawmemberData);
-    const check = UpdateSchema.safeParse(memberData);
-
-    if(!check.success) throw new ApiError('Validation error', 400);
-    
+    const memberData = req.body.memberData;
+   
     const formData = new FormData();
+    if(memberData){
+        formData.append("memberData", JSON.stringify(memberData));
+    }
 
-    formData.append("memberData", memberData);
+    
 
     if (req.file) {
         formData.append("file", req.file.buffer, req.file.originalname);
