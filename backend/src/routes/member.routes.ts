@@ -11,7 +11,7 @@ export function parseMemberdata(req: Request, res: Response, next: NextFunction)
     try {
       req.body.memberData = JSON.parse(req.body.memberData);
     } catch (error) {
-      return res.status(400).json({ message: 'Invalid JSON in achievementData field' });
+      return res.status(400).json({ message: 'Invalid JSON in Member Data field' });
     }
   }
   

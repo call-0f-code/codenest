@@ -24,7 +24,7 @@ export const ProfileHeader = ({ user, isEditing, onEdit, onCancel, onSave, onIma
 
   return (
     <div className="relative border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] p-6 md:p-8">
-      <div className="pointer-events-none absolute right-0 top-0 h-0 w-0 border-b-[80px] border-l-[80px] border-b-[#3dd68c]/20 border-l-transparent" />
+      <div className="pointer-events-none rotate-270 absolute right-0 top-0 h-0 w-0 border-b-[80px] border-l-[80px] border-b-[#3dd68c]/20 border-l-transparent" />
       
       <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
         <div className="relative">

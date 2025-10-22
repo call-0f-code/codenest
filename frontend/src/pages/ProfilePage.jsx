@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 
 const ProfilePage = () => {
   const { theme, toggleTheme } = useTheme();
-  const { members, update } = useMembers();
+  const { members, update,isLoading } = useMembers();
   
   const [isEditing, setIsEditing] = useState(false);
   const [userData, setUserData] = useState(null);
@@ -20,14 +20,8 @@ const ProfilePage = () => {
     if (members) {
       setUserData(members);
     }
-  }, [members]);
+  }, [isLoading]);
 
-  // Update userData when mutation succeeds
-  useEffect(() => {
-    if (update.isSuccess && update.data) {
-      setUserData(update.data);
-    }
-  }, [update.isSuccess, update.data]);
 
   const handleEdit = () => {
     setEditData({});
@@ -86,22 +80,29 @@ const ProfilePage = () => {
     }
   };
 
-  const handleChange = (field, value) => {
-    
-    if (userData[field] !== value) {
-      setEditData(prev => ({ ...prev, [field]: value }));
-    } else {
-      
-      setEditData(prev => {
-        const newData = { ...prev };
-        delete newData[field];
-        return newData;
-      });
-    }
-  };
+const handleChange = (field, value) => {
+  if (value === "" || value === null || value === undefined) {
+    setEditData(prev => {
+      const newData = { ...prev };
+      delete newData[field];
+      return newData;
+    });
+    return;
+  }
+
+  if (userData[field] !== value) {
+    setEditData(prev => ({ ...prev, [field]: value }));
+  } else {
+    setEditData(prev => {
+      const newData = { ...prev };
+      delete newData[field];
+      return newData;
+    });
+  }
+};
 
   
-  if (!userData || !members) {
+  if (isLoading) {
     return (
       <main className={`min-h-screen bg-[#e8eaed] dark:bg-[#1a1f2e] flex items-center justify-center ${theme === "dark" ? "dark" : ""}`}>
         <div className="text-[#2a2d35] dark:text-[#c5d1de]">Loading profile...</div>
