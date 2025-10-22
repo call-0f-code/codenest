@@ -3,6 +3,7 @@ import { ProfileHeader } from "@/components/ProfilePage/ProfileHeader";
 import { SocialLinks } from "@/components/ProfilePage/SocialLink";
 import { useTheme } from "@/context/ThemeContext";
 import { useMembers } from "@/hooks/useMember";
+import { globalToast } from "@/utils/toast";
 import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -17,10 +18,10 @@ const ProfilePage = () => {
 
   // Initialize userData when members data loads
   useEffect(() => {
-    if (members) {
+    if (members && JSON.stringify(members) !== JSON.stringify(userData)) {
       setUserData(members);
     }
-  }, [isLoading]);
+  }, [members]);
 
 
   const handleEdit = () => {
@@ -45,7 +46,7 @@ const ProfilePage = () => {
     try {
       // Check if there are any changes
       if (Object.keys(editData).length === 0 && !profileImageFile) {
-        alert("No changes to save");
+        globalToast.warning("No changes to save");
         setIsEditing(false);
         return;
       }
@@ -76,7 +77,7 @@ const ProfilePage = () => {
       });
     } catch (error) {
       console.error("Failed to save profile:", error);
-      alert("Failed to update profile. Please try again.");
+      
     }
   };
 
