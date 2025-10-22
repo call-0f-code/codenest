@@ -53,7 +53,7 @@ const ForgotPasswordForm = ({ setIsLogin, setShowForgotPassword }) => {
   };
 
   return (
-    <div className="space-y-5 h-[420px] flex flex-col ">
+    <div className="space-y-5 h-[380px] flex flex-col ">
       {/* Back Button */}
       <button
         type="button"
