@@ -47,7 +47,7 @@ const SignupForm = ({ setIsLogin }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-4 h-[420px] flex flex-col justify-center"
+      className="space-y-4 h-[435px] flex flex-col justify-center"
     >
       <div className="space-y-2">
         <label className="font-orbitron text-xs font-bold tracking-wider text-black dark:text-white">
