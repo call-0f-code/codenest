@@ -6,7 +6,6 @@ export default function topicRouter(){
     const router = Router();
 
     router.get('/:topicId/questions', getQuestionBytopicId);
-
     router.get('/',getAllTopics);
 
 
