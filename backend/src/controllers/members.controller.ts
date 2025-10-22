@@ -75,17 +75,21 @@ export const updateMember = async(req: Request, res:Response) => {
 
     const memberId = req.userId;
     const memberData = req.body.memberData;
-    const parseFile = imageSchema.safeParse(req.file)
 
-    if (!parseFile.success || !req.file) {
-        throw new ApiError("Image file is missing or format not supported", 400);
-    }
+  
+   
     const formData = new FormData();
     if(memberData){
         formData.append("memberData", JSON.stringify(memberData));
     }
 
     if (req.file) {
+        const parseFile = imageSchema.safeParse(req.file)
+
+        if (!parseFile.success) {
+            throw new ApiError("Image file is missing or format not supported", 400);
+        }
+        
         formData.append("file", req.file.buffer, req.file.originalname);
     }
     
