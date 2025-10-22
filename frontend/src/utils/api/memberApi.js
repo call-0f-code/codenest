@@ -30,3 +30,9 @@ export const resetPassword = async(memberData)=>{
     const response = await api.post('/members/resetPassword',{memberData})
     return response.data;
 }
+
+export const updateMember = async(formData)=>{
+    await api.patch('/members/',formData,{
+        headers: { "Content-Type": "multipart/form-data" },
+    })
+}
