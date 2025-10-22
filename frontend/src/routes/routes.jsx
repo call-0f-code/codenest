@@ -11,6 +11,7 @@ import CreateBlog from "@/pages/CreateBlog";
 import CreateInterviewExp from "@/pages/CreateInterviewExp";
 import AuthPage from "../pages/Signup";
 import DsaDashboard from "@/pages/DsaDashboard";
+import ProfilePage from "@/pages/ProfilePage";
 
 export const routes = [
   {
@@ -27,6 +28,11 @@ export const routes = [
     path: "/unauthorized",
     element: <Unauthorized />,
     public: true,
+  },
+  {
+    path: "/profile",
+    element:<ProfilePage/>,
+    public:true,
   },
   {
     path : "/dashboard/blogs/:id",
