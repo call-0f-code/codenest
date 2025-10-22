@@ -5,7 +5,7 @@ import { SearchBar } from '../../common/SearchBar';
 import { EmptyState } from '../../common/EmptyState';
 
 export function QuestionsView({ selectedTopic, onBack }) {
-  const { questions, error, isLoading, toggle, completed } = useQuestions(selectedTopic.id);
+  const { questions, isLoading, toggle, completed } = useQuestions(selectedTopic.id);
   const [difficultyFilter, setDifficultyFilter] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
   const [completedMap, setCompletedMap] = useState({});
@@ -173,7 +173,7 @@ export function QuestionsView({ selectedTopic, onBack }) {
                       </div>
 
                       <button
-                        onClick={() => window.open(question.link, '_blank')}
+                        onClick={() => window.open(question.link, '_blank', 'noopener,noreferrer')}
                         className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] px-3 py-1 text-[#1a1f2e] dark:text-white hover:bg-[#f5f5f5] dark:hover:bg-[#2d3848] transition-colors"
                       >
                         <ExternalLink className="w-4 h-4" />
