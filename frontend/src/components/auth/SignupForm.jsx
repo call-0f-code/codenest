@@ -30,7 +30,7 @@ const SignupForm = ({ setIsLogin }) => {
         email: formData.email,
         password: formData.password,
         name: formData.username,
-        passoutYear: Number(formData.passoutYear),
+        passoutYear: new Date(formData.passoutYear),
       },
       {
         onSuccess: () => {
@@ -129,12 +129,18 @@ const SignupForm = ({ setIsLogin }) => {
         <div className="relative">
           <GraduationCap className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-black dark:text-white" />
           <input
-            type="text"
+            type="number"
             placeholder="eg. 2027"
             value={formData.passoutYear}
-            onChange={(e) =>
-              setFormData({ ...formData, passoutYear: e.target.value })
-            }
+            onChange={(e) => {
+              const year = parseInt(e.target.value);
+              const currentYear = new Date().getFullYear();
+              if (year >= currentYear - 4 && year <= currentYear + 4) {
+                setFormData({ ...formData, passoutYear: e.target.value });
+              }
+            }}
+            min={new Date().getFullYear() - 4}
+            max={new Date().getFullYear() + 4}
             className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-4 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
             required
           />

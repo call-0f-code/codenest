@@ -5,7 +5,7 @@ import config from "../config";
 import jwt from 'jsonwebtoken';
 import FormData from "form-data";
 import { ApiError } from "../utils/apiError";
-import { resetPasswordSchema, UpdateSchema } from "../validation/members.validator";
+import { imageSchema, resetPasswordSchema, UpdateSchema } from "../validation/members.validator";
 import axios from "axios";
 import { otpStorage } from "../utils/otpStore";
 import { sendOTP } from "../utils/nodeMailer";
@@ -74,18 +74,22 @@ export const getDetails = async(req: Request, res: Response) => {
 export const updateMember = async(req: Request, res:Response) => {
 
     const memberId = req.userId;
-    const rawmemberData = req.body.memberData;
-    
-    let memberData = JSON.parse(rawmemberData);
-    const check = UpdateSchema.safeParse(memberData);
+    const memberData = req.body.memberData;
 
-    if(!check.success) throw new ApiError('Validation error', 400);
-    
+  
+   
     const formData = new FormData();
-
-    formData.append("memberData", memberData);
+    if(memberData){
+        formData.append("memberData", JSON.stringify(memberData));
+    }
 
     if (req.file) {
+        const parseFile = imageSchema.safeParse(req.file)
+
+        if (!parseFile.success) {
+            throw new ApiError("Image file is missing or format not supported", 400);
+        }
+        
         formData.append("file", req.file.buffer, req.file.originalname);
     }
     
