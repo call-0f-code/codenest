@@ -22,6 +22,8 @@ const SignupForm = ({ setIsLogin }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { createNewMember } = useMembers();
 
+  const passwordsMatch = formData.password === formData.confirmPassword;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -29,6 +31,7 @@ const SignupForm = ({ setIsLogin }) => {
       {
         email: formData.email,
         password: formData.password,
+        confirmPassword: "",
         name: formData.username,
         passoutYear: new Date(formData.passoutYear),
       },
@@ -92,7 +95,8 @@ const SignupForm = ({ setIsLogin }) => {
           PASSWORD
         </label>
         <div className="relative">
-          <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-black dark:text-white" />
+
+          <Lock className="pointer-events-none absolute left-3 top-1/4 h-4 w-4 -translate-y-1/2 text-black dark:text-white" />
           <input
             type={showPassword ? "text" : "password"}
             placeholder="Create a password"
@@ -110,9 +114,38 @@ const SignupForm = ({ setIsLogin }) => {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-[#5f6b72] dark:text-[#8b96a5] hover:text-[#3dd68c] transition-colors"
+            className="absolute right-3 top-1/4 -translate-y-1/2 text-[#5f6b72] dark:text-[#8b96a5] hover:text-[#3dd68c] transition-colors"
             aria-label={showPassword ? "Hide password" : "Show password"}
           >
+            {showPassword ? (
+              <EyeOff className="h-4 w-4" />
+            ) : (
+              <Eye className="h-4 w-4" />
+            )}
+          </button>
+
+          <Lock className="pointer-events-none absolute left-3 top-3/4 h-4 w-4 -translate-y-1/2 text-black dark:text-white" />
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Confirm your password"
+            value={formData.confirmPassword}
+            onChange={(e) =>
+              setFormData({ ...formData, confirmPassword: e.target.value })
+            }
+            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-12 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+            required
+            minLength={8}
+            maxLength={64}
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,64}$"
+            title="Passwords do not match."
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-3/4 -translate-y-1/2 text-[#5f6b72] dark:text-[#8b96a5] hover:text-[#3dd68c] transition-colors"
+            aria-label={showPassword ? "Hide password" : "Show password"}
+          >
+
             {showPassword ? (
               <EyeOff className="h-4 w-4" />
             ) : (
@@ -154,7 +187,7 @@ const SignupForm = ({ setIsLogin }) => {
         />
         <button
           type="submit"
-          disabled={isLoading}
+          disabled={isLoading || !passwordsMatch}
           className="relative h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] font-orbitron text-sm font-bold text-[#1a1f2e] hover:bg-[#35c17d] transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {isLoading ? (
