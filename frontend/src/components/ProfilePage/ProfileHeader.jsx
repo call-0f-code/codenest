@@ -56,13 +56,13 @@ export const ProfileHeader = ({ user, isEditing, onEdit, onCancel, onSave, onIma
         </div>
 
         <div className="flex-1 text-center md:text-left">
-          <h1 className="font-orbitron text-3xl font-bold text-[#1a1f2e] dark:text-white mb-2">
+          <h1 className=" text-3xl font-bold text-[#1a1f2e] dark:text-white mb-2">
             {user.name}
           </h1>
           <p className="text-[#5f6b72] dark:text-[#8b96a5] mb-4">{user.email}</p>
           
           {user.isManager && (
-            <div className="inline-block border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] px-4 py-1 font-orbitron text-xs font-bold text-[#1a1f2e]">
+            <div className="inline-block border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] px-4 py-1  text-xs font-bold text-[#1a1f2e]">
               MANAGER
             </div>
           )}
@@ -72,7 +72,7 @@ export const ProfileHeader = ({ user, isEditing, onEdit, onCancel, onSave, onIma
           {!isEditing ? (
             <button
               onClick={onEdit}
-              className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] px-6 py-2 font-orbitron text-sm font-bold text-[#1a1f2e] hover:bg-[#35c17d] transition-colors flex items-center gap-2"
+              className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] px-6 py-2  text-sm font-bold text-[#1a1f2e] hover:bg-[#35c17d] transition-colors flex items-center gap-2"
             >
               <Edit2 className="h-4 w-4" />
               EDIT
@@ -81,14 +81,14 @@ export const ProfileHeader = ({ user, isEditing, onEdit, onCancel, onSave, onIma
             <>
               <button
                 onClick={onSave}
-                className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] px-6 py-2 font-orbitron text-sm font-bold text-[#1a1f2e] hover:bg-[#35c17d] transition-colors flex items-center gap-2"
+                className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] px-6 py-2  text-sm font-bold text-[#1a1f2e] hover:bg-[#35c17d] transition-colors flex items-center gap-2"
               >
                 <Save className="h-4 w-4" />
                 SAVE
               </button>
               <button
                 onClick={onCancel}
-                className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] px-6 py-2 font-orbitron text-sm text-[#2a2d35] dark:text-[#c5d1de] hover:bg-[#f5f5f5] dark:hover:bg-[#2d3848] transition-colors flex items-center gap-2"
+                className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] px-6 py-2  text-sm text-[#2a2d35] dark:text-[#c5d1de] hover:bg-[#f5f5f5] dark:hover:bg-[#2d3848] transition-colors flex items-center gap-2"
               >
                 <X className="h-4 w-4" />
                 CANCEL

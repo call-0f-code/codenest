@@ -18,10 +18,10 @@ const BrandingSection = () => {
         </div>
 
         {/* Title and subtitle */}
-        <h1 className="mb-3 font-orbitron text-3xl font-bold text-[#1a1f2e] dark:text-white md:text-4xl">
+        <h1 className="mb-3  text-3xl font-bold text-[#1a1f2e] dark:text-white md:text-4xl">
           Access the Arena
         </h1>
-        <p className="mb-8 font-orbitron text-sm text-[#5f6b72] dark:text-[#8b96a5]">
+        <p className="mb-8  text-sm text-[#5f6b72] dark:text-[#8b96a5]">
           Authenticate and engage
         </p>
 
@@ -149,19 +149,19 @@ const BrandingSection = () => {
         <div className="space-y-4">
           <div className="flex items-start gap-3">
             <Shield className="mt-1 h-5 w-5 flex-shrink-0 text-[#3dd68c]" />
-            <p className="font-orbitron text-sm font-semibold text-[#2a2d35] dark:text-[#c5d1de]">
+            <p className=" text-sm font-semibold text-[#2a2d35] dark:text-[#c5d1de]">
               Secure sessions
             </p>
           </div>
           <div className="flex items-start gap-3">
             <Zap className="mt-1 h-5 w-5 flex-shrink-0 text-[#3dd68c]" />
-            <p className="font-orbitron text-sm font-semibold text-[#2a2d35] dark:text-[#c5d1de]">
+            <p className=" text-sm font-semibold text-[#2a2d35] dark:text-[#c5d1de]">
               Weekly challenges
             </p>
           </div>
           <div className="flex items-start gap-3">
             <Users className="mt-1 h-5 w-5 flex-shrink-0 text-[#3dd68c]" />
-            <p className="font-orbitron text-sm font-semibold text-[#2a2d35] dark:text-[#c5d1de]">
+            <p className=" text-sm font-semibold text-[#2a2d35] dark:text-[#c5d1de]">
               Project collabs
             </p>
           </div>

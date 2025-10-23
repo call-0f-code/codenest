@@ -16,7 +16,7 @@ const AuthPage = () => {
       <header className="mx-auto max-w-7xl px-4 pt-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] px-4 py-2 font-orbitron text-sm font-bold text-[#1a1f2e]">
+            <div className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] px-4 py-2  text-sm font-bold text-[#1a1f2e]">
               CALL OF CODE
             </div>
           </div>
@@ -32,7 +32,7 @@ const AuthPage = () => {
                 <Moon className="h-5 w-5" />
               )}
             </button>
-            <button className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] px-6 py-2 font-orbitron text-sm text-[#2a2d35] dark:text-[#c5d1de] hover:bg-[#f5f5f5] dark:hover:bg-[#2d3848] transition-colors">
+            <button className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] px-6 py-2  text-sm text-[#2a2d35] dark:text-[#c5d1de] hover:bg-[#f5f5f5] dark:hover:bg-[#2d3848] transition-colors">
               Home
             </button>
           </div>
@@ -55,7 +55,7 @@ const AuthPage = () => {
               />
 
               <div className="mb-6 flex items-center justify-center">
-                <div className="relative flex w-64 items-center justify-between overflow-hidden border-2 border-[#2a2d35] dark:border-[#3a4a5f] font-orbitron text-sm font-bold">
+                <div className="relative flex w-64 items-center justify-between overflow-hidden border-2 border-[#2a2d35] dark:border-[#3a4a5f]  text-sm font-bold">
                   <div
                     className={`absolute left-0 top-0 h-full w-1/2 bg-[#3dd68c] transition-transform duration-500 ease-out ${
                       !isLogin ? "translate-x-full" : "translate-x-0"
@@ -86,7 +86,7 @@ const AuthPage = () => {
 
                {showForgotPassword && (
                 <div className="mb-6">
-                  <h2 className="font-orbitron text-2xl font-bold text-center text-[#1a1f2e] dark:text-white">
+                  <h2 className=" text-2xl font-bold text-center text-[#1a1f2e] dark:text-white">
                     Reset Password
                   </h2>
                 </div>

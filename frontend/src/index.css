@@ -1,17 +1,8 @@
 @font-face {
-  font-family: 'Orbitron';
+  font-family: 'NovaFlat';
+  src: url('/fonts/NovaFlat-Regular.ttf') format('truetype');
+  font-weight: 400;
   font-style: normal;
-  font-weight: 400; /* Adjust this for the specific weight */
-  font-display: swap; /* Best practice for font loading */
-  src: url('../public/fonts/Orbitron-Regular.woff2') format('woff2'); /* Adjust path and format */
-}
-
-@font-face {
-  font-family: 'Orbitron';
-  font-style: normal;
-  font-weight: 700; /* Adjust this for the specific weight */
-  font-display: swap;
-  src: url('../public/fonts/Orbitron-Bold.woff2') format('woff2'); /* Adjust path and format */
 }
 
 @import "tailwindcss";
@@ -22,7 +13,7 @@
 
 @theme inline {
 
-  --font-orbitron: 'Orbitron', ui-sans-serif, system-ui, sans-serif;
+  --font-novaflat: 'NovaFlat', cursive, ui-sans-serif, system-ui;
 
   --radius-sm: calc(var(--radius) - 4px);
 
@@ -232,6 +223,7 @@
     @apply border-border outline-ring/50;
   }
   body {
+    font-family: var(--font-novaflat);
     @apply bg-background text-foreground;
   }
 }
