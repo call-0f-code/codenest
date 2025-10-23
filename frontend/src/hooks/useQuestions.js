@@ -28,7 +28,7 @@ export const useQuestions = (topicId) => {
     const toggle = useMutation({
         mutationFn: (questionId)=> toggleQuestion(questionId),
         onSuccess: ()=>{
-          queryclient.invalidateQueries({queryKey:['questions']});
+          queryclient.invalidateQueries({queryKey:['questions', topicId]});
           queryclient.invalidateQueries({queryKey:['completedQuestions']})
         }
     })
