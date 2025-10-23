@@ -33,7 +33,7 @@ const LoginForm = ({ setIsLogin, setShowForgotPassword }) => {
       className="space-y-5 h-[435px] flex flex-col justify-center"
     >
       <div className="space-y-2">
-        <label className="font-orbitron text-xs font-bold tracking-wider text-black dark:text-white">
+        <label className=" text-xs font-bold tracking-wider text-black dark:text-white">
           EMAIL
         </label>
         <div className="relative">
@@ -43,14 +43,14 @@ const LoginForm = ({ setIsLogin, setShowForgotPassword }) => {
             placeholder="name@domain.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-4 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-4  text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
             required
           />
         </div>
       </div>
 
       <div className="space-y-2">
-        <label className="font-orbitron text-xs font-bold tracking-wider text-black dark:text-white">
+        <label className=" text-xs font-bold tracking-wider text-black dark:text-white">
           PASSWORD
         </label>
         <div className="relative">
@@ -60,7 +60,7 @@ const LoginForm = ({ setIsLogin, setShowForgotPassword }) => {
             placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-12 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-12  text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
             required
             minLength={8}
             maxLength={64}
@@ -84,7 +84,7 @@ const LoginForm = ({ setIsLogin, setShowForgotPassword }) => {
           <button
             type="button"
             onClick={() => setShowForgotPassword(true)}
-            className="font-orbitron text-xs text-[#3dd68c] hover:text-[#2fbe84] transition-colors"
+            className=" text-xs text-[#3dd68c] hover:text-[#2fbe84] transition-colors"
           >
             Forgot password?
           </button>
@@ -99,7 +99,7 @@ const LoginForm = ({ setIsLogin, setShowForgotPassword }) => {
         <button
           type="submit"
           disabled={isLoading}
-          className="relative h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] font-orbitron text-sm font-bold text-[#1a1f2e] hover:bg-[#35c17d] transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="relative h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c]  text-sm font-bold text-[#1a1f2e] hover:bg-[#35c17d] transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {isLoading ? (
             <>
@@ -115,7 +115,7 @@ const LoginForm = ({ setIsLogin, setShowForgotPassword }) => {
         </button>
       </div>
 
-      <div className="text-center font-orbitron text-xs text-black dark:text-white">
+      <div className="text-center  text-xs text-black dark:text-white">
         New here?{" "}
         <button
           type="button"
