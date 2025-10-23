@@ -13,7 +13,7 @@ export function QuestionsView({ selectedTopic, onBack }) {
     useEffect(() => {
     const map = {};
     questions.forEach(q => {
-      map[q.id] = completed.some(c => c.id === q.id)
+      map[q.id] = completed.some(c => c.questionId === q.id)
     });
     setCompletedMap(map);
   }, [questions, completed]);
@@ -33,12 +33,14 @@ export function QuestionsView({ selectedTopic, onBack }) {
 
 
   const handleToggle = (questionId) => {
-    setCompletedMap(prev => ({
-        ...prev,
-        [questionId]: !prev[questionId]
-      }));
-
-      toggle.mutate(questionId);
+      toggle.mutate(questionId, {
+        onSuccess: () => {
+          setCompletedMap(prev => ({
+            ...prev,
+            [questionId]: !prev[questionId]
+          }));
+        }
+      });
   }
 
   const difficulties = ['All', 'Easy', 'Medium', 'Hard'];

@@ -21,14 +21,15 @@ export const useQuestions = (topicId) => {
     queryKey: ['completedQuestions'],
     queryFn: async () => {
       const res = await getCompletedQuestions();
-      return res.questions || [];
+      return res.completedQuestion || [];
     },
   });
 
     const toggle = useMutation({
         mutationFn: (questionId)=> toggleQuestion(questionId),
         onSuccess: ()=>{
-          queryclient.invalidateQueries({queryKey:['questions']})
+          queryclient.invalidateQueries({queryKey:['questions']});
+          queryclient.invalidateQueries({queryKey:['completedQuestions']})
         }
     })
 
