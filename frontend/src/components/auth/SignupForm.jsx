@@ -104,7 +104,7 @@ const SignupForm = ({ setIsLogin }) => {
             onChange={(e) =>
               setFormData({ ...formData, password: e.target.value })
             }
-            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-12 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+            className="m-1 h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-12 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
             required
             minLength={8}
             maxLength={64}
@@ -135,7 +135,10 @@ const SignupForm = ({ setIsLogin }) => {
                 formData.password !== e.target.value ? "Passwords do not match." : ""
               )
             }}
-            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-12 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+            className={`m-1 h-12 w-full border-2 ${formData.password && confirmPassword && formData.password !== confirmPassword
+              ? "border-red-500 focus:border-red-500"
+              : "border-[#2a2d35] dark:border-[#3a4a5f] focus:ring-[#3dd68c]"
+              } focus:ring-1 focus:outline-none bg-white dark:bg-[#1f2937] pl-10 pr-12 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a]`}
             required
             minLength={8}
             maxLength={64}
@@ -147,7 +150,9 @@ const SignupForm = ({ setIsLogin }) => {
             aria-label={showPassword ? "Hide password" : "Show password"}
           >
             {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-          </button>        </div>
+          </button>
+
+        </div>
       </div>
 
       <div className="space-y-2">
