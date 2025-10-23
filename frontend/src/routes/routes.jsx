@@ -7,10 +7,10 @@ import CreateModule from "@/pages/CreateModule";
 import Dashboard from "@/pages/Dashboard";
 import Module from "@/pages/Module"
 import BlogSingle from "@/pages/BlogSingle";
-import SingleModule from "@/pages/SingleModule";
 import CreateBlog from "@/pages/CreateBlog";
 import CreateInterviewExp from "@/pages/CreateInterviewExp";
 import AuthPage from "../pages/Signup";
+import DsaDashboard from "@/pages/DsaDashboard";
 import ProfilePage from "@/pages/ProfilePage";
 
 export const routes = [
@@ -40,8 +40,8 @@ export const routes = [
     public: true,
   },
   {
-    path : "/dashboard/modules/:id",
-    element : <SingleModule/>,
+    path : "/dsa",
+    element : <DsaDashboard/>,
     public: true,
   },
   {
