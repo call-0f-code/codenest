@@ -13,6 +13,7 @@ import { globalToast } from "@/utils/toast";
 
 const SignupForm = ({ setIsLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -22,7 +23,7 @@ const SignupForm = ({ setIsLogin }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { createNewMember } = useMembers();
 
-  const passwordsMatch = formData.password === formData.confirmPassword;
+  const passwordsMatch = formData.password === confirmPassword;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,7 +32,6 @@ const SignupForm = ({ setIsLogin }) => {
       {
         email: formData.email,
         password: formData.password,
-        confirmPassword: "",
         name: formData.username,
         passoutYear: new Date(formData.passoutYear),
       },
@@ -128,16 +128,17 @@ const SignupForm = ({ setIsLogin }) => {
           <input
             type={showPassword ? "text" : "password"}
             placeholder="Confirm your password"
-            value={formData.confirmPassword}
-            onChange={(e) =>
-              setFormData({ ...formData, confirmPassword: e.target.value })
-            }
+            value={confirmPassword}
+            onChange={(e) => {
+              setConfirmPassword(e.target.value)
+              e.target.setCustomValidity(
+                formData.password !== e.target.value ? "Passwords do not match." : ""
+              )
+            }}
             className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-12 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
             required
             minLength={8}
             maxLength={64}
-            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,64}$"
-            title="Passwords do not match."
           />
           <button
             type="button"
@@ -145,14 +146,8 @@ const SignupForm = ({ setIsLogin }) => {
             className="absolute right-3 top-3/4 -translate-y-1/2 text-[#5f6b72] dark:text-[#8b96a5] hover:text-[#3dd68c] transition-colors"
             aria-label={showPassword ? "Hide password" : "Show password"}
           >
-
-            {showPassword ? (
-              <EyeOff className="h-4 w-4" />
-            ) : (
-              <Eye className="h-4 w-4" />
-            )}
-          </button>
-        </div>
+            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+          </button>        </div>
       </div>
 
       <div className="space-y-2">
