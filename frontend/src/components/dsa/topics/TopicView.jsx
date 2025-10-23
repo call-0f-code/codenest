@@ -17,7 +17,7 @@ export function TopicsView({onViewQuestions}) {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="font-orbitron text-4xl font-bold text-[#1a1f2e] dark:text-white mb-2">
+        <h1 className=" text-4xl font-bold text-[#1a1f2e] dark:text-white mb-2">
           Master Data Structures & Algorithms
         </h1>
         <p className="text-[#5a6270] dark:text-[#8b96a5] text-lg">
@@ -41,7 +41,7 @@ export function TopicsView({onViewQuestions}) {
           />
           <div className="relative border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] p-8 flex flex-col items-center">
             <Loader2 className="w-8 h-8 animate-spin text-[#3dd68c] mb-3" />
-            <p className="font-orbitron text-lg font-bold text-[#1a1f2e] dark:text-white">
+            <p className=" text-lg font-bold text-[#1a1f2e] dark:text-white">
               Loading topics...
             </p>
           </div>
@@ -64,7 +64,7 @@ export function TopicsView({onViewQuestions}) {
                       <IconComponent className="w-6 h-6 text-[#1a1f2e]" />
                     </div>
                     <div>
-                      <h3 className="font-orbitron text-xl font-bold text-[#1a1f2e] dark:text-white">
+                      <h3 className=" text-xl font-bold text-[#1a1f2e] dark:text-white">
                         {topic.title}
                       </h3>
                       <p className="text-sm text-[#5a6270] dark:text-[#8b96a5]">
@@ -76,7 +76,7 @@ export function TopicsView({onViewQuestions}) {
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <div className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#f5f5f5] dark:bg-[#1f2937] px-3 py-1 text-sm font-orbitron font-bold text-[#2a2d35] dark:text-[#c5d1de] max-w-90">
+                    <div className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#f5f5f5] dark:bg-[#1f2937] px-3 py-1 text-sm  font-bold text-[#2a2d35] dark:text-[#c5d1de] max-w-90">
                       {topic.description}
                     </div>
                   </div>
@@ -88,7 +88,7 @@ export function TopicsView({onViewQuestions}) {
                     />
                     <button
                       onClick={() => onViewQuestions(topic)}
-                      className="relative border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] px-4 py-2 font-orbitron text-sm font-bold text-[#1a1f2e] hover:bg-[#35c47d] transition-colors flex items-center gap-2"
+                      className="relative border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] px-4 py-2  text-sm font-bold text-[#1a1f2e] hover:bg-[#35c47d] transition-colors flex items-center gap-2"
                     >
                       START
                       <ArrowRight className="w-4 h-4" />

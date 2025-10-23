@@ -58,7 +58,7 @@ const ForgotPasswordForm = ({ setIsLogin, setShowForgotPassword }) => {
       <button
         type="button"
         onClick={goBack}
-        className="flex items-center gap-2 font-orbitron text-xs text-[#3dd68c] hover:text-[#2fbe84] transition-colors"
+        className="flex items-center gap-2  text-xs text-[#3dd68c] hover:text-[#2fbe84] transition-colors"
       >
         <ArrowLeft className="h-3 w-3" />
         {step === "email" ? "Back to Login" : "Back"}
@@ -68,7 +68,7 @@ const ForgotPasswordForm = ({ setIsLogin, setShowForgotPassword }) => {
       {step === "email" && (
         <form onSubmit={handleSendOtp} className="space-y-5">
           <div className="space-y-2">
-            <label className="font-orbitron text-xs font-bold tracking-wider text-black dark:text-white">
+            <label className=" text-xs font-bold tracking-wider text-black dark:text-white">
               EMAIL ADDRESS
             </label>
             <div className="relative">
@@ -78,11 +78,11 @@ const ForgotPasswordForm = ({ setIsLogin, setShowForgotPassword }) => {
                 placeholder="name@domain.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-4 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+                className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-4  text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
                 required
               />
             </div>
-            <p className="font-orbitron text-xs text-[#5f6b72] dark:text-[#8b96a5]">
+            <p className=" text-xs text-[#5f6b72] dark:text-[#8b96a5]">
               We'll send a verification code to this email
             </p>
           </div>
@@ -95,7 +95,7 @@ const ForgotPasswordForm = ({ setIsLogin, setShowForgotPassword }) => {
             <button
               type="submit"
               disabled={forgotpassword.isPending}
-              className="relative h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] font-orbitron text-sm font-bold text-[#1a1f2e] hover:bg-[#35c17d] transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="relative h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c]  text-sm font-bold text-[#1a1f2e] hover:bg-[#35c17d] transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {forgotpassword.isPending ? (
                 <>
@@ -117,7 +117,7 @@ const ForgotPasswordForm = ({ setIsLogin, setShowForgotPassword }) => {
       {step === "otp" && (
         <form onSubmit={handleVerifyOtp} className="space-y-5">
           <div className="space-y-2">
-            <label className="font-orbitron text-xs font-bold tracking-wider text-black dark:text-white">
+            <label className=" text-xs font-bold tracking-wider text-black dark:text-white">
               VERIFICATION CODE
             </label>
             <div className="relative">
@@ -127,11 +127,11 @@ const ForgotPasswordForm = ({ setIsLogin, setShowForgotPassword }) => {
                 maxLength={6}
                 value={userOtp}
                 onChange={(e) => setUserOtp(e.target.value.replace(/\D/g, ""))}
-                className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] px-4 font-orbitron text-lg text-center tracking-[0.5em] text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+                className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] px-4  text-lg text-center tracking-[0.5em] text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
                 required
               />
             </div>
-            <p className="font-orbitron text-xs text-[#5f6b72] dark:text-[#8b96a5]">
+            <p className=" text-xs text-[#5f6b72] dark:text-[#8b96a5]">
               Enter the 6-digit code sent to {email}
             </p>
           </div>
@@ -144,7 +144,7 @@ const ForgotPasswordForm = ({ setIsLogin, setShowForgotPassword }) => {
             <button
               type="submit"
               disabled={verifyotp.isPending}
-              className="relative h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] font-orbitron text-sm font-bold text-[#1a1f2e] hover:bg-[#35c17d] transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="relative h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c]  text-sm font-bold text-[#1a1f2e] hover:bg-[#35c17d] transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {verifyotp.isPending ? (
                 <>
@@ -160,7 +160,7 @@ const ForgotPasswordForm = ({ setIsLogin, setShowForgotPassword }) => {
             </button>
           </div>
 
-          <div className="text-center font-orbitron text-xs text-black dark:text-white">
+          <div className="text-center  text-xs text-black dark:text-white">
             Didn't receive code?{" "}
             <button
               type="button"
@@ -177,7 +177,7 @@ const ForgotPasswordForm = ({ setIsLogin, setShowForgotPassword }) => {
       {step === "reset" && (
         <form onSubmit={handleResetPassword} className="space-y-5">
           <div className="space-y-2">
-            <label className="font-orbitron text-xs font-bold tracking-wider text-black dark:text-white">
+            <label className=" text-xs font-bold tracking-wider text-black dark:text-white">
               NEW PASSWORD
             </label>
             <div className="relative">
@@ -187,7 +187,7 @@ const ForgotPasswordForm = ({ setIsLogin, setShowForgotPassword }) => {
                 placeholder="••••••••"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-4 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+                className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-4  text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
                 required
                 minLength={8}
                 maxLength={64}
@@ -207,7 +207,7 @@ const ForgotPasswordForm = ({ setIsLogin, setShowForgotPassword }) => {
                 )}
               </button>
             </div>
-            <p className="font-orbitron text-xs text-[#5f6b72] dark:text-[#8b96a5]">
+            <p className=" text-xs text-[#5f6b72] dark:text-[#8b96a5]">
               Must be 8–64 characters with uppercase, lowercase, number, and special character
             </p>
           </div>
@@ -220,7 +220,7 @@ const ForgotPasswordForm = ({ setIsLogin, setShowForgotPassword }) => {
             <button
               type="submit"
               disabled={resetpassword.isPending}
-              className="relative h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] font-orbitron text-sm font-bold text-[#1a1f2e] hover:bg-[#35c17d] transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="relative h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c]  text-sm font-bold text-[#1a1f2e] hover:bg-[#35c17d] transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {resetpassword.isPending ? (
                 <>
