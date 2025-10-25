@@ -27,7 +27,7 @@ const upload = multer({ storage: multer.memoryStorage(),
 app.use("/api/v1", routes(upload));
 
 app.use("/health",(req, res) => {
-  res.status(404).json({ message: "Endpoint Working" });
+  res.status(200).json({ message: "Endpoint Working" });
 });
 // 5) 404 handler
 app.use((req, res) => {
