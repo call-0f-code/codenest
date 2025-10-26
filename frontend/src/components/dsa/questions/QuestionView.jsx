@@ -67,14 +67,14 @@ export function QuestionsView({ selectedTopic, onBack }) {
             <div aria-hidden="true" className="absolute inset-0 translate-x-1 translate-y-1 bg-[#2a2d35] dark:bg-[#0f1419]" />
             <button
               onClick={onBack}
-              className="relative border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] px-4 py-2 font-orbitron text-sm font-bold text-[#1a1f2e] dark:text-white hover:bg-[#f5f5f5] dark:hover:bg-[#2d3848] transition-colors flex items-center gap-2"
+              className="relative border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] px-4 py-2  text-sm font-bold text-[#1a1f2e] dark:text-white hover:bg-[#f5f5f5] dark:hover:bg-[#2d3848] transition-colors flex items-center gap-2"
             >
               <ArrowLeft className="w-4 h-4" />
               BACK TO TOPICS
             </button>
           </div>
 
-          <button className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] px-4 py-2 font-orbitron text-sm font-bold text-[#1a1f2e]">
+          <button className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] px-4 py-2  text-sm font-bold text-[#1a1f2e]">
             {selectedTopic.title}
           </button>
         </div>
@@ -90,7 +90,7 @@ export function QuestionsView({ selectedTopic, onBack }) {
                 placeholder="Search questions..."
               />
 
-            <p className="font-orbitron text-sm font-bold text-[#2a2d35] dark:text-[#c5d1de] mb-3 mt-8">
+            <p className=" text-sm font-bold text-[#2a2d35] dark:text-[#c5d1de] mb-3 mt-8">
               FILTER BY DIFFICULTY
             </p>
             <div className="flex flex-wrap gap-3">
@@ -106,7 +106,7 @@ export function QuestionsView({ selectedTopic, onBack }) {
                   />
                   <button
                     onClick={() => setDifficultyFilter(diff)}
-                    className={`relative border-2 border-[#2a2d35] dark:border-[#3a4a5f] px-4 py-2 font-orbitron text-sm font-bold transition-all ${
+                    className={`relative border-2 border-[#2a2d35] dark:border-[#3a4a5f] px-4 py-2  text-sm font-bold transition-all ${
                       difficultyFilter === diff
                         ? 'bg-[#3dd68c] text-[#1a1f2e]'
                         : 'bg-[#f5f5f5] dark:bg-[#1f2937] text-[#2a2d35] dark:text-[#c5d1de] hover:bg-white dark:hover:bg-[#273142]'
@@ -154,7 +154,7 @@ export function QuestionsView({ selectedTopic, onBack }) {
 
                       <div className="flex-1">
                         <h3
-                          className={`font-orbitron text-lg font-bold ${
+                          className={` text-lg font-bold ${
                             completedMap[question.id]
                               ? 'text-[#8b96a5] dark:text-[#5a6270] line-through'
                               : 'text-[#1a1f2e] dark:text-white'
@@ -167,7 +167,7 @@ export function QuestionsView({ selectedTopic, onBack }) {
 
                     <div className="flex items-center gap-3">
                       <div
-                        className={`border-2 border-[#2a2d35] dark:border-[#3a4a5f] px-3 py-1 text-xs font-orbitron font-bold ${getDifficultyColor(
+                        className={`border-2 border-[#2a2d35] dark:border-[#3a4a5f] px-3 py-1 text-xs  font-bold ${getDifficultyColor(
                           question.difficulty
                         )}`}
                       >

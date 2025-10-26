@@ -16,7 +16,7 @@ export const SocialLinks = ({ user, isEditing, onChange }) => {
 
   const renderPlatformInput = (platform) => (
     <div key={platform.key}>
-      <label className="font-orbitron text-xs font-bold tracking-wider text-black dark:text-white block mb-2 flex items-center gap-2">
+      <label className=" text-xs font-bold tracking-wider text-black dark:text-white block mb-2 flex items-center gap-2">
         <platform.icon className="h-4 w-4 text-[#3dd68c]" />
         {platform.label.toUpperCase()}
       </label>
@@ -26,7 +26,7 @@ export const SocialLinks = ({ user, isEditing, onChange }) => {
           value={user[platform.key] || ""}
           onChange={(e) => onChange(platform.key, e.target.value)}
           placeholder={platform.placeholder}
-          className="h-10 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] px-3 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+          className="h-10 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] px-3  text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
         />
       ) : (
         <p className="text-[#5f6b72] dark:text-[#8b96a5]">
@@ -45,7 +45,7 @@ export const SocialLinks = ({ user, isEditing, onChange }) => {
   return (
     <div className="space-y-6">
       <div className="relative border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] p-6">
-        <h2 className="font-orbitron text-xl font-bold text-[#1a1f2e] dark:text-white mb-6">
+        <h2 className=" text-xl font-bold text-[#1a1f2e] dark:text-white mb-6">
           SOCIAL LINKS
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -54,7 +54,7 @@ export const SocialLinks = ({ user, isEditing, onChange }) => {
       </div>
 
       <div className="relative border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] p-6">
-        <h2 className="font-orbitron text-xl font-bold text-[#1a1f2e] dark:text-white mb-6">
+        <h2 className=" text-xl font-bold text-[#1a1f2e] dark:text-white mb-6">
           CODING PLATFORMS
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -16,7 +16,7 @@ export const SearchBar = ({ searchTerm, onSearchChange, placeholder}) => (
         placeholder={placeholder}
         value={searchTerm}
         onChange={(e) => onSearchChange(e.target.value)}
-        className="w-full bg-transparent text-[#1a1f2e] dark:text-white placeholder-[#5a6270] dark:placeholder-[#8b96a5] font-orbitron text-base font-bold focus:outline-none"
+        className="w-full bg-transparent text-[#1a1f2e] dark:text-white placeholder-[#5a6270] dark:placeholder-[#8b96a5]  text-base font-bold focus:outline-none"
       />
     </div>
   </div>

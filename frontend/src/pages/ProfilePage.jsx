@@ -119,7 +119,7 @@ const handleChange = (field, value) => {
       <header className="mx-auto max-w-7xl px-4 pt-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] px-4 py-2 font-orbitron text-sm font-bold text-[#1a1f2e]">
+            <div className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] px-4 py-2  text-sm font-bold text-[#1a1f2e]">
               CALL OF CODE
             </div>
           </div>
@@ -135,7 +135,7 @@ const handleChange = (field, value) => {
                 <Moon className="h-5 w-5" />
               )}
             </button>
-            <button className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] px-6 py-2 font-orbitron text-sm text-[#2a2d35] dark:text-[#c5d1de] hover:bg-[#f5f5f5] dark:hover:bg-[#2d3848] transition-colors">
+            <button className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] px-6 py-2  text-sm text-[#2a2d35] dark:text-[#c5d1de] hover:bg-[#f5f5f5] dark:hover:bg-[#2d3848] transition-colors">
               Home
             </button>
           </div>
@@ -190,7 +190,7 @@ const handleChange = (field, value) => {
       {update.isPending && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] p-6">
-            <p className="font-orbitron text-[#1a1f2e] dark:text-white">Updating profile...</p>
+            <p className=" text-[#1a1f2e] dark:text-white">Updating profile...</p>
           </div>
         </div>
       )}

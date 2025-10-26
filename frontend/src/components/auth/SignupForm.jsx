@@ -50,10 +50,10 @@ const SignupForm = ({ setIsLogin }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-4 h-[435px] flex flex-col justify-center"
+      className="space-y-3 h-[435px] flex flex-col justify-center"
     >
       <div className="space-y-2">
-        <label className="font-orbitron text-xs font-bold tracking-wider text-black dark:text-white">
+        <label className=" text-xs font-bold tracking-wider text-black dark:text-white">
           Full Name
         </label>
         <div className="relative">
@@ -65,14 +65,14 @@ const SignupForm = ({ setIsLogin }) => {
             onChange={(e) =>
               setFormData({ ...formData, username: e.target.value })
             }
-            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-4 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-4  text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
             required
           />
         </div>
       </div>
 
       <div className="space-y-2">
-        <label className="font-orbitron text-xs font-bold tracking-wider text-black dark:text-white">
+        <label className=" text-xs font-bold tracking-wider text-black dark:text-white">
           EMAIL
         </label>
         <div className="relative">
@@ -84,14 +84,14 @@ const SignupForm = ({ setIsLogin }) => {
             onChange={(e) =>
               setFormData({ ...formData, email: e.target.value })
             }
-            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-4 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-4  text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
             required
           />
         </div>
       </div>
 
       <div className="space-y-2">
-        <label className="font-orbitron text-xs font-bold tracking-wider text-black dark:text-white">
+        <label className=" text-xs font-bold tracking-wider text-black dark:text-white">
           PASSWORD
         </label>
         <div className="relative">
@@ -104,7 +104,7 @@ const SignupForm = ({ setIsLogin }) => {
             onChange={(e) =>
               setFormData({ ...formData, password: e.target.value })
             }
-            className="m-1 h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-12 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+            className="m-1 h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-12  text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
             required
             minLength={8}
             maxLength={64}
@@ -138,7 +138,7 @@ const SignupForm = ({ setIsLogin }) => {
             className={`m-1 h-12 w-full border-2 ${formData.password && confirmPassword && formData.password !== confirmPassword
               ? "border-red-500 focus:border-red-500"
               : "border-[#2a2d35] dark:border-[#3a4a5f] focus:ring-[#3dd68c]"
-              } focus:ring-1 focus:outline-none bg-white dark:bg-[#1f2937] pl-10 pr-12 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a]`}
+              } focus:ring-1 focus:outline-none bg-white dark:bg-[#1f2937] pl-10 pr-12  text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a]`}
             required
             minLength={8}
             maxLength={64}
@@ -156,7 +156,7 @@ const SignupForm = ({ setIsLogin }) => {
       </div>
 
       <div className="space-y-2">
-        <label className="font-orbitron text-xs font-bold tracking-wider text-black dark:text-white">
+        <label className=" text-xs font-bold tracking-wider text-black dark:text-white">
           PASSOUT YEAR
         </label>
         <div className="relative">
@@ -174,7 +174,7 @@ const SignupForm = ({ setIsLogin }) => {
             }}
             min={new Date().getFullYear() - 4}
             max={new Date().getFullYear() + 4}
-            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-4 font-orbitron text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-4  text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
             required
           />
         </div>
@@ -188,7 +188,7 @@ const SignupForm = ({ setIsLogin }) => {
         <button
           type="submit"
           disabled={isLoading || !passwordsMatch}
-          className="relative h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] font-orbitron text-sm font-bold text-[#1a1f2e] hover:bg-[#35c17d] transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="relative h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c]  text-sm font-bold text-[#1a1f2e] hover:bg-[#35c17d] transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {isLoading ? (
             <>
@@ -204,7 +204,7 @@ const SignupForm = ({ setIsLogin }) => {
         </button>
       </div>
 
-      <div className="text-center font-orbitron text-xs text-black dark:text-white">
+      <div className="text-center  text-xs text-black dark:text-white">
         Already have an account?{" "}
         <button
           type="button"
