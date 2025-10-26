@@ -1,5 +1,5 @@
 import "./App.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 import AppRouter from "./routes/AppRouter";
 import { Toaster } from "react-hot-toast";
 

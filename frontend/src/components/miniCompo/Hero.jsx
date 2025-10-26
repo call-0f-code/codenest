@@ -1,91 +1,91 @@
-import { ArrowRight, Play , LayoutDashboard } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Sparkles, Rocket, ArrowRight } from "lucide-react";
 
-const Hero = () => {
+export default function HeroSection() {
+  const codeSnippets = [
+    "{ creative: true }",
+    "const magic = () => code",
+    "function inspire() {}",
+    "class Innovate extends Code",
+    "while(learning) { grow(); }",
+  ];
+
+  const [currentSnippet, setCurrentSnippet] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSnippet((prev) => (prev + 1) % codeSnippets.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 pt-20">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-20 left-10 w-32 h-32 border border-purple-500 rounded-full animate-pulse"></div>
-        <div className="absolute top-40 right-20 w-24 h-24 border border-blue-500 rounded-lg rotate-45 animate-bounce"></div>
-        <div className="absolute bottom-20 left-20 w-16 h-16 border border-purple-500 rounded-full animate-ping"></div>
-        <div className="absolute bottom-40 right-10 w-12 h-12 bg-purple-500 rounded-full animate-pulse"></div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
-        <div className="text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center px-4 py-2 bg-purple-600/20 border border-purple-500/30 rounded-full mb-8">
-            <span className="text-purple-300 text-sm font-medium">
-              🚀 Master Data Structures & Algorithms
+    <section className="px-6 py-20">
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+        {/* Left Side */}
+        <div className="space-y-8">
+          <div className="inline-block bg-[#2C1810] dark:bg-[#F5E6D3] text-[#F5E6D3] dark:text-[#2C1810] px-6 py-3 border-4 border-black dark:border-[#2C1810] font-black -rotate-2 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+            <span className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5" />
+              WHERE CODE MEETS CREATIVITY
             </span>
           </div>
 
-          {/* Main Heading */}
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
-            Code Your Way to
+          <h2 className="text-7xl lg:text-8xl font-black leading-none text-[#2C1810] dark:text-[#F5E6D3]">
+            CODE.
             <br />
-            <span className="text-purple-400">Success</span>
-          </h1>
+            <span className="text-[#C1502E]">CREATE.</span>
+            <br />
+            <span className="inline-block bg-[#2C1810] dark:bg-[#C1502E] text-[#F5E6D3] px-4 border-4 border-black rotate-2 shadow-[8px_8px_0px_0px_rgba(193,80,46,1)]">
+              CONQUER.
+            </span>
+          </h2>
 
-          {/* Subheading */}
-          <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Master data structures and algorithms with our comprehensive collection of 
-            topic-wise questions. Practice, learn, and excel in your coding interviews.
+          <p className="text-2xl font-bold text-[#2C1810] dark:text-[#F5E6D3] leading-relaxed max-w-lg">
+            Join a vibrant community of creative coders who turn ideas into reality.
           </p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <Link to="/signup">
-              <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 text-lg">
-                Start Learning Free
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-            </Link>
-            <Link to="/dashboard">
-              <Button size="lg" className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-8 py-4 text-lg">
-                Go to Dashboard
-                <LayoutDashboard className="ml-2 w-5 h-5" />
-              </Button>
-            </Link>
-            <Button variant="outline" size="lg" className="border-gray-600 text-gray-300 hover:bg-gray-800 px-8 py-4 text-lg">
-              <Play className="mr-2 w-5 h-5" />
-              Watch Demo
-            </Button>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl mx-auto">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-purple-400 mb-2">500+</div>
-              <div className="text-gray-400">Practice Questions</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-blue-400 mb-2">15+</div>
-              <div className="text-gray-400">Data Structure Topics</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-400 mb-2">10k+</div>
-              <div className="text-gray-400">Students Learning</div>
-            </div>
+          <div className="flex flex-wrap gap-6">
+            <button className="group px-10 py-5 bg-[#C1502E] text-[#F5E6D3] text-xl font-black border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center gap-3">
+              <Rocket className="h-6 w-6" />
+              START CODING
+              <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform" />
+            </button>
+            <button className="px-10 py-5 bg-[#F5E6D3] dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] text-xl font-black border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all">
+              EXPLORE
+            </button>
           </div>
         </div>
-      </div>
 
-      {/* Floating Code Elements */}
-      <div className="absolute top-32 right-10 text-purple-400 font-mono text-sm opacity-20 animate-pulse hidden lg:block">
-        {'function solve(arr) {'}
-        <br />
-        {'  return arr.sort();'}
-        <br />
-        {'}'}
-      </div>
-      <div className="absolute bottom-32 left-10 text-blue-400 font-mono text-sm opacity-20 animate-pulse hidden lg:block">
-        {'console.log("Ready to code!");'}
+        {/* Right Side - Code Terminal */}
+        <div className="relative">
+          <div className="bg-[#2C1810] border-4 border-black shadow-[12px_12px_0px_0px_rgba(193,80,46,1)] p-8 rotate-2 hover:rotate-0 transition-transform duration-300">
+            <div className="flex items-center gap-2 mb-6">
+              <div className="w-4 h-4 bg-[#C1502E] border-2 border-black"></div>
+              <div className="w-4 h-4 bg-[#F5E6D3] border-2 border-black"></div>
+              <div className="w-4 h-4 bg-[#C1502E] border-2 border-black"></div>
+            </div>
+            <div className="font-mono text-lg space-y-3 text-[#F5E6D3]">
+              <div className="text-[#F5E6D3]/60">// Welcome to Call of Code</div>
+              <div className="text-[#C1502E] font-bold">
+                class <span className="text-[#F5E6D3]">CodingClub</span> {'{'}
+              </div>
+              <div className="ml-6">mission = <span className="text-[#C1502E]">"Inspire & Create"</span>;</div>
+              <div className="ml-6">members = <span className="text-[#C1502E] font-bold">∞</span>;</div>
+              <div className="ml-6">passion = <span className="text-[#C1502E] font-bold">MAX</span>;</div>
+              <div className="ml-6 bg-[#C1502E] text-[#F5E6D3] px-3 py-1 inline-block border-2 border-[#F5E6D3] font-bold">
+                {codeSnippets[currentSnippet]}
+              </div>
+              <div className="text-[#C1502E] font-bold">{'}'}</div>
+            </div>
+          </div>
+
+          {/* Decorative elements */}
+          <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-[#C1502E] border-4 border-black -rotate-12"></div>
+          <div className="absolute -top-4 -right-4 w-16 h-16 bg-[#F5E6D3] border-4 border-black rotate-45"></div>
+        </div>
       </div>
     </section>
   );
-};
-
-export default Hero;
+}
