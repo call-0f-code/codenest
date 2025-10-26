@@ -2,7 +2,7 @@ import { createInterviewExp, deleteInterviewExp, getAllInterviewExps, getIntervi
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useInterview (interviewId) {
-    const queryclient = useQueryClient();
+    const queryClient = useQueryClient();
     
     //all interview exps, most are probably rejections lmao
     const {data: interviews = [], isLoading, error} = useQuery({
@@ -20,19 +20,19 @@ export function useInterview (interviewId) {
     //create an interview exp, for people who want to self-report their Ls
     const postInterviewExp =   useMutation({
         mutationFn: (interviewData) => createInterviewExp(interviewData),
-        onSuccess: () => queryclient.invalidateQueries({queryKey: ['interviews']})
+        onSuccess: () => queryClient.invalidateQueries({queryKey: ['interviews']})
     })
 
     //update interview exps, for those who are too dumb to get it right the first time
     const fixInterviewExp = useMutation({
-        mutationFn: (interviewId, interviewData) => updateInterviewExp(interviewId, interviewData), 
-        onSuccess: () => queryclient.invalidateQueries({queryKey: ['interviews']})
+        mutationFn: ({interviewId, interviewData}) => updateInterviewExp(interviewId, interviewData), 
+        onSuccess: () => queryClient.invalidateQueries({queryKey: ['interviews']})
     })
 
     //delete interview exp, for those who lost the balls they had when they posted it
     const removeInterviewExp = useMutation({
         mutationFn: (interviewId) => deleteInterviewExp(interviewId),
-        onSuccess: () => queryclient.invalidateQueries({queryKey: ['interviews']})
+        onSuccess: () => queryClient.invalidateQueries({queryKey: ['interviews']})
     })
 
     return {
