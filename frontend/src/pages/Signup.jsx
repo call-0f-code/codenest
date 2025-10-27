@@ -1,115 +1,76 @@
+// frontend/src/pages/Signup.jsx
+
 import { useState } from "react";
-import BrandingSection from "@/components/miniCompo/BrandingSection";
 import LoginForm from "@/components/auth/LoginForm";
 import SignupForm from "@/components/auth/SignupForm";
-import { useTheme } from "@/context/ThemeContext";
-import { Moon, Sun } from "lucide-react";
-import ForgotPasswordForm from "@/components/auth/ForgotPassword";
+import ForgotPassword from "@/components/auth/ForgotPassword";
+import GeometricBackground from "@/components/common/GeometricBackground";
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
-  const { theme, toggleTheme } = useTheme();
 
   return (
-    <main className="min-h-screen bg-[#e8eaed] dark:bg-[#1a1f2e] transition-colors duration-300">
-      <header className="mx-auto max-w-7xl px-4 pt-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] px-4 py-2  text-sm font-bold text-[#1a1f2e]">
-              CALL OF CODE
+    <main className="min-h-screen bg-[#F5E6D3] dark:bg-[#2C1810] transition-colors duration-300 flex items-center justify-center p-6">
+      <GeometricBackground />
+      <div className="w-full max-w-md relative">
+        {/* Logo / Header */}
+        <div className="text-center mb-8">
+          <h1 className="inline-flex items-center gap-3 font-black text-3xl text-[#2C1810] dark:text-[#F5E6D3] tracking-tight">
+            <div className="bg-[#C1502E] p-3 border-4 border-black dark:border-[#F5E6D3] rotate-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(245,230,211,1)]">
+              {/* You can put your logo icon here */}
+              <span className="text-[#F5E6D3]">&lt;&gt;</span>
             </div>
-          </div>
-          <div className="flex items-center gap-3">
+            CALL OF CODE
+          </h1>
+          
+        </div>
+
+        {/* Form Card */}
+        <div className="bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] shadow-[12px_12px_0px_0px_rgba(193,80,46,1)] dark:shadow-[12px_12px_0px_0px_rgba(245,230,211,1)] p-8">
+          
+          {/* Toggle / Tabs */}
+          <div className="flex gap-4 mb-8">
             <button
-              onClick={toggleTheme}
-              className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] p-2 text-[#2a2d35] dark:text-[#c5d1de] hover:bg-[#f5f5f5] dark:hover:bg-[#2d3848] transition-colors"
-              aria-label="Toggle theme"
+              onClick={() => { setIsLogin(true); setShowForgotPassword(false); }}
+              className={`flex-1 py-3 font-black border-4 border-black dark:border-[#F5E6D3] transition-all ${
+                isLogin && !showForgotPassword
+                  ? "bg-[#C1502E] text-[#F5E6D3] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(245,230,211,1)]"
+                  : "bg-transparent text-[#2C1810] dark:text-[#F5E6D3] hover:translate-x-1 hover:translate-y-1"
+              }`}
             >
-              {theme === "dark" ? (
-                <Sun className="h-5 w-5" />
-              ) : (
-                <Moon className="h-5 w-5" />
-              )}
+              LOGIN
             </button>
-            <button className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] px-6 py-2  text-sm text-[#2a2d35] dark:text-[#c5d1de] hover:bg-[#f5f5f5] dark:hover:bg-[#2d3848] transition-colors">
-              Home
+            <button
+              onClick={() => { setIsLogin(false); setShowForgotPassword(false); }}
+              className={`flex-1 py-3 font-black border-4 border-black dark:border-[#F5E6D3] transition-all ${
+                !isLogin && !showForgotPassword
+                  ? "bg-[#C1502E] text-[#F5E6D3] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(245,230,211,1)]"
+                  : "bg-transparent text-[#2C1810] dark:text-[#F5E6D3] hover:translate-x-1 hover:translate-y-1"
+              }`}
+            >
+              SIGN UP
             </button>
           </div>
-        </div>
-      </header>
 
-      <div className="mx-auto max-w-7xl px-4 py-12 md:py-16">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-12">
-          <BrandingSection />
-
-          <div className="relative">
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 translate-x-3 translate-y-3 bg-[#2a2d35] dark:bg-[#0f1419]"
-            />
-            <section className="relative border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] p-6 md:p-8">
-              <div
-                aria-hidden="true"
-                className="pointer-events-none -rotate-90 absolute right-0 top-0 h-0 w-0 border-b-[80px] border-l-[80px] border-b-[#3dd68c]/20 border-l-transparent"
+          {/* Form Body */}
+          <div className="transition-all duration-300">
+            {showForgotPassword ? (
+              <ForgotPassword
+                setIsLogin={setIsLogin}
+                setShowForgotPassword={setShowForgotPassword}
               />
-
-              <div className="mb-6 flex items-center justify-center">
-                <div className="relative flex w-64 items-center justify-between overflow-hidden border-2 border-[#2a2d35] dark:border-[#3a4a5f]  text-sm font-bold">
-                  <div
-                    className={`absolute left-0 top-0 h-full w-1/2 bg-[#3dd68c] transition-transform duration-500 ease-out ${
-                      !isLogin ? "translate-x-full" : "translate-x-0"
-                    }`}
-                  />
-                  <button
-                    onClick={() => setIsLogin(true)}
-                    className={`relative z-10 flex-1 py-3 text-center transition-colors duration-300 ${
-                      isLogin
-                        ? "text-[#1a1f2e]"
-                        : "text-[#2a2d35] dark:text-[#8b96a5]"
-                    }`}
-                  >
-                    Login
-                  </button>
-                  <button
-                    onClick={() => setIsLogin(false)}
-                    className={`relative z-10 flex-1 py-3 text-center transition-colors duration-300 ${
-                      !isLogin
-                        ? "text-[#1a1f2e]"
-                        : "text-[#2a2d35] dark:text-[#8b96a5]"
-                    }`}
-                  >
-                    Signup
-                  </button>
-                </div>
-              </div>
-
-               {showForgotPassword && (
-                <div className="mb-6">
-                  <h2 className=" text-2xl font-bold text-center text-[#1a1f2e] dark:text-white">
-                    Reset Password
-                  </h2>
-                </div>
-              )}
-
-              <div className="transition-all duration-300">
-                {showForgotPassword ? (
-                  <ForgotPasswordForm
-                    setIsLogin={setIsLogin}
-                    setShowForgotPassword={setShowForgotPassword}
-                  />
-                ) : isLogin ? (
-                  <LoginForm 
-                    setIsLogin={setIsLogin}
-                    setShowForgotPassword={setShowForgotPassword}
-                  />
-                ) : (
-                  <SignupForm setIsLogin={setIsLogin} />
-                )}
-              </div>
-            </section>
+            ) : isLogin ? (
+              <LoginForm
+                setIsLogin={setIsLogin}
+                setShowForgotPassword={setShowForgotPassword}
+              />
+            ) : (
+              <SignupForm setIsLogin={setIsLogin} />
+            )}
           </div>
         </div>
+
       </div>
     </main>
   );
