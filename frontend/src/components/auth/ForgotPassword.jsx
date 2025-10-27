@@ -10,12 +10,18 @@ const ForgotPassword = ({ setIsLogin, setShowForgotPassword }) => {
   const [newPassword, setNewPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { resetpassword, verifyotp, forgotpassword } = useMembers();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSendOtp = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     forgotpassword.mutate(email, {
       onSuccess: () => {
         setStep("otp");
+        setIsLoading(false);
+      },
+      onError: () => {
+        setIsLoading(false);
       },
     });
   };
@@ -71,7 +77,7 @@ const ForgotPassword = ({ setIsLogin, setShowForgotPassword }) => {
               EMAIL ADDRESS
             </label>
             <div className="relative">
-              <Mail className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-[#C1502E]" />
+              <Mail className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-[#C1502E] z-10" />
               <input
                 type="email"
                 placeholder="name@domain.com"
@@ -92,10 +98,20 @@ const ForgotPassword = ({ setIsLogin, setShowForgotPassword }) => {
             />
             <button
               type="submit"
+              disabled={setIsLoading}
               className="relative h-12 w-full border-4 border-[#2C1810] dark:border-[#F5E6D3] bg-[#C1502E] dark:bg-[#C1502E] text-sm font-black text-[#F5E6D3] hover:translate-x-1 hover:translate-y-1 transition-all flex items-center justify-center gap-2"
             >
+              {isLoading ? (
+            <>
+              <div className="h-4 w-4 animate-spin border-2 border-[#F5E6D3] border-t-transparent rounded-full" />
+              <span>SENDING...</span>
+            </>
+          ) : (
+            <>
               <span>Send OTP</span>
               <ArrowRight className="h-5 w-5" />
+            </>
+          )}
             </button>
           </div>
         </form>
@@ -155,7 +171,7 @@ const ForgotPassword = ({ setIsLogin, setShowForgotPassword }) => {
               NEW PASSWORD
             </label>
             <div className="relative">
-              <Lock className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-[#C1502E]" />
+              <Lock className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-[#C1502E] z-10" />
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
