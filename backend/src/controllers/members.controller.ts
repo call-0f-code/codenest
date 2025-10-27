@@ -147,7 +147,9 @@ export const forgotpassword = async (req: Request, res: Response) => {
 
     const check = await api.get(`/members/?email=${email}`);
     const user = check.data.user;
-
+    if(!user.isApproved){
+        throw new ApiError('Not authorized, Wait for approval', 400);      
+    }
     const otp = generateOtp();
     otpStorage.store(email, otp);
     await sendOTP(email, otp);
