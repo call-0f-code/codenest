@@ -47,10 +47,6 @@ const LoginForm = ({ setIsLogin, setShowForgotPassword }) => {
             onChange={(e) => setEmail(e.target.value)}
             className="h-12 w-full border-4 border-[#2C1810] dark:border-[#F5E6D3] bg-[#F5E6D3] dark:bg-[#2C1810] pl-12 pr-4 text-sm text-[#2C1810] dark:text-[#F5E6D3] placeholder:text-[#2C1810]/40 dark:placeholder:text-[#F5E6D3]/40 focus:outline-none focus:ring-0 focus:translate-x-1 focus:translate-y-1 transition-transform"
             required
-            minLength={8}
-            maxLength={64}
-            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,64}$"
-            title="Password must be 8–64 characters long, include uppercase, lowercase, a number, and a special character."
           />
         </div>
       </div>
@@ -68,6 +64,10 @@ const LoginForm = ({ setIsLogin, setShowForgotPassword }) => {
             onChange={(e) => setPassword(e.target.value)}
             className="h-12 w-full border-4 border-[#2C1810] dark:border-[#F5E6D3] bg-[#F5E6D3] dark:bg-[#2C1810] pl-12 pr-12 text-sm text-[#2C1810] dark:text-[#F5E6D3] placeholder:text-[#2C1810]/40 dark:placeholder:text-[#F5E6D3]/40 focus:outline-none focus:ring-0 focus:translate-x-1 focus:translate-y-1 transition-transform"
             required
+            minLength={8}
+            maxLength={64}
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,64}$"
+            title="Password must be 8–64 characters long, include uppercase, lowercase, a number, and a special character."
           />
           <button
             type="button"

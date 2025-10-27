@@ -165,7 +165,7 @@ const ForgotPassword = ({ setIsLogin, setShowForgotPassword }) => {
                 required
                 minLength={8}
                 maxLength={64}
-                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,64}$"
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,64}$"
                 title="Password must be 8–64 characters long, include uppercase, lowercase, a number, and a special character."
               />
               <button

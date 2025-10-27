@@ -1,4 +1,3 @@
-// frontend/src/components/auth/SignupForm.jsx
 
 import { useState } from "react";
 import { Eye, EyeOff, User, Mail, Lock, GraduationCap, ArrowRight } from "lucide-react";
@@ -101,7 +100,7 @@ const SignupForm = ({ setIsLogin }) => {
             required
             minLength={8}
             maxLength={64}
-            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,64}$"
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,64}$"
             title="Password must be 8–64 characters long, include uppercase, lowercase, a number, and a special character."
           />
           <button
@@ -127,7 +126,7 @@ const SignupForm = ({ setIsLogin }) => {
           <Lock className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-[#C1502E] z-10" />
           <input
             type={showPassword ? "text" : "password"}
-            placeholder="••••••••"
+            placeholder="Confirm your password"
             value={confirmPassword}
             onChange={(e) => {
               setConfirmPassword(e.target.value);
