@@ -1,5 +1,9 @@
 import api from "./api";
 
+const headers = {
+    "Content-Type" : "multipart/form-data"
+}
+
 export const getAllInterviewExps = async () => {
   const response = await api.get("/interviews");
   return response.data;
@@ -11,12 +15,12 @@ export const getInterviewExpById = async (interviewId) => {
 };
 
 export const createInterviewExp = async (formData) => {
-  const response = await api.post(`/interviews/`, formData);
+  const response = await api.post(`/interviews/`, formData, { headers });
   return response.data;
 };
 
 export const updateInterviewExp = async (interviewId, formData) => {
-  const response = await api.patch(`/interviews/${interviewId}`, formData);
+  const response = await api.patch(`/interviews/${interviewId}`, formData, { headers });
   return response.data;
 };
 
