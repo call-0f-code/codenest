@@ -1,13 +1,6 @@
+
 import { useState } from "react";
-import {
-  Eye,
-  EyeOff,
-  Mail,
-  Lock,
-  User,
-  GraduationCap,
-  ArrowRight,
-} from "lucide-react";
+import { Eye, EyeOff, User, Mail, Lock, GraduationCap, ArrowRight } from "lucide-react";
 import { useMembers } from "@/hooks/useMember";
 import { globalToast } from "@/utils/toast";
 
@@ -50,33 +43,33 @@ const SignupForm = ({ setIsLogin }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-3 h-[435px] flex flex-col justify-center"
+      className="space-y-6 w-full flex flex-col justify-center"
     >
       <div className="space-y-2">
-        <label className=" text-xs font-bold tracking-wider text-black dark:text-white">
-          Full Name
+        <label className="text-xs font-bold tracking-wider text-[#2C1810] dark:text-[#F5E6D3]">
+          FULL NAME
         </label>
         <div className="relative">
-          <User className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-black dark:text-white" />
+          <User className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-[#C1502E] z-10" />
           <input
             type="text"
-            placeholder="Enter your Full Name"
+            placeholder="Enter your name"
             value={formData.username}
             onChange={(e) =>
               setFormData({ ...formData, username: e.target.value })
             }
-            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-4  text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+            className="h-12 w-full border-4 border-[#2C1810] dark:border-[#F5E6D3] bg-[#F5E6D3] dark:bg-[#2C1810] pl-12 pr-4 text-sm text-[#2C1810] dark:text-[#F5E6D3] placeholder:text-[#2C1810]/40 dark:placeholder:text-[#F5E6D3]/40 focus:outline-none focus:ring-0 focus:translate-x-1 focus:translate-y-1 transition-transform"
             required
           />
         </div>
       </div>
 
       <div className="space-y-2">
-        <label className=" text-xs font-bold tracking-wider text-black dark:text-white">
+        <label className="text-xs font-bold tracking-wider text-[#2C1810] dark:text-[#F5E6D3]">
           EMAIL
         </label>
         <div className="relative">
-          <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-black dark:text-white" />
+          <Mail className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-[#C1502E] z-10" />
           <input
             type="email"
             placeholder="Enter your email"
@@ -84,19 +77,18 @@ const SignupForm = ({ setIsLogin }) => {
             onChange={(e) =>
               setFormData({ ...formData, email: e.target.value })
             }
-            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-4  text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+            className="h-12 w-full border-4 border-[#2C1810] dark:border-[#F5E6D3] bg-[#F5E6D3] dark:bg-[#2C1810] pl-12 pr-4 text-sm text-[#2C1810] dark:text-[#F5E6D3] placeholder:text-[#2C1810]/40 dark:placeholder:text-[#F5E6D3]/40 focus:outline-none focus:ring-0 focus:translate-x-1 focus:translate-y-1 transition-transform"
             required
           />
         </div>
       </div>
 
       <div className="space-y-2">
-        <label className=" text-xs font-bold tracking-wider text-black dark:text-white">
+        <label className="text-xs font-bold tracking-wider text-[#2C1810] dark:text-[#F5E6D3]">
           PASSWORD
         </label>
         <div className="relative">
-
-          <Lock className="pointer-events-none absolute left-3 top-1/4 h-4 w-4 -translate-y-1/2 text-black dark:text-white" />
+          <Lock className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-[#C1502E] z-10" />
           <input
             type={showPassword ? "text" : "password"}
             placeholder="Create a password"
@@ -104,7 +96,7 @@ const SignupForm = ({ setIsLogin }) => {
             onChange={(e) =>
               setFormData({ ...formData, password: e.target.value })
             }
-            className="m-1 h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-12  text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+            className="h-12 w-full border-4 border-[#2C1810] dark:border-[#F5E6D3] bg-[#F5E6D3] dark:bg-[#2C1810] pl-12 pr-12 text-sm text-[#2C1810] dark:text-[#F5E6D3] placeholder:text-[#2C1810]/40 dark:placeholder:text-[#F5E6D3]/40 focus:outline-none focus:ring-0 focus:translate-x-1 focus:translate-y-1 transition-transform"
             required
             minLength={8}
             maxLength={64}
@@ -114,53 +106,52 @@ const SignupForm = ({ setIsLogin }) => {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/4 -translate-y-1/2 text-[#5f6b72] dark:text-[#8b96a5] hover:text-[#3dd68c] transition-colors"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-[#C1502E] hover:text-[#2C1810] dark:hover:text-[#F5E6D3] transition-colors"
             aria-label={showPassword ? "Hide password" : "Show password"}
           >
             {showPassword ? (
-              <EyeOff className="h-4 w-4" />
+              <EyeOff className="h-5 w-5" />
             ) : (
-              <Eye className="h-4 w-4" />
+              <Eye className="h-5 w-5" />
             )}
           </button>
+        </div>
+      </div>
 
-          <Lock className="pointer-events-none absolute left-3 top-3/4 h-4 w-4 -translate-y-1/2 text-black dark:text-white" />
+      <div className="space-y-2">
+        <label className="text-xs font-bold tracking-wider text-[#2C1810] dark:text-[#F5E6D3]">
+          CONFIRM PASSWORD
+        </label>
+        <div className="relative">
+          <Lock className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-[#C1502E] z-10" />
           <input
             type={showPassword ? "text" : "password"}
             placeholder="Confirm your password"
             value={confirmPassword}
             onChange={(e) => {
-              setConfirmPassword(e.target.value)
+              setConfirmPassword(e.target.value);
               e.target.setCustomValidity(
                 formData.password !== e.target.value ? "Passwords do not match." : ""
-              )
+              );
             }}
-            className={`m-1 h-12 w-full border-2 ${formData.password && confirmPassword && formData.password !== confirmPassword
-              ? "border-red-500 focus:border-red-500"
-              : "border-[#2a2d35] dark:border-[#3a4a5f] focus:ring-[#3dd68c]"
-              } focus:ring-1 focus:outline-none bg-white dark:bg-[#1f2937] pl-10 pr-12  text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a]`}
+            className={`h-12 w-full border-4 ${
+              formData.password && confirmPassword && formData.password !== confirmPassword
+                ? "border-red-600"
+                : "border-[#2C1810] dark:border-[#F5E6D3]"
+            } bg-[#F5E6D3] dark:bg-[#2C1810] pl-12 pr-12 text-sm text-[#2C1810] dark:text-[#F5E6D3] placeholder:text-[#2C1810]/40 dark:placeholder:text-[#F5E6D3]/40 focus:outline-none focus:ring-0 focus:translate-x-1 focus:translate-y-1 transition-transform`}
             required
             minLength={8}
             maxLength={64}
           />
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-3/4 -translate-y-1/2 text-[#5f6b72] dark:text-[#8b96a5] hover:text-[#3dd68c] transition-colors"
-            aria-label={showPassword ? "Hide password" : "Show password"}
-          >
-            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-          </button>
-
         </div>
       </div>
 
       <div className="space-y-2">
-        <label className=" text-xs font-bold tracking-wider text-black dark:text-white">
+        <label className="text-xs font-bold tracking-wider text-[#2C1810] dark:text-[#F5E6D3]">
           PASSOUT YEAR
         </label>
         <div className="relative">
-          <GraduationCap className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-black dark:text-white" />
+          <GraduationCap className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-[#C1502E] z-10" />
           <input
             type="number"
             placeholder="eg. 2027"
@@ -174,42 +165,42 @@ const SignupForm = ({ setIsLogin }) => {
             }}
             min={new Date().getFullYear() - 4}
             max={new Date().getFullYear() + 4}
-            className="h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#1f2937] pl-10 pr-4  text-sm text-[#1a1f2e] dark:text-[#c5d1de] placeholder:text-[#8b96a5] dark:placeholder:text-[#6b7a8a] focus:outline-none focus:ring-2 focus:ring-[#3dd68c]"
+            className="h-12 w-full border-4 border-[#2C1810] dark:border-[#F5E6D3] bg-[#F5E6D3] dark:bg-[#2C1810] pl-12 pr-4 text-sm text-[#2C1810] dark:text-[#F5E6D3] placeholder:text-[#2C1810]/40 dark:placeholder:text-[#F5E6D3]/40 focus:outline-none focus:ring-0 focus:translate-x-1 focus:translate-y-1 transition-transform"
             required
           />
         </div>
       </div>
 
-      <div className="relative">
+      <div className="relative mt-4">
         <div
           aria-hidden="true"
-          className="absolute inset-0 translate-x-1 translate-y-1 bg-[#2a2d35] dark:bg-[#0f1419]"
+          className="absolute inset-0 translate-x-1 translate-y-1 bg-[#2C1810] dark:bg-[#F5E6D3]"
         />
         <button
           type="submit"
           disabled={isLoading || !passwordsMatch}
-          className="relative h-12 w-full border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c]  text-sm font-bold text-[#1a1f2e] hover:bg-[#35c17d] transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="relative h-12 w-full border-4 border-[#2C1810] dark:border-[#F5E6D3] bg-[#C1502E] dark:bg-[#C1502E] text-sm font-black text-[#F5E6D3] hover:translate-x-1 hover:translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(245,230,211,1)] transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
         >
           {isLoading ? (
             <>
-              <div className="h-4 w-4 animate-spin border-2 border-[#1a1f2e] border-t-transparent rounded-full" />
+              <div className="h-4 w-4 animate-spin border-2 border-[#F5E6D3] border-t-transparent rounded-full" />
               <span>CREATING ACCOUNT...</span>
             </>
           ) : (
             <>
               <span>Create Account</span>
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-5 w-5" />
             </>
           )}
         </button>
       </div>
 
-      <div className="text-center  text-xs text-black dark:text-white">
+      <div className="text-center text-xs font-bold text-[#2C1810] dark:text-[#F5E6D3] mt-4">
         Already have an account?{" "}
         <button
           type="button"
           onClick={() => setIsLogin(true)}
-          className="text-[#3dd68c] hover:text-[#2fbe84] transition-colors"
+          className="text-[#C1502E] font-bold hover:underline"
         >
           Login here
         </button>
