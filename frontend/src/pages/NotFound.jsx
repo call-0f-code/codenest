@@ -14,78 +14,85 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950/20 to-slate-950 flex items-center justify-center relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-20 left-10 w-32 h-32 border border-purple-500 rounded-full animate-pulse"></div>
-        <div className="absolute top-60 right-20 w-24 h-24 border border-blue-500 rounded-lg rotate-45 animate-bounce"></div>
-        <div className="absolute bottom-20 left-20 w-16 h-16 border border-purple-500 rounded-full animate-ping"></div>
-        <div className="absolute bottom-60 right-10 w-12 h-12 bg-purple-500 rounded-full animate-pulse"></div>
+    <div className="min-h-screen flex flex-col items-center justify-center px-6 relative overflow-hidden transition-colors duration-500
+      bg-[#f5e6d3] text-[#1a1a1a] dark:bg-[#0f0e0e] dark:text-[#f5e6d3]">
+      
+      {/* Background elements */}
+      <div className="absolute inset-0 pointer-events-none transition-colors duration-500">
+        <div className="absolute top-16 left-12 w-32 h-32 border-4 rotate-6 
+          border-[#1a1a1a] bg-[#1a1a1a]/5 dark:border-[#f5e6d3] dark:bg-[#f5e6d3]/5"></div>
+        <div className="absolute bottom-20 right-20 w-40 h-40 border-4 -rotate-3 
+          border-[#d14334] bg-[#d14334]/10"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 translate-y-24 w-[85vw] h-[2px] 
+          bg-[#d14334]/20"></div>
       </div>
 
-      <div className="text-center px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* 404 Number */}
-        <div className="mb-8">
-          <h1 className="text-9xl md:text-[12rem] font-bold bg-gradient-to-r from-purple-400 via-purple-600 to-indigo-600 bg-clip-text text-transparent leading-none">
-            404
-          </h1>
-        </div>
+      {/* 404 */}
+      <div className="relative z-10 group">
+        <h1 className="text-[10rem] sm:text-[14rem] font-black tracking-tight leading-none 
+          text-[#d14334] drop-shadow-[6px_6px_0px_#1a1a1a] 
+          dark:drop-shadow-[6px_6px_0px_#f5e6d3] 
+          group-hover:rotate-1 transition-transform duration-300">
+          404
+        </h1>
+      </div>
 
-        {/* Error Message */}
-        <div className="mb-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-100 mb-4">
-            Oops! Page Not Found
-          </h2>
-          <p className="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
-            The page you're looking for doesn't exist or has been moved. 
-            Don't worry, even the best developers hit dead ends sometimes!
-          </p>
-        </div>
+      {/* Message */}
+      <div className="text-center relative z-10 mt-4">
+        <h2 className="text-3xl sm:text-4xl font-extrabold uppercase tracking-wide mb-2">
+          Page Lost in the Void
+        </h2>
+        <p className="max-w-lg mx-auto text-base sm:text-lg leading-relaxed font-mono text-[#1a1a1a]/70 dark:text-[#f5e6d3]/70">
+          The route <span className="text-[#d14334] font-semibold">{location.pathname}</span> 
+          doesn’t exist. Maybe it drifted into the wrong dimension.
+        </p>
+      </div>
 
-        {/* Searched Route Info */}
-        <div className="mb-8 p-4 bg-slate-900/50 border border-slate-800/50 rounded-xl max-w-md mx-auto">
-          <div className="flex items-center justify-center space-x-2 text-slate-300">
-            <Search className="w-4 h-4" />
-            <span className="text-sm font-mono">
-              {location.pathname}
-            </span>
-          </div>
+      {/* Route info */}
+      <div className="mt-8 mb-12 p-4 border-2 rounded-xl font-mono text-sm tracking-wide 
+        border-[#1a1a1a] bg-[#d14334]/10 dark:border-[#f5e6d3] backdrop-blur-sm">
+        <div className="flex items-center gap-2">
+          <Search className="w-4 h-4 text-[#d14334]" />
+          <span>{location.pathname}</span>
         </div>
+      </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-          <Link to="/">
-            <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 text-lg">
-              <Home className="mr-2 w-5 h-5" />
-              Back to Home
-            </Button>
-          </Link>
-          <Button 
-            size="lg" 
-            variant="outline" 
-            className="border-slate-600 text-slate-300 hover:bg-slate-800 px-8 py-4 text-lg"
-            onClick={() => window.history.back()}
+      {/* Buttons */}
+      <div className="flex flex-col sm:flex-row gap-4 z-10">
+        <Link to="/">
+          <Button
+            size="lg"
+            className="border-2 border-[#1a1a1a] dark:border-[#f5e6d3] 
+              bg-[#d14334] text-[#f5e6d3] dark:bg-[#d14334] dark:text-[#f5e6d3]
+              px-8 py-4 font-bold rounded-none hover:bg-[#f5e6d3] hover:text-[#0f0e0e] 
+              dark:hover:bg-[#f5e6d3] dark:hover:text-[#0f0e0e]
+              hover:rotate-1 hover:scale-105 transition-transform duration-300"
           >
-            <ArrowLeft className="mr-2 w-5 h-5" />
-            Go Back
+            <Home className="mr-2 w-5 h-5" />
+            Back to Home
           </Button>
-        </div>
+        </Link>
 
-        {/* Floating Code Elements */}
-        <div className="absolute top-32 right-10 text-purple-400 font-mono text-sm opacity-20 animate-pulse hidden lg:block">
-          {'if (page.exists()) {'}
-          <br />
-          {'  return <Page />;'}
-          <br />
-          {'} else {'}
-          <br />
-          {'  return <NotFound />;'}
-          <br />
-          {'}'}
-        </div>
-        <div className="absolute bottom-32 left-10 text-blue-400 font-mono text-sm opacity-20 animate-pulse hidden lg:block">
-          {'console.error("404: Route not found");'}
-        </div>
+        <Button
+          size="lg"
+          className="border-2 border-[#1a1a1a] dark:border-[#f5e6d3] 
+            bg-[#d14334] text-[#f5e6d3] dark:bg-[#d14334] 
+            px-8 py-4 font-bold rounded-none hover:bg-[#f5e6d3] hover:text-[#0f0e0e] 
+            dark:hover:bg-[#f5e6d3] dark:hover:text-[#0f0e0e]
+            hover:rotate-1 transition-transform duration-300"
+          onClick={() => window.history.back()}
+        >
+          <ArrowLeft className="mr-2 w-5 h-5" />
+          Go Back
+        </Button>
+      </div>
+
+      {/* Floating code hints */}
+      <div className="absolute bottom-10 left-10 text-xs font-mono text-[#1a1a1a]/40 dark:text-[#f5e6d3]/40 select-none">
+        {"// Nothing found here, just echoes..."}
+      </div>
+      <div className="absolute top-10 right-10 text-xs font-mono text-[#d14334]/40 select-none">
+        {"/* Brutalist 404 Poster */"}
       </div>
     </div>
   );
