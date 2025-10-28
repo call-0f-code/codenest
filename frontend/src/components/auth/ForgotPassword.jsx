@@ -10,18 +10,13 @@ const ForgotPassword = ({ setIsLogin, setShowForgotPassword }) => {
   const [newPassword, setNewPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { resetpassword, verifyotp, forgotpassword } = useMembers();
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleSendOtp = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+
     forgotpassword.mutate(email, {
       onSuccess: () => {
         setStep("otp");
-        setIsLoading(false);
-      },
-      onError: () => {
-        setIsLoading(false);
       },
     });
   };
@@ -98,20 +93,20 @@ const ForgotPassword = ({ setIsLogin, setShowForgotPassword }) => {
             />
             <button
               type="submit"
-              disabled={setIsLoading}
+              disabled={forgotpassword.isPending}
               className="relative h-12 w-full border-4 border-[#2C1810] dark:border-[#F5E6D3] bg-[#C1502E] dark:bg-[#C1502E] text-sm font-black text-[#F5E6D3] hover:translate-x-1 hover:translate-y-1 transition-all flex items-center justify-center gap-2"
             >
-              {isLoading ? (
-            <>
-              <div className="h-4 w-4 animate-spin border-2 border-[#F5E6D3] border-t-transparent rounded-full" />
-              <span>SENDING...</span>
-            </>
-          ) : (
-            <>
-              <span>Send OTP</span>
-              <ArrowRight className="h-5 w-5" />
-            </>
-          )}
+              {forgotpassword.isPending ? (
+                <>
+                  <div className="h-4 w-4 animate-spin border-2 border-[#1a1f2e] border-t-transparent rounded-full" />
+                  <span>SENDING...</span>
+                </>
+              ) : (
+                <>
+                  <span>Send OTP</span>
+                  <ArrowRight className="h-4 w-4" />
+                </>
+              )}
             </button>
           </div>
         </form>
@@ -145,10 +140,20 @@ const ForgotPassword = ({ setIsLogin, setShowForgotPassword }) => {
             />
             <button
               type="submit"
+              disabled={verifyotp.isPending}
               className="relative h-12 w-full border-4 border-[#2C1810] dark:border-[#F5E6D3] bg-[#C1502E] dark:bg-[#C1502E] text-sm font-black text-[#F5E6D3] hover:translate-x-1 hover:translate-y-1 transition-all flex items-center justify-center gap-2"
             >
-              <span>Verify OTP</span>
-              <ArrowRight className="h-5 w-5" />
+              {verifyotp.isPending ? (
+                <>
+                  <div className="h-4 w-4 animate-spin border-2 border-[#1a1f2e] border-t-transparent rounded-full" />
+                  <span>VERIFYING...</span>
+                </>
+              ) : (
+                <>
+                  <span>Verify OTP</span>
+                  <ArrowRight className="h-4 w-4" />
+                </>
+              )}
             </button>
           </div>
           <div className="text-center text-xs text-[#2C1810] dark:text-[#F5E6D3]">
@@ -193,6 +198,9 @@ const ForgotPassword = ({ setIsLogin, setShowForgotPassword }) => {
                 {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
               </button>
             </div>
+            <p className=" text-xs text-[#5f6b72] dark:text-[#8b96a5]">
+              Must be 8–64 characters with uppercase, lowercase, number, and special character
+            </p>
           </div>
           <div className="relative">
             <div
@@ -201,10 +209,20 @@ const ForgotPassword = ({ setIsLogin, setShowForgotPassword }) => {
             />
             <button
               type="submit"
+              disabled={resetpassword.isPending}
               className="relative h-12 w-full border-4 border-[#2C1810] dark:border-[#F5E6D3] bg-[#C1502E] dark:bg-[#C1502E] text-sm font-black text-[#F5E6D3] hover:translate-x-1 hover:translate-y-1 transition-all flex items-center justify-center gap-2"
             >
-              <span>Reset Password</span>
-              <ArrowRight className="h-5 w-5" />
+              {resetpassword.isPending ? (
+                <>
+                  <div className="h-4 w-4 animate-spin border-2 border-[#1a1f2e] border-t-transparent rounded-full" />
+                  <span>RESETTING...</span>
+                </>
+              ) : (
+                <>
+                  <span>Reset Password</span>
+                  <ArrowRight className="h-4 w-4" />
+                </>
+              )}
             </button>
           </div>
         </form>

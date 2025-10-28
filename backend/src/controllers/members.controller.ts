@@ -147,8 +147,7 @@ export const forgotpassword = async (req: Request, res: Response) => {
 
     const check = await api.get(`/members/?email=${email}`);
     const user = check.data.user;
-    const check = await api.get(`/members/?email=${email}`);
-    const user = check.data.user;
+
     
     if(!user) {
         throw new ApiError('User not found', 404);
