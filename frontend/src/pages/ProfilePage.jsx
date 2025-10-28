@@ -119,7 +119,7 @@ const ProfilePage = () => {
       {/* Poster Wall Layout */}
       <section className="max-w-7xl mx-auto px-6 py-16 grid gap-16">
         {/* Poster Card - ProfileHeader */}
-        <div className="relative group hover:-rotate-2 transition-transform duration-300">
+        <div className="relative group hover:-rotate-1 transition-transform duration-300">
           <div
             aria-hidden="true"
             className="absolute inset-0 translate-x-4 translate-y-4 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black"
@@ -138,7 +138,7 @@ const ProfilePage = () => {
         </div>
 
         {/* Poster Card - PersonalInfo */}
-        <div className="relative group hover:rotate-2 transition-transform duration-300">
+        <div className="relative group hover:rotate-1 transition-transform duration-300">
           <div
             aria-hidden="true"
             className="absolute inset-0 translate-x-4 translate-y-4 bg-[#C1502E] border-4 border-black"
@@ -153,7 +153,7 @@ const ProfilePage = () => {
         </div>
 
         {/* Poster Card - SocialLinks */}
-        <div className="relative group hover:-rotate-3 transition-transform duration-300">
+        <div className="relative group hover:-rotate-1 transition-transform duration-300">
           <div
             aria-hidden="true"
             className="absolute inset-0 translate-x-4 translate-y-4 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black"
