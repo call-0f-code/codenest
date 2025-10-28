@@ -148,6 +148,14 @@ export const forgotpassword = async (req: Request, res: Response) => {
     const check = await api.get(`/members/?email=${email}`);
     const user = check.data.user;
 
+    
+    if(!user) {
+        throw new ApiError('User not found', 404);
+    }
+    
+    if(!user.isApproved){
+        throw new ApiError('Unauthorized access detected', 403);      
+    }
     const otp = generateOtp();
     otpStorage.store(email, otp);
     await sendOTP(email, otp);
