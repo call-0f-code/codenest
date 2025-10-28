@@ -2,7 +2,7 @@ import api from "./api";
 
 export const getAllInterviewExps = async () => {
   const response = await api.get("/interviews");
-  return response.data;
+  return response.data.data;
 };
 
 export const getInterviewExpById = async (interviewId) => {
