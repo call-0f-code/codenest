@@ -176,14 +176,19 @@ export function QuestionsView({ selectedTopic, onBack }) {
       <div className="flex justify-between items-center">
         <button
           onClick={() => handleToggle(question.id)}
-          className="flex items-center gap-3 font-extrabold text-[#2C1810] dark:text-[#F5E6D3]"
+          disabled={toggle.isPending}
+          className={`flex items-center gap-3 font-extrabold text-[#2C1810] dark:text-[#F5E6D3] ${
+            toggle.isPending ? "opacity-60 cursor-not-allowed" : ""
+          }`}
         >
           {completedMap[question.id] ? (
             <CheckCircle2 className="w-8 h-8 text-[#3dd68c]" />
           ) : (
             <Circle className="w-8 h-8 text-[#b05a3c] dark:text-[#F5E6D3]" />
           )}
-          <span className="text-sm uppercase">Mark Done</span>
+          <span className="text-sm uppercase">
+            {toggle.isPending ? "Updating..." : "Mark Done"}
+          </span>
         </button>
 
         <button
