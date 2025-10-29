@@ -12,7 +12,7 @@ import CreateInterviewExp from "@/pages/CreateInterviewExp";
 import AuthPage from "../pages/Signup";
 import DsaDashboard from "@/pages/DsaDashboard";
 import ProfilePage from "@/pages/ProfilePage";
-
+import InterviewExperiences from "@/pages/InterviewExp";
 export const routes = [
   {
     path: "/",
@@ -42,6 +42,11 @@ export const routes = [
   {
     path : "/dsa",
     element : <DsaDashboard/>,
+    public: true,
+  },
+  {
+    path: "/interviews", 
+    element: <InterviewExperiences/>,
     public: true,
   },
   {
