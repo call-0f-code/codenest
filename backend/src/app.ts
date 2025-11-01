@@ -5,8 +5,17 @@ import config from './config';
 import multer from "multer";
 import routes from './routes';
 import { errorHandler } from './utils/apiError';
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
 
 const app = express();
+
+const limiter = rateLimit({
+  windowMs: config.rate_limit_window_minutes() * 60 * 1000, 
+  max: config.rate_limit_max_request(), 
+  standardHeaders: true, 
+  legacyHeaders: false, 
+});
 
 app.use(
   cors({
@@ -16,6 +25,8 @@ app.use(
   }),
 );
 
+app.use(helmet());
+app.use(limiter)
 app.use(json());
 app.use(urlencoded({ extended: true }));
 
