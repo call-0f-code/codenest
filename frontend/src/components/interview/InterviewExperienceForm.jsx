@@ -1,7 +1,263 @@
-import { useState } from "react";
-import { Briefcase, Send, Eye, EyeOff, Trophy, XCircle, Clock } from "lucide-react";
-import { MinimalTiptap } from "@/components/ui/shadcn-io/minimal-tiptap";
+import { useState, useRef, useCallback, useEffect } from "react";
+import { Briefcase, Send, Eye, EyeOff, Trophy, XCircle, Clock, Bold, Italic, List, ListOrdered, Heading1, Heading2, Heading3, Link as LinkIcon, Code, Quote, Minus } from "lucide-react";
+import { LexicalComposer } from "@lexical/react/LexicalComposer";
+import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import { ContentEditable } from "@lexical/react/LexicalContentEditable";
+import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
+import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import {LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
+import { $convertToMarkdownString, TRANSFORMERS } from "@lexical/markdown";
+import { HeadingNode, QuoteNode, $createQuoteNode } from "@lexical/rich-text";
+import { CodeNode, $createCodeNode } from "@lexical/code";
+import { LinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
+import { HorizontalRuleNode } from "@lexical/react/LexicalHorizontalRuleNode";
+import { 
+  FORMAT_TEXT_COMMAND,
+  $getSelection,
+  $isRangeSelection,
+  $createParagraphNode,
+  COMMAND_PRIORITY_LOW,
+} from "lexical";
+import { $setBlocksType } from "@lexical/selection";
+import { $createHeadingNode } from "@lexical/rich-text";
+import { INSERT_HORIZONTAL_RULE_COMMAND } from "@lexical/react/LexicalHorizontalRuleNode";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { ListItemNode, ListNode } from "@lexical/list";
+import { INSERT_UNORDERED_LIST_COMMAND, INSERT_ORDERED_LIST_COMMAND } from "@lexical/list";
+import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
 import { VERDICT_OPTIONS } from "@/constants/interviewConstants";
+
+// Toolbar Component
+function ToolbarPlugin() {
+  const [editor] = useLexicalComposerContext();
+  const [isBold, setIsBold] = useState(false);
+  const [isItalic, setIsItalic] = useState(false);
+  const [isCode, setIsCode] = useState(false);
+  const [blockType, setBlockType] = useState("paragraph");
+
+  useEffect(() => {
+    return editor.registerUpdateListener(({ editorState }) => {
+      editorState.read(() => {
+        const selection = $getSelection();
+        if ($isRangeSelection(selection)) {
+          setIsBold(selection.hasFormat("bold"));
+          setIsItalic(selection.hasFormat("italic"));
+          setIsCode(selection.hasFormat("code"));
+          
+          // Get block type
+          const anchorNode = selection.anchor.getNode();
+          const element = anchorNode.getKey() === "root" 
+            ? anchorNode 
+            : anchorNode.getTopLevelElementOrThrow();
+          const elementDOM = editor.getElementByKey(element.getKey());
+          
+          if (elementDOM !== null) {
+            if (element.getType() === "heading") {
+              const tag = element.getTag();
+              setBlockType(tag);
+            } else if (element.getType() === "quote") {
+              setBlockType("quote");
+            } else if (element.getType() === "code") {
+              setBlockType("code");
+            } else {
+              setBlockType("paragraph");
+            }
+          }
+        }
+      });
+    });
+  }, [editor]);
+
+  const formatBold = useCallback(() => {
+    editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
+  }, [editor]);
+
+  const formatItalic = useCallback(() => {
+    editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
+  }, [editor]);
+
+  const formatCode = useCallback(() => {
+    editor.dispatchCommand(FORMAT_TEXT_COMMAND, "code");
+  }, [editor]);
+
+  const formatHeading = useCallback((headingSize) => {
+    editor.update(() => {
+      const selection = $getSelection();
+      if ($isRangeSelection(selection)) {
+        $setBlocksType(selection, () => $createHeadingNode(headingSize));
+      }
+    });
+  }, [editor]);
+
+  const formatQuote = useCallback(() => {
+    editor.update(() => {
+      const selection = $getSelection();
+      if ($isRangeSelection(selection)) {
+        $setBlocksType(selection, () => $createQuoteNode());
+      }
+    });
+  }, [editor]);
+
+  const formatBulletList = useCallback(() => {
+    editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
+  }, [editor]);
+
+  const formatNumberedList = useCallback(() => {
+    editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
+  }, [editor]);
+
+  const insertLink = useCallback(() => {
+    const url = prompt("Enter URL:");
+    if (url) {
+      editor.dispatchCommand(TOGGLE_LINK_COMMAND, url);
+    }
+  }, [editor]);
+
+  const insertHorizontalRule = useCallback(() => {
+    editor.dispatchCommand(INSERT_HORIZONTAL_RULE_COMMAND, undefined);
+  }, [editor]);
+
+  const buttonClass = (isActive) => 
+    `p-2 border-2 border-black transition-all ${
+      isActive 
+        ? "bg-[#C1502E] text-[#F5E6D3] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" 
+        : "bg-white dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] hover:bg-[#C1502E]/20"
+    }`;
+
+  return (
+    <div className="flex flex-wrap gap-2 p-2 border-b-4 border-black bg-[#F5E6D3] dark:bg-[#2C1810]">
+      {/* Text Formatting */}
+      <button
+        onClick={formatBold}
+        type="button"
+        className={buttonClass(isBold)}
+        aria-label="Format Bold"
+      >
+        <Bold className="h-4 w-4" />
+      </button>
+      <button
+        onClick={formatItalic}
+        type="button"
+        className={buttonClass(isItalic)}
+        aria-label="Format Italic"
+      >
+        <Italic className="h-4 w-4" />
+      </button>
+      <button
+        onClick={formatCode}
+        type="button"
+        className={buttonClass(isCode)}
+        aria-label="Inline Code"
+      >
+        <Code className="h-4 w-4" />
+      </button>
+
+      <div className="w-px bg-black"></div>
+
+      {/* Headings */}
+      <button
+        onClick={() => formatHeading("h1")}
+        type="button"
+        className={buttonClass(blockType === "h1")}
+        aria-label="Heading 1"
+      >
+        <Heading1 className="h-4 w-4" />
+      </button>
+      <button
+        onClick={() => formatHeading("h2")}
+        type="button"
+        className={buttonClass(blockType === "h2")}
+        aria-label="Heading 2"
+      >
+        <Heading2 className="h-4 w-4" />
+      </button>
+      <button
+        onClick={() => formatHeading("h3")}
+        type="button"
+        className={buttonClass(blockType === "h3")}
+        aria-label="Heading 3"
+      >
+        <Heading3 className="h-4 w-4" />
+      </button>
+
+      <div className="w-px bg-black"></div>
+
+      {/* Lists */}
+      <button
+        onClick={formatBulletList}
+        type="button"
+        className={buttonClass(false)}
+        aria-label="Bullet List"
+      >
+        <List className="h-4 w-4" />
+      </button>
+      <button
+        onClick={formatNumberedList}
+        type="button"
+        className={buttonClass(false)}
+        aria-label="Numbered List"
+      >
+        <ListOrdered className="h-4 w-4" />
+      </button>
+
+      <div className="w-px bg-black"></div>
+
+      {/* Quote */}
+      <button
+        onClick={formatQuote}
+        type="button"
+        className={buttonClass(blockType === "quote")}
+        aria-label="Quote"
+      >
+        <Quote className="h-4 w-4" />
+      </button>
+    </div>
+  );
+}
+
+// Lexical editor theme
+const theme = {
+  paragraph: "mb-2",
+  text: {
+    bold: "font-bold",
+    italic: "italic",
+    underline: "underline",
+    code: "bg-[#2C1810] text-[#F5E6D3] px-1 py-0.5 font-mono text-sm rounded",
+  },
+  list: {
+    ul: "list-disc list-inside ml-4 mb-2",
+    ol: "list-decimal list-inside ml-4 mb-2",
+    listitem: "mb-1",
+  },
+  heading: {
+    h1: "text-2xl font-bold mb-2",
+    h2: "text-xl font-bold mb-2",
+    h3: "text-lg font-bold mb-2",
+  },
+  link: "text-[#C1502E] underline hover:text-[#C1502E]/80 cursor-pointer",
+  code: "bg-[#2C1810] text-[#F5E6D3] p-2 font-mono text-sm block my-2 rounded",
+  quote: "border-l-4 border-[#C1502E] pl-4 italic my-2",
+};
+
+// All required nodes for MarkdownShortcutPlugin
+const EDITOR_NODES = [
+  HorizontalRuleNode,
+  CodeNode,
+  HeadingNode,
+  LinkNode,
+  ListNode,
+  ListItemNode,
+  QuoteNode,
+];
+
+// Initial Lexical config
+const initialConfig = {
+  namespace: "InterviewEditor",
+  theme,
+  nodes: EDITOR_NODES,
+  onError: (error) => console.error(error),
+};
 
 export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending }) {
   const [formData, setFormData] = useState({
@@ -11,10 +267,29 @@ export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending
     isAnonymous: false
   });
   const [editorContent, setEditorContent] = useState("");
+  const [characterCount, setCharacterCount] = useState(0);
+  const editorStateRef = useRef(null);
+
+  const handleEditorChange = (editorState, editor) => {
+    editorStateRef.current = editorState;
+    
+    // Get Markdown content
+    editorState.read(() => {
+      const markdown = $convertToMarkdownString(TRANSFORMERS);
+      setEditorContent(markdown);
+      
+      // Get text length for validation
+      const textContent = editorState.read(() => {
+        const root = editorState._nodeMap.get("root");
+        return root ? root.getTextContent() : "";
+      });
+      setCharacterCount(textContent.length);
+    });
+  };
 
   const handleSubmit = () => {
     // Validate
-    if (!formData.company || !formData.role || editorContent.length < 10) {
+    if (!formData.company || !formData.role || characterCount < 10) {
       alert("Please fill all required fields. Content must be at least 10 characters.");
       return;
     }
@@ -34,6 +309,7 @@ export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending
       isAnonymous: false
     });
     setEditorContent("");
+    setCharacterCount(0);
     
     if (onSuccess) onSuccess();
   };
@@ -121,16 +397,31 @@ export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending
             YOUR EXPERIENCE * (min 10 characters)
           </label>
           <div className="border-4 border-black bg-white dark:bg-[#2C1810]">
-            <MinimalTiptap
-              value={editorContent}
-              onChange={setEditorContent}
-              className="w-full min-h-[200px]"
-              editorContentClassName="p-4"
-              placeholder="Share your interview experience..."
-            />
+            <LexicalComposer initialConfig={initialConfig}>
+              <ToolbarPlugin />
+              <div className="relative">
+                <RichTextPlugin
+                  contentEditable={
+                    <ContentEditable 
+                      className="min-h-[200px] p-4 outline-none text-[#2C1810] dark:text-[#F5E6D3] font-medium"
+                    />
+                  }
+                  placeholder={
+                    <div className="absolute top-4 left-4 text-[#2C1810]/50 dark:text-[#F5E6D3]/50 pointer-events-none font-medium">
+                      Share your interview experience...
+                    </div>
+                  }
+                  ErrorBoundary={LexicalErrorBoundary}
+                />
+                <HistoryPlugin />
+                <ListPlugin />
+                <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+                <OnChangePlugin onChange={handleEditorChange} />
+              </div>
+            </LexicalComposer>
           </div>
           <p className="text-xs font-bold text-[#2C1810] dark:text-[#F5E6D3] mt-2">
-            {editorContent.length} characters
+            {characterCount} characters
           </p>
         </div>
 
