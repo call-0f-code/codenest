@@ -12,5 +12,8 @@
   },
   "devDependencies": {
     "concurrently": "^9.2.0"
+  },
+  "dependencies": {
+    "@lexical/extension": "^0.38.2"
   }
 }

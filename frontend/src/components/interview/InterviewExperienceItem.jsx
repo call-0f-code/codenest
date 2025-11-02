@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Trophy, XCircle, Clock, ChevronDown, ChevronUp } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 import { VERDICT_CONFIG } from "@/constants/interviewConstants";
 
 export default function InterviewExperienceItem({ interview }) {
@@ -68,15 +69,34 @@ export default function InterviewExperienceItem({ interview }) {
         </div>
       </div>
 
-      {/* Expanded Content */}
+      {/* Expanded Content - Markdown */}
       {isExpanded && (
         <div className="px-6 pb-6 pt-0 border-t-4 border-black">
-          <div 
-            className="prose prose-sm max-w-none text-[#2C1810] dark:text-[#F5E6D3] font-medium mt-6"
-            dangerouslySetInnerHTML={{ __html: interview.content }}
-          />
+          <div className="prose prose-sm max-w-none text-[#2C1810] dark:text-[#F5E6D3] font-medium mt-6">
+            <ReactMarkdown
+              components={{
+                // Style markdown elements to match your theme
+                p: ({node, ...props}) => <p className="mb-2" {...props} />,
+                strong: ({node, ...props}) => <strong className="font-bold" {...props} />,
+                em: ({node, ...props}) => <em className="italic" {...props} />,
+                ul: ({node, ...props}) => <ul className="list-disc list-inside ml-4 mb-2" {...props} />,
+                ol: ({node, ...props}) => <ol className="list-decimal list-inside ml-4 mb-2" {...props} />,
+                li: ({node, ...props}) => <li className="mb-1" {...props} />,
+                h1: ({node, ...props}) => <h1 className="text-2xl font-bold mb-2" {...props} />,
+                h2: ({node, ...props}) => <h2 className="text-xl font-bold mb-2" {...props} />,
+                h3: ({node, ...props}) => <h3 className="text-lg font-bold mb-2" {...props} />,
+                a: ({node, ...props}) => <a className="text-[#C1502E] underline hover:text-[#C1502E]/80" {...props} />,
+                code: ({node, ...props}) => <code className="bg-[#2C1810] text-[#F5E6D3] px-1 py-0.5 font-mono text-sm" {...props} />,
+                hr: ({node, ...props}) => <hr className="my-4 border-t-4 border-black" {...props} />,
+                blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-[#C1502E] pl-4 italic my-2" {...props} />,
+              }}
+            >
+              {interview.content}
+            </ReactMarkdown>
+          </div>
         </div>
       )}
     </div>
   );
 }
+
