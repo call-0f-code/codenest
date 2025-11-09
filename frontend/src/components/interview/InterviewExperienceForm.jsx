@@ -223,7 +223,7 @@ const theme = {
     bold: "font-bold",
     italic: "italic",
     underline: "underline",
-    code: "bg-[#2C1810] text-[#F5E6D3] px-1 py-0.5 font-mono text-sm rounded",
+    code: " px-1 py-0.5 font-mono text-sm rounded",
   },
   list: {
     ul: "list-disc list-inside ml-4 mb-2",

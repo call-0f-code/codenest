@@ -148,7 +148,7 @@ export default function InterviewExperienceItem({ interview }) {
                   h2: ({node, ...props}) => <h2 className="text-xl font-bold mb-2" {...props} />,
                   h3: ({node, ...props}) => <h3 className="text-lg font-bold mb-2" {...props} />,
                   a: ({node, ...props}) => <a className="text-[#C1502E] underline hover:text-[#C1502E]/80" {...props} />,
-                  code: ({node, ...props}) => <code className="bg-[#2C1810] text-[#F5E6D3] px-1 py-0.5 font-mono text-sm" {...props} />,
+                  code: ({node, ...props}) => <code className=" px-1 py-0.5 font-mono text-sm" {...props} />,
                   hr: ({node, ...props}) => <hr className="my-4 border-t-4 border-black" {...props} />,
                   blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-[#C1502E] pl-4 italic my-2" {...props} />,
                 }}
