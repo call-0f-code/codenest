@@ -28,7 +28,14 @@ import { ListItemNode, ListNode } from "@lexical/list";
 import { INSERT_UNORDERED_LIST_COMMAND, INSERT_ORDERED_LIST_COMMAND } from "@lexical/list";
 import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
 import { VERDICT_CONFIG, VERDICT_OPTIONS } from "@/constants/interviewConstants";
-
+  const getVerdictIcon = (verdict) => {
+    switch(verdict) {
+      case "Selected": return Trophy;
+      case "Rejected": return XCircle;
+      case "Pending": return Clock;
+      default: return Clock;
+    }
+  };
 // Toolbar Component
 function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext();
@@ -312,6 +319,14 @@ export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending
     if (onSuccess) onSuccess();
   };
 
+  const getVerdictIcon = (verdict) => {
+    switch(verdict) {
+      case "Selected": return Trophy;
+      case "Rejected": return XCircle;
+      case "Pending": return Clock;
+      default: return Clock;
+    }
+  };
 
   return (
     <div className="bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] shadow-[12px_12px_0px_0px_rgba(193,80,46,1)] p-8 rotate-1 hover:rotate-0 hover:shadow-[16px_16px_0px_0px_rgba(193,80,46,1)] transition-all duration-300">
@@ -362,7 +377,7 @@ export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending
           </label>
           <div className="flex flex-wrap gap-4">
             {VERDICT_OPTIONS.map((verdict) => {
-              const Icon = VERDICT_CONFIG[verdict]?.icon || Clock;
+              const Icon = getVerdictIcon(verdict);
               return (
                 <button
                   key={verdict}
