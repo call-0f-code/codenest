@@ -27,7 +27,7 @@ import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { ListItemNode, ListNode } from "@lexical/list";
 import { INSERT_UNORDERED_LIST_COMMAND, INSERT_ORDERED_LIST_COMMAND } from "@lexical/list";
 import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
-import { VERDICT_OPTIONS } from "@/constants/interviewConstants";
+import { VERDICT_CONFIG, VERDICT_OPTIONS } from "@/constants/interviewConstants";
 
 // Toolbar Component
 function ToolbarPlugin() {
@@ -337,6 +337,7 @@ export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending
               onChange={(e) => setFormData(prev => ({ ...prev, company: e.target.value }))}
               className="w-full px-4 py-3 bg-white dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] font-bold focus:outline-none focus:shadow-[6px_6px_0px_0px_rgba(193,80,46,1)] focus:-translate-x-1 focus:-translate-y-1 transition-all"
               placeholder="e.g., Google"
+              autoFocus
             />
           </div>
           
