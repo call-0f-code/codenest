@@ -6,7 +6,7 @@ import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import {LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
+import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { $convertToMarkdownString, TRANSFORMERS } from "@lexical/markdown";
 import { HeadingNode, QuoteNode, $createQuoteNode } from "@lexical/rich-text";
 import { CodeNode, $createCodeNode } from "@lexical/code";
@@ -119,14 +119,14 @@ function ToolbarPlugin() {
   }, [editor]);
 
   const buttonClass = (isActive) => 
-    `p-2 border-2 border-black transition-all ${
+    `p-2 border-2 border-black dark:border-[#F5E6D3] transition-all duration-150 ${
       isActive 
-        ? "bg-[#C1502E] text-[#F5E6D3] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" 
-        : "bg-white dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] hover:bg-[#C1502E]/20"
+        ? "bg-[#C1502E] text-[#F5E6D3] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:shadow-[3px_3px_0px_0px_rgba(245,230,211,1)] -translate-x-0.5 -translate-y-0.5" 
+        : "bg-white dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(245,230,211,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(245,230,211,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] dark:active:shadow-[1px_1px_0px_0px_rgba(245,230,211,1)] active:translate-x-0 active:translate-y-0"
     }`;
 
   return (
-    <div className="flex flex-wrap gap-2 p-2 border-b-4 border-black bg-[#F5E6D3] dark:bg-[#2C1810]">
+    <div className="flex flex-wrap gap-2 p-2 border-b-4 border-black dark:border-[#F5E6D3] bg-[#F5E6D3] dark:bg-[#2C1810]">
       {/* Text Formatting */}
       <button
         onClick={formatBold}
@@ -153,7 +153,7 @@ function ToolbarPlugin() {
         <Code className="h-4 w-4" />
       </button>
 
-      <div className="w-px bg-black"></div>
+      <div className="w-px bg-black dark:bg-[#F5E6D3]"></div>
 
       {/* Headings */}
       <button
@@ -181,7 +181,7 @@ function ToolbarPlugin() {
         <Heading3 className="h-4 w-4" />
       </button>
 
-      <div className="w-px bg-black"></div>
+      <div className="w-px bg-black dark:bg-[#F5E6D3]"></div>
 
       {/* Lists */}
       <button
@@ -201,7 +201,7 @@ function ToolbarPlugin() {
         <ListOrdered className="h-4 w-4" />
       </button>
 
-      <div className="w-px bg-black"></div>
+      <div className="w-px bg-black dark:bg-[#F5E6D3]"></div>
 
       {/* Quote */}
       <button
@@ -324,9 +324,9 @@ export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending
   };
 
   return (
-    <div className="bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black shadow-[12px_12px_0px_0px_rgba(193,80,46,1)] p-8 rotate-1 hover:rotate-0 transition-transform duration-300">
+    <div className="bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] shadow-[12px_12px_0px_0px_rgba(193,80,46,1)] p-8 rotate-1 hover:rotate-0 hover:shadow-[16px_16px_0px_0px_rgba(193,80,46,1)] transition-all duration-300">
       <div className="flex items-center gap-3 mb-6">
-        <div className="bg-[#C1502E] p-3 border-4 border-black -rotate-6">
+        <div className="bg-[#C1502E] p-3 border-4 border-black dark:border-[#F5E6D3] -rotate-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(245,230,211,1)]">
           <Briefcase className="h-6 w-6 text-[#F5E6D3]" />
         </div>
         <h3 className="text-3xl font-black text-[#2C1810] dark:text-[#F5E6D3]">
@@ -345,7 +345,7 @@ export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending
               type="text"
               value={formData.company}
               onChange={(e) => setFormData(prev => ({ ...prev, company: e.target.value }))}
-              className="w-full px-4 py-3 bg-white dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] border-4 border-black font-bold focus:outline-none focus:shadow-[6px_6px_0px_0px_rgba(193,80,46,1)] transition-all"
+              className="w-full px-4 py-3 bg-white dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] font-bold focus:outline-none focus:shadow-[6px_6px_0px_0px_rgba(193,80,46,1)] focus:-translate-x-1 focus:-translate-y-1 transition-all"
               placeholder="e.g., Google"
             />
           </div>
@@ -358,7 +358,7 @@ export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending
               type="text"
               value={formData.role}
               onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value }))}
-              className="w-full px-4 py-3 bg-white dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] border-4 border-black font-bold focus:outline-none focus:shadow-[6px_6px_0px_0px_rgba(193,80,46,1)] transition-all"
+              className="w-full px-4 py-3 bg-white dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] font-bold focus:outline-none focus:shadow-[6px_6px_0px_0px_rgba(193,80,46,1)] focus:-translate-x-1 focus:-translate-y-1 transition-all"
               placeholder="e.g., Software Engineer"
             />
           </div>
@@ -377,10 +377,10 @@ export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending
                   key={verdict}
                   type="button"
                   onClick={() => setFormData(prev => ({ ...prev, verdict }))}
-                  className={`px-6 py-3 font-black border-4 border-black transition-all ${
+                  className={`px-6 py-3 font-black border-4 border-black dark:border-[#F5E6D3] transition-all duration-150 ${
                     formData.verdict === verdict
-                      ? "bg-[#C1502E] text-[#F5E6D3] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
-                      : "bg-white dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                      ? "bg-[#C1502E] text-[#F5E6D3] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(245,230,211,1)] -translate-x-1 -translate-y-1"
+                      : "bg-white dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:shadow-[3px_3px_0px_0px_rgba(245,230,211,1)] hover:shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[5px_5px_0px_0px_rgba(245,230,211,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:active:shadow-[2px_2px_0px_0px_rgba(245,230,211,1)] active:translate-x-0 active:translate-y-0"
                   }`}
                 >
                   <Icon className="inline h-5 w-5 mr-2" />
@@ -396,7 +396,7 @@ export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending
           <label className="block text-sm font-black text-[#2C1810] dark:text-[#F5E6D3] mb-2">
             YOUR EXPERIENCE * (min 10 characters)
           </label>
-          <div className="border-4 border-black bg-white dark:bg-[#2C1810]">
+          <div className="border-4 border-black dark:border-[#F5E6D3] bg-white dark:bg-[#2C1810] focus-within:shadow-[6px_6px_0px_0px_rgba(193,80,46,1)] transition-all">
             <LexicalComposer initialConfig={initialConfig}>
               <ToolbarPlugin />
               <div className="relative">
@@ -430,10 +430,10 @@ export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending
           <button
             type="button"
             onClick={() => setFormData(prev => ({ ...prev, isAnonymous: !prev.isAnonymous }))}
-            className={`flex items-center gap-3 px-6 py-3 font-black border-4 border-black transition-all ${
+            className={`flex items-center gap-3 px-6 py-3 font-black border-4 border-black dark:border-[#F5E6D3] transition-all duration-150 ${
               formData.isAnonymous
-                ? "bg-[#C1502E] text-[#F5E6D3]"
-                : "bg-white dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3]"
+                ? "bg-[#C1502E] text-[#F5E6D3] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(245,230,211,1)] -translate-x-0.5 -translate-y-0.5"
+                : "bg-white dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:shadow-[3px_3px_0px_0px_rgba(245,230,211,1)] hover:shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[5px_5px_0px_0px_rgba(245,230,211,1)] hover:-translate-x-0.5 hover:-translate-y-0.5"
             }`}
           >
             {formData.isAnonymous ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
@@ -446,9 +446,9 @@ export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending
           type="button"
           onClick={handleSubmit}
           disabled={isPending}
-          className="w-full group px-8 py-5 bg-[#C1502E] text-[#F5E6D3] text-xl font-black border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all flex items-center justify-center gap-3 disabled:opacity-50"
+          className="w-full group px-8 py-5 bg-[#C1502E] text-[#F5E6D3] text-xl font-black border-4 border-black dark:border-[#F5E6D3] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(245,230,211,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[12px_12px_0px_0px_rgba(245,230,211,1)] hover:-translate-x-1 hover:-translate-y-1 active:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:active:shadow-[4px_4px_0px_0px_rgba(245,230,211,1)] active:translate-x-1 active:translate-y-1 transition-all duration-150 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <Send className="h-6 w-6" />
+          <Send className="h-6 w-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
           {isPending ? "POSTING..." : "POST EXPERIENCE"}
         </button>
       </div>
