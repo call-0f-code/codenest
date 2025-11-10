@@ -28,6 +28,7 @@ import { ListItemNode, ListNode } from "@lexical/list";
 import { INSERT_UNORDERED_LIST_COMMAND, INSERT_ORDERED_LIST_COMMAND } from "@lexical/list";
 import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
 import { VERDICT_CONFIG, VERDICT_OPTIONS } from "@/constants/interviewConstants";
+import { globalToast } from "@/utils/toast";
   const getVerdictIcon = (verdict) => {
     switch(verdict) {
       case "Selected": return Trophy;
@@ -295,7 +296,7 @@ export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending
   const handleSubmit = () => {
     // Validate
     if (!formData.company || !formData.role || characterCount < 10) {
-      alert("Please fill all required fields. Content must be at least 10 characters.");
+      globalToast.error("Please fill all required fields. Content must be at least 10 characters.");
       return;
     }
 
