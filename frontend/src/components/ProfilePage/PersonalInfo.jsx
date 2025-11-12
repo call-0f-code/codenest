@@ -134,7 +134,7 @@ export const PersonalInfo = ({ user, isEditing, onChange }) => {
 
       {/* Brutalist shapes */}
       <div className="absolute bottom-3 right-3 w-8 h-8 bg-[#C1502E] border-4 border-black rotate-[8deg] opacity-60 shadow-[3px_3px_0_rgba(0,0,0,1)]"></div>
-      <div className="absolute top-3 left-3 w-10 h-10 bg-[#2C1810] border-4 border-black rotate-[-6deg] opacity-60 shadow-[3px_3px_0_rgba(0,0,0,1)]"></div>
+      <div className="absolute top-3 left-3 w-10 h-10 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black rotate-[-6deg] opacity-60 shadow-[3px_3px_0_rgba(0,0,0,1)]"></div>
     </div>
   );
 };
