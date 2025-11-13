@@ -26,7 +26,7 @@ export const SocialLinks = ({ user, isEditing, onChange }) => {
           value={user[platform.key] || ""}
           onChange={(e) => onChange(platform.key, e.target.value)}
           placeholder={platform.placeholder}
-          className="h-10 w-full border-4 border-black bg-[#F5E6D3] dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] px-3 font-semibold placeholder:text-[#C1502E]/60 shadow-[4px_4px_0_rgba(0,0,0,1)] focus:outline-none focus:ring-4 focus:ring-[#C1502E]"
+          className="h-10 w-full border-4 border-black dark:border-[#F5E6D3] bg-[#F5E6D3] dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] px-3 font-semibold placeholder:text-[#C1502E]/60 shadow-[4px_4px_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_rgba(245,230,211,0.3)] focus:outline-none focus:ring-4 focus:ring-[#C1502E]"
         />
       ) : (
         <p className="text-[#2C1810]/70 dark:text-[#F5E6D3]/70 text-sm font-medium">
@@ -50,9 +50,9 @@ export const SocialLinks = ({ user, isEditing, onChange }) => {
   return (
     <div className="space-y-10">
       {/* Social Links Section */}
-      <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black shadow-[8px_8px_0_rgba(0,0,0,1)] p-8">
+      <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] shadow-[8px_8px_0_rgba(0,0,0,1)] dark:shadow-[8px_8px_0_rgba(245,230,211,0.3)] p-8">
         {/* Brutalist Tag */}
-        <div className="absolute -top-4 left-4 bg-[#2C1810] text-[#F5E6D3] text-xs font-black px-3 py-1 border-4 border-black rotate-[-3deg] shadow-[3px_3px_0_rgba(0,0,0,1)]">
+        <div className="absolute -top-4 left-4 bg-[#2C1810] text-[#F5E6D3] text-xs font-black px-3 py-1 border-4 border-black dark:border-[#F5E6D3] rotate-[-3deg] shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.3)]">
           SOCIAL LINKS
         </div>
 
@@ -61,13 +61,13 @@ export const SocialLinks = ({ user, isEditing, onChange }) => {
         </div>
 
         {/* Small decorative brutalist shape */}
-        <div className="absolute bottom-3 right-3 w-10 h-10 bg-[#C1502E] border-4 border-black rotate-[8deg] opacity-50 shadow-[3px_3px_0_rgba(0,0,0,1)]"></div>
+        <div className="absolute bottom-3 right-3 w-10 h-10 bg-[#C1502E] border-4 border-black dark:border-[#F5E6D3] rotate-[8deg] opacity-50 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)]"></div>
       </div>
 
       {/* Coding Platforms Section */}
-      <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black shadow-[8px_8px_0_rgba(0,0,0,1)] p-8">
+      <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] shadow-[8px_8px_0_rgba(0,0,0,1)] dark:shadow-[8px_8px_0_rgba(245,230,211,0.3)] p-8">
         {/* Brutalist Tag */}
-        <div className="absolute -top-4 left-4 bg-[#C1502E] text-[#F5E6D3] text-xs font-black px-3 py-1 border-4 border-black rotate-[2deg] shadow-[3px_3px_0_rgba(0,0,0,1)]">
+        <div className="absolute -top-4 left-4 bg-[#C1502E] text-[#F5E6D3] text-xs font-black px-3 py-1 border-4 border-black dark:border-[#F5E6D3] rotate-[2deg] shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.3)]">
           CODING PLATFORMS
         </div>
 
@@ -76,7 +76,7 @@ export const SocialLinks = ({ user, isEditing, onChange }) => {
         </div>
 
         {/* Smaller shape for visual rhythm */}
-        <div className="absolute top-3 right-3 w-8 h-8 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black rotate-[-5deg] opacity-50 shadow-[3px_3px_0_rgba(0,0,0,1)]"></div>
+        <div className="absolute top-3 right-3 w-8 h-8 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] rotate-[-5deg] opacity-50 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)]"></div>
       </div>
     </div>
   );

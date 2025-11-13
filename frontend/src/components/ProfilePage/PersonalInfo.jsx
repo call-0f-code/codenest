@@ -8,9 +8,9 @@ export const PersonalInfo = ({ user, isEditing, onChange }) => {
   };
 
   return (
-    <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black shadow-[8px_8px_0_rgba(0,0,0,1)] p-8">
+    <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] shadow-[8px_8px_0_rgba(0,0,0,1)] dark:shadow-[8px_8px_0_rgba(245,230,211,0.3)] p-8">
       {/* Brutalist Tag */}
-      <div className="absolute -top-4 left-4 bg-[#C1502E] text-[#F5E6D3] text-xs font-black px-3 py-1 border-4 border-black rotate-[-2deg] shadow-[3px_3px_0_rgba(0,0,0,1)]">
+      <div className="absolute -top-4 left-4 bg-[#C1502E] text-[#F5E6D3] text-xs font-black px-3 py-1 border-4 border-black dark:border-[#F5E6D3] rotate-[-2deg] shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.3)]">
         PERSONAL INFORMATION
       </div>
 
@@ -25,7 +25,7 @@ export const PersonalInfo = ({ user, isEditing, onChange }) => {
               type="text"
               value={user.name}
               onChange={(e) => onChange("name", e.target.value)}
-              className="h-10 w-full border-4 border-black bg-[#F5E6D3] dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] px-3 font-semibold placeholder:text-[#C1502E]/60 shadow-[4px_4px_0_rgba(0,0,0,1)] focus:outline-none focus:ring-4 focus:ring-[#C1502E]"
+              className="h-10 w-full border-4 border-black dark:border-[#F5E6D3] bg-[#F5E6D3] dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] px-3 font-semibold placeholder:text-[#C1502E]/60 shadow-[4px_4px_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_rgba(245,230,211,0.3)] focus:outline-none focus:ring-4 focus:ring-[#C1502E]"
             />
           ) : (
             <p className="text-[#2C1810]/80 dark:text-[#F5E6D3]/80 font-medium">
@@ -55,7 +55,7 @@ export const PersonalInfo = ({ user, isEditing, onChange }) => {
               value={user.phone || ""}
               onChange={(e) => onChange("phone", e.target.value)}
               placeholder="Enter phone number"
-              className="h-10 w-full border-4 border-black bg-[#F5E6D3] dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] px-3 font-semibold placeholder:text-[#C1502E]/60 shadow-[4px_4px_0_rgba(0,0,0,1)] focus:outline-none focus:ring-4 focus:ring-[#C1502E]"
+              className="h-10 w-full border-4 border-black dark:border-[#F5E6D3] bg-[#F5E6D3] dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] px-3 font-semibold placeholder:text-[#C1502E]/60 shadow-[4px_4px_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_rgba(245,230,211,0.3)] focus:outline-none focus:ring-4 focus:ring-[#C1502E]"
             />
           ) : (
             <p className="text-[#2C1810]/80 dark:text-[#F5E6D3]/80 flex items-center gap-2 font-medium">
@@ -74,7 +74,7 @@ export const PersonalInfo = ({ user, isEditing, onChange }) => {
               type="date"
               value={user.birth_date || ""}
               onChange={(e) => onChange("birth_date", e.target.value)}
-              className="h-10 w-full border-4 border-black bg-[#F5E6D3] dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] px-3 font-semibold shadow-[4px_4px_0_rgba(0,0,0,1)] focus:outline-none focus:ring-4 focus:ring-[#C1502E]"
+              className="h-10 w-full border-4 border-black dark:border-[#F5E6D3] bg-[#F5E6D3] dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] px-3 font-semibold shadow-[4px_4px_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_rgba(245,230,211,0.3)] focus:outline-none focus:ring-4 focus:ring-[#C1502E]"
             />
           ) : (
             <p className="text-[#2C1810]/80 dark:text-[#F5E6D3]/80 flex items-center gap-2 font-medium">
@@ -102,7 +102,7 @@ export const PersonalInfo = ({ user, isEditing, onChange }) => {
               }}
               min={new Date().getFullYear() - 4}
               max={new Date().getFullYear() + 4}
-              className="h-10 w-full border-4 border-black bg-[#F5E6D3] dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] px-3 font-semibold placeholder:text-[#C1502E]/60 shadow-[4px_4px_0_rgba(0,0,0,1)] focus:outline-none focus:ring-4 focus:ring-[#C1502E]"
+              className="h-10 w-full border-4 border-black dark:border-[#F5E6D3] bg-[#F5E6D3] dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] px-3 font-semibold placeholder:text-[#C1502E]/60 shadow-[4px_4px_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_rgba(245,230,211,0.3)] focus:outline-none focus:ring-4 focus:ring-[#C1502E]"
             />
           ) : (
             <p className="text-[#2C1810]/80 dark:text-[#F5E6D3]/80 font-medium">
@@ -122,7 +122,7 @@ export const PersonalInfo = ({ user, isEditing, onChange }) => {
               onChange={(e) => onChange("bio", e.target.value)}
               placeholder="Tell us about yourself..."
               rows={4}
-              className="w-full border-4 border-black bg-[#F5E6D3] dark:bg-[#2C1810] p-3 text-[#2C1810] dark:text-[#F5E6D3] font-semibold placeholder:text-[#C1502E]/60 shadow-[4px_4px_0_rgba(0,0,0,1)] focus:outline-none focus:ring-4 focus:ring-[#C1502E]"
+              className="w-full border-4 border-black dark:border-[#F5E6D3] bg-[#F5E6D3] dark:bg-[#2C1810] p-3 text-[#2C1810] dark:text-[#F5E6D3] font-semibold placeholder:text-[#C1502E]/60 shadow-[4px_4px_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_rgba(245,230,211,0.3)] focus:outline-none focus:ring-4 focus:ring-[#C1502E]"
             />
           ) : (
             <p className="text-[#2C1810]/80 dark:text-[#F5E6D3]/80 font-medium">
@@ -133,8 +133,8 @@ export const PersonalInfo = ({ user, isEditing, onChange }) => {
       </div>
 
       {/* Brutalist shapes */}
-      <div className="absolute bottom-3 right-3 w-8 h-8 bg-[#C1502E] border-4 border-black rotate-[8deg] opacity-60 shadow-[3px_3px_0_rgba(0,0,0,1)]"></div>
-      <div className="absolute top-3 left-3 w-10 h-10 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black rotate-[-6deg] opacity-60 shadow-[3px_3px_0_rgba(0,0,0,1)]"></div>
+      <div className="absolute bottom-3 right-3 w-8 h-8 bg-[#C1502E] border-4 border-black dark:border-[#F5E6D3] rotate-[8deg] opacity-60 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)]"></div>
+      <div className="absolute top-3 left-3 w-10 h-10 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] rotate-[-6deg] opacity-60 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)]"></div>
     </div>
   );
 };
