@@ -12,7 +12,8 @@ export const ProfileHeader = ({
 }) => {
   const fileInputRef = useRef(null);
 
-  const handleImageClick = () => {
+  const handleImageClick = (e) => {
+    e.stopPropagation(); // Prevent event bubbling
     if (isEditing && fileInputRef.current) fileInputRef.current.click();
   };
 
@@ -53,10 +54,10 @@ export const ProfileHeader = ({
 
       {/* --- Right: Profile Image --- */}
       <div
-        className={`relative w-44 h-44 md:w-56 md:h-56 border-4 border-black bg-[#C1502E] overflow-hidden shadow-[6px_6px_0_rgba(0,0,0,1)] group cursor-pointer z-20 ${
-          isEditing ? "hover:scale-105" : ""
+        className={`relative w-44 h-44 md:w-56 md:h-56 border-4 border-black bg-[#C1502E] overflow-hidden shadow-[6px_6px_0_rgba(0,0,0,1)] group z-20 ${
+          isEditing ? "cursor-pointer hover:scale-105" : ""
         } transition-all duration-300`}
-        onClick={handleImageClick}
+        onClick={isEditing ? handleImageClick : undefined}
       >
         {user.profilePhoto ? (
             <img src= {previewImg?`${previewImg}`:`${user.profilePhoto}?t=${new Date(user.updatedAt)}`}
@@ -80,6 +81,7 @@ export const ProfileHeader = ({
             />
             <button
               onClick={handleImageClick}
+              type="button"
               className="absolute bottom-3 right-3 bg-[#F5E6D3] text-[#2C1810] border-4 border-black p-2 font-black shadow-[3px_3px_0_rgba(0,0,0,1)] hover:bg-[#C1502E] hover:text-[#F5E6D3] transition-all"
             >
               <Camera className="h-4 w-4" />
