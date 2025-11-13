@@ -191,7 +191,7 @@ const ProfilePage = () => {
         <div className={`relative group transition-transform duration-300 ${!isEditing ? 'hover:rotate-1' : ''}`}>
           <div
             aria-hidden="true"
-            className="absolute inset-0 translate-x-4 translate-y-4 bg-[#C1502E] border-4 border-black"
+            className="absolute inset-0 translate-x-4 translate-y-4 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black"
           />
           <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black p-8 shadow-[8px_8px_0_0_#000]">
             <PersonalInfo
