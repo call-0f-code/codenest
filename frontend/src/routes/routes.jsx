@@ -12,6 +12,7 @@ import CreateInterviewExp from "@/pages/CreateInterviewExp";
 import AuthPage from "../pages/Signup";
 import DsaDashboard from "@/pages/DsaDashboard";
 import ProfilePage from "@/pages/ProfilePage";
+import Dashboardlayout from "@/components/Dashboard/Dashboardlayout";
 
 export const routes = [
   {
@@ -46,12 +47,12 @@ export const routes = [
   },
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: <Dashboardlayout />,
     public: true,
     children: [
       {
         index: true,
-        element: <Module/>,
+        element: <ProfilePage/>,
         public: true,
       },
       {
@@ -60,25 +61,11 @@ export const routes = [
         public: true,
       },
       {
-        path: "interviewExp",
-        element: <InterviewExp />,
+        path: "dsa",
+        element: <DsaDashboard />,
         public: true,
       },
-      {
-        path: "createModule",
-        element: <CreateModule />,
-        public: true,
-      },
-      {
-        path : "createBlog",
-        element : <CreateBlog/>,
-        public: true,
-      },
-      {
-        path : "createInterviewExp",
-        element : <CreateInterviewExp/>,
-        public: true,
-      }
+      
     ],
   },
   {
