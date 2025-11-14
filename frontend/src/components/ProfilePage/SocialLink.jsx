@@ -60,8 +60,6 @@ export const SocialLinks = ({ user, isEditing, onChange }) => {
           {platforms.map(renderPlatformInput)}
         </div>
 
-        {/* Small decorative brutalist shape */}
-        <div className="absolute bottom-3 right-3 w-10 h-10 bg-[#C1502E] border-4 border-black dark:border-[#F5E6D3] rotate-[8deg] opacity-50 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)]"></div>
       </div>
 
       {/* Coding Platforms Section */}
@@ -75,8 +73,6 @@ export const SocialLinks = ({ user, isEditing, onChange }) => {
           {codingPlatforms.map(renderPlatformInput)}
         </div>
 
-        {/* Smaller shape for visual rhythm */}
-        <div className="absolute top-3 right-3 w-8 h-8 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] rotate-[-5deg] opacity-50 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)]"></div>
       </div>
     </div>
   );
