@@ -1,14 +1,21 @@
 import { createInterviewExp, deleteInterviewExp, getAllInterviewExps, getInterviewExpById, updateInterviewExp } from "@/utils/api/interviewApi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 
 export function useInterview (interviewId) {
     const queryClient = useQueryClient();
     
     //all interview exps, most are probably rejections lmao
-    const {data: interviews = [], isLoading, error} = useQuery({
-        queryKey: ['interviews'], 
-        queryFn: getAllInterviewExps
-    })
+    const [page, setPage] = useState(1);
+    const limit = 10; // You can change if needed
+    const { data: interviewsResponse, isLoading, error } = useQuery({
+        queryKey: ["interviews", page], 
+        queryFn: () => getAllInterviewExps(page, limit),
+        keepPreviousData: true,
+    });
+
+    const interviews = interviewsResponse?.data || [];
+    const totalPages = interviewsResponse?.totalPages || 1;
 
     //interview by id
     const {data: interview, isInterviewExpLoading, interviewExpError} = useQuery({
@@ -44,7 +51,11 @@ export function useInterview (interviewId) {
         interviewExpError,
         postInterviewExp,
         fixInterviewExp, 
-        removeInterviewExp
+        removeInterviewExp,
+        page,
+        setPage,
+        totalPages,
+        limit
     }
 
 } 

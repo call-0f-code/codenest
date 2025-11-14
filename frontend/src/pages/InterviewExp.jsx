@@ -7,7 +7,7 @@ import InterviewExperienceForm from "@/components/interview/InterviewExperienceF
 import InterviewExperienceItem from "@/components/interview/InterviewExperienceItem";
 
 export default function InterviewExperiences() {
-  const { interviews, isLoading, postInterviewExp } = useInterview();
+  const { interviews, isLoading, postInterviewExp,page,setPage,totalPages } = useInterview();
   const [filter, setFilter] = useState("All");
   const [showForm, setShowForm] = useState(false);
 
@@ -206,6 +206,36 @@ export default function InterviewExperiences() {
                 </motion.div>
               ))}
             </AnimatePresence>
+          </div>
+        )}
+        {/*  PAGINATION BLOCK ADDED */}
+        {!isLoading && filteredInterviews.length > 0 && (
+          <div className="mt-12 flex justify-center items-center gap-6">
+            <button
+              onClick={() => setPage(page - 1)}
+              disabled={page === 1}
+              className="px-6 py-3 bg-[#C1502E] text-[#F5E6D3] text-lg font-black border-4 border-black 
+                          dark:border-[#F5E6D3] disabled:opacity-40 disabled:cursor-not-allowed
+                          hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] 
+                          transition-transform"
+            >
+              PREVIOUS
+            </button>
+
+            <span className="font-black text-2xl text-[#2C1810] dark:text-[#F5E6D3]">
+              PAGE {page} / {totalPages}
+            </span>
+
+            <button
+              onClick={() => setPage(page + 1)}
+              disabled={page === totalPages}
+              className="px-6 py-3 bg-[#C1502E] text-[#F5E6D3] text-lg font-black border-4 border-black 
+                          dark:border-[#F5E6D3] disabled:opacity-40 disabled:cursor-not-allowed
+                          hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] 
+                          transition-transform"
+            >
+              NEXT
+            </button>
           </div>
         )}
       </div>

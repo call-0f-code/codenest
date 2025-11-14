@@ -1,9 +1,11 @@
 import api from "./api";
 
-export const getAllInterviewExps = async () => {
-  const response = await api.get("/interviews");
-  return response.data.data;
+export const getAllInterviewExps = async (page = 1, limit = 10) => {
+  const response = await api.get(`/interviews?page=${page}&limit=${limit}`);
+  return response.data; 
+  // response.data contains: data, page, limit, total, totalPages
 };
+
 
 export const getInterviewExpById = async (interviewId) => {
   const response = await api.get(`/interviews/${interviewId}`);
