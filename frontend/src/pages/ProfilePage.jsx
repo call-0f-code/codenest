@@ -4,151 +4,126 @@ import { SocialLinks } from "@/components/ProfilePage/SocialLink";
 import { useTheme } from "@/context/ThemeContext";
 import { useMembers } from "@/hooks/useMember";
 import { globalToast } from "@/utils/toast";
-import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const ProfilePage = () => {
-  const { theme, toggleTheme } = useTheme();
-  const { members, update,isLoading } = useMembers();
-  
+  const { theme } = useTheme();
+  const { members, update, isLoading } = useMembers();
   const [isEditing, setIsEditing] = useState(false);
   const [userData, setUserData] = useState(null);
-  const [editData, setEditData] = useState({});
+  const [formData, setFormData] = useState(null); 
   const [profileImageFile, setProfileImageFile] = useState(null);
 
-  // Initialize userData when members data loads
   useEffect(() => {
     if (members && JSON.stringify(members) !== JSON.stringify(userData)) {
       setUserData(members);
     }
   }, [members]);
 
-
   const handleEdit = () => {
-    setEditData({});
+    setFormData(userData);
     setProfileImageFile(null);
     setIsEditing(true);
   };
 
   const handleCancel = () => {
-    setEditData({});
+    setFormData(null);
     setProfileImageFile(null);
     setIsEditing(false);
   };
 
   const handleImageChange = (file, previewUrl) => {
     setProfileImageFile(file);
-    
-    setEditData(prev => ({ ...prev, profilePhoto: previewUrl }));
+    setFormData((prev) => ({ ...prev, profilePhoto: previewUrl }));
   };
 
   const handleSave = async () => {
     try {
-      // Check if there are any changes
-      if (Object.keys(editData).length === 0 && !profileImageFile) {
+      const changedData = {};
+      for (const key in formData) {
+        if (formData[key] !== userData[key] && key !== 'profilePhoto') {
+          changedData[key] = formData[key];
+        }
+      }
+
+      if (Object.keys(changedData).length === 0 && !profileImageFile) {
         globalToast.warning("No changes to save");
         setIsEditing(false);
         return;
       }
 
-      const formData = new FormData();
-      if (profileImageFile) {
-        formData.append("file", profileImageFile);
+      const payload = new FormData();
+      if (profileImageFile) payload.append("file", profileImageFile);
+
+      if (changedData.birth_date) {
+        changedData.birth_date = new Date(changedData.birth_date).toISOString();
       }
       
-      if(editData.birth_date){
-        editData.birth_date = new Date(editData.birth_date).toISOString()
+      if (changedData.passoutYear) {
+         changedData.passoutYear = new Date(changedData.passoutYear).toISOString();
       }
-      
-      if(!editData.bio){
-        editData.bio = members.bio
-      }
-      formData.append("memberData", JSON.stringify(editData));
-    
-      
-      update.mutate(formData, {
+
+      payload.append("memberData", JSON.stringify(changedData));
+
+      update.mutate(payload, {
         onSuccess: (data) => {
-          
-          setUserData(prev => ({ ...prev, ...editData, ...(data || {}) }));
-          setEditData({});
+          const newUserData = { ...userData, ...formData, ...(data || {}) };
+          setUserData(newUserData);
+          setFormData(null);
           setProfileImageFile(null);
           setIsEditing(false);
-        }
+        },
       });
     } catch (error) {
       console.error("Failed to save profile:", error);
-      
     }
   };
 
-const handleChange = (field, value) => {
-  if (value === "" || value === null || value === undefined) {
-    setEditData(prev => {
-      const newData = { ...prev };
-      delete newData[field];
-      return newData;
-    });
-    return;
-  }
+  const handleChange = (field, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
 
-  if (userData[field] !== value) {
-    setEditData(prev => ({ ...prev, [field]: value }));
-  } else {
-    setEditData(prev => {
-      const newData = { ...prev };
-      delete newData[field];
-      return newData;
-    });
-  }
-};
-
-  
-  if (isLoading) {
+  if (isLoading || !userData) {
     return (
-      <main className={`min-h-screen bg-[#e8eaed] dark:bg-[#1a1f2e] flex items-center justify-center ${theme === "dark" ? "dark" : ""}`}>
-        <div className="text-[#2a2d35] dark:text-[#c5d1de]">Loading profile...</div>
+      <main className="min-h-screen flex items-center justify-center bg-[#F5E6D3] dark:bg-[#2C1810]">
+        <div className="text-[#2C1810] dark:text-[#F5E6D3] text-2xl font-bold">
+          Loading profile...
+        </div>
       </main>
     );
   }
 
- 
-  const displayData = isEditing ? { ...userData, ...editData } : userData;
+  const displayData = isEditing ? formData : userData;
 
   return (
-    <main className={`min-h-screen bg-[#e8eaed] dark:bg-[#1a1f2e] transition-colors duration-300 ${theme === "dark" ? "dark" : ""}`}>
-      <header className="mx-auto max-w-7xl px-4 pt-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] px-4 py-2  text-sm font-bold text-[#1a1f2e]">
-              CALL OF CODE
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={toggleTheme}
-              className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] p-2 text-[#2a2d35] dark:text-[#c5d1de] hover:bg-[#f5f5f5] dark:hover:bg-[#2d3848] transition-colors"
-              aria-label="Toggle theme"
-            >
-              {theme === "dark" ? (
-                <Sun className="h-5 w-5" />
-              ) : (
-                <Moon className="h-5 w-5" />
-              )}
-            </button>
-            <button className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] px-6 py-2  text-sm text-[#2a2d35] dark:text-[#c5d1de] hover:bg-[#f5f5f5] dark:hover:bg-[#2d3848] transition-colors">
-              Home
-            </button>
-          </div>
+    <main
+      className={`min-h-screen transition-colors duration-300 ${
+        theme === "dark" ? "dark bg-[#2C1810]" : "bg-[#F5E6D3]"
+      }`}
+    >
+      <header className="max-w-7xl mx-auto px-6 py-8 flex justify-between items-center">
+        <div className="bg-[#C1502E] border-4 border-black dark:border-[#F5E6D3] px-6 py-3 font-black text-[#F5E6D3] text-xl shadow-[6px_6px_0_0_#000] dark:shadow-[6px_6px_0_0_rgba(245,230,211,0.3)] rotate-1">
+          CALL OF CODE
+        </div>
+        <div className="flex items-center gap-4">
+          <button className="border-4 border-black dark:border-[#F5E6D3] bg-[#C1502E] text-[#F5E6D3] px-6 py-3 font-black shadow-[6px_6px_0_0_#000] dark:shadow-[6px_6px_0_0_rgba(245,230,211,0.3)] hover:-rotate-1 transition-transform">
+            HOME
+          </button>
         </div>
       </header>
 
-      <div className="mx-auto max-w-7xl px-4 py-12">
-        <div className="space-y-6">
-          <div className="relative">
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 translate-x-3 translate-y-3 bg-[#2a2d35] dark:bg-[#0f1419]"
-            />
+      {/* Poster Wall Layout */}
+      <section className="max-w-7xl mx-auto px-6 py-16 grid gap-16">
+        {/* Poster Card - ProfileHeader */}
+        <div className={`relative group transition-transform duration-300 ${!isEditing ? 'hover:rotate-1' : ''}`}>
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 translate-x-4 translate-y-4 bg-[#C1502E] border-4 border-black"
+          />
+          <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] p-8 shadow-[8px_8px_0_0_#000]">
             <ProfileHeader
               user={displayData}
               isEditing={isEditing}
@@ -156,27 +131,33 @@ const handleChange = (field, value) => {
               onCancel={handleCancel}
               onSave={handleSave}
               onImageChange={handleImageChange}
-              previewImg={editData.profilePhoto}
+              previewImg={formData?.profilePhoto} 
             />
           </div>
+        </div>
 
-          <div className="relative">
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 translate-x-3 translate-y-3 bg-[#2a2d35] dark:bg-[#0f1419]"
-            />
+        {/* Poster Card - PersonalInfo */}
+        <div className={`relative group transition-transform duration-300 ${!isEditing ? 'hover:rotate-1' : ''}`}>
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 translate-x-4 translate-y-4 bg-[#C1502E] border-4 border-black"
+          />
+          <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] p-8 shadow-[8px_8px_0_0_#000]">
             <PersonalInfo
               user={displayData}
               isEditing={isEditing}
               onChange={handleChange}
             />
           </div>
+        </div>
 
-          <div className="relative">
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 translate-x-3 translate-y-3 bg-[#2a2d35] dark:bg-[#0f1419]"
-            />
+        {/* Poster Card - SocialLinks */}
+        <div className={`relative group transition-transform duration-300 ${!isEditing ? 'hover:rotate-1' : ''}`}>
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 translate-x-4 translate-y-4 bg-[#C1502E] border-4 border-black"
+          />
+          <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] p-8 shadow-[8px_8px_0_0_#000]">
             <SocialLinks
               user={displayData}
               isEditing={isEditing}
@@ -184,13 +165,21 @@ const handleChange = (field, value) => {
             />
           </div>
         </div>
-      </div>
+        {/* Brutalist accents */}
+        <div className="absolute top-15 -right-4 w-16 h-16 bg-[#C1502E] border-4 border-black dark:border-[#F5E6D3] rotate-[10deg] opacity-30 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)] z-0" />
+        <div className="absolute bottom-2 left-20 w-14 h-10 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] rotate-[-8deg] opacity-30 shadow-[2px_2px_0_rgba(0,0,0,1)] dark:shadow-[2px_2px_0_rgba(245,230,211,0.2)] z-0" />
+        <div className="absolute bottom-3 right-3 w-10 h-10 bg-[#C1502E] border-4 border-black dark:border-[#F5E6D3] rotate-[8deg] opacity-50 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)]"></div>
+        <div className="absolute top-60 right-35 w-8 h-8 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] rotate-[-5deg] opacity-50 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)]"></div>
+        <div className="absolute bottom-60 left-3 w-8 h-8 bg-[#C1502E] border-4 border-black dark:border-[#F5E6D3] rotate-[8deg] opacity-60 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)]"></div>
+      <div className="absolute top-3 left-3 w-10 h-10 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] rotate-[-6deg] opacity-60 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)]"></div>
+        
+      </section>
 
-      {/* Loading overlay when mutation is in progress */}
+      {/* Loading Overlay */}
       {update.isPending && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] p-6">
-            <p className=" text-[#1a1f2e] dark:text-white">Updating profile...</p>
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+          <div className="border-4 border-black dark:border-[#F5E6D3] bg-[#F5E6D3] dark:bg-[#C1502E] px-8 py-6 shadow-[8px_8px_0_0_#000] dark:shadow-[8px_8px_0_0_rgba(245,230,211,0.3)] text-xl font-bold text-[#2C1810] dark:text-[#F5E6D3]">
+            Updating profile...
           </div>
         </div>
       )}
