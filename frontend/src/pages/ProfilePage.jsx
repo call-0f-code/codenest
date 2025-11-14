@@ -121,9 +121,9 @@ const ProfilePage = () => {
         <div className={`relative group transition-transform duration-300 ${!isEditing ? 'hover:rotate-1' : ''}`}>
           <div
             aria-hidden="true"
-            className="absolute inset-0 translate-x-4 translate-y-4 bg-black  border-4 border-black"
+            className="absolute inset-0 translate-x-4 translate-y-4 bg-[#C1502E] border-4 border-black"
           />
-          <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] p-6 shadow-[8px_8px_0_0_#C1502E]">
+          <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] p-8 shadow-[8px_8px_0_0_#000]">
             <ProfileHeader
               user={displayData}
               isEditing={isEditing}
@@ -155,9 +155,9 @@ const ProfilePage = () => {
         <div className={`relative group transition-transform duration-300 ${!isEditing ? 'hover:rotate-1' : ''}`}>
           <div
             aria-hidden="true"
-            className="absolute inset-0 translate-x-4 translate-y-4 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black"
+            className="absolute inset-0 translate-x-4 translate-y-4 bg-[#C1502E] border-4 border-black"
           />
-          <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] p-8 shadow-[8px_8px_0_0_#C1502E]">
+          <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] p-8 shadow-[8px_8px_0_0_#000]">
             <SocialLinks
               user={displayData}
               isEditing={isEditing}
@@ -165,6 +165,7 @@ const ProfilePage = () => {
             />
           </div>
         </div>
+        {/* Brutalist accents */}
         <div className="absolute top-15 -right-4 w-16 h-16 bg-[#C1502E] border-4 border-black dark:border-[#F5E6D3] rotate-[10deg] opacity-30 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)] z-0" />
         <div className="absolute bottom-2 left-20 w-14 h-10 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] rotate-[-8deg] opacity-30 shadow-[2px_2px_0_rgba(0,0,0,1)] dark:shadow-[2px_2px_0_rgba(245,230,211,0.2)] z-0" />
         <div className="absolute bottom-3 right-3 w-10 h-10 bg-[#C1502E] border-4 border-black dark:border-[#F5E6D3] rotate-[8deg] opacity-50 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)]"></div>
