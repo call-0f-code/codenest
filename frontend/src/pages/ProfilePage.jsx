@@ -121,9 +121,9 @@ const ProfilePage = () => {
         <div className={`relative group transition-transform duration-300 ${!isEditing ? 'hover:rotate-1' : ''}`}>
           <div
             aria-hidden="true"
-            className="absolute inset-0 translate-x-4 translate-y-4 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3]"
+            className="absolute inset-0 translate-x-4 translate-y-4 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black"
           />
-          <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] p-6 shadow-[8px_8px_0_0_#C1502E] dark:shadow-[8px_8px_0_0_rgba(193,80,46,0.5)]">
+          <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] p-6 shadow-[8px_8px_0_0_#C1502E]">
             <ProfileHeader
               user={displayData}
               isEditing={isEditing}
@@ -140,9 +140,9 @@ const ProfilePage = () => {
         <div className={`relative group transition-transform duration-300 ${!isEditing ? 'hover:rotate-1' : ''}`}>
           <div
             aria-hidden="true"
-            className="absolute inset-0 translate-x-4 translate-y-4 bg-[#C1502E] border-4 border-black dark:border-[#F5E6D3]"
+            className="absolute inset-0 translate-x-4 translate-y-4 bg-[#C1502E] border-4 border-black"
           />
-          <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] p-8 shadow-[8px_8px_0_0_#000] dark:shadow-[8px_8px_0_0_rgba(0,0,0,0.5)]">
+          <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] p-8 shadow-[8px_8px_0_0_#000]">
             <PersonalInfo
               user={displayData}
               isEditing={isEditing}
@@ -155,9 +155,9 @@ const ProfilePage = () => {
         <div className={`relative group transition-transform duration-300 ${!isEditing ? 'hover:rotate-1' : ''}`}>
           <div
             aria-hidden="true"
-            className="absolute inset-0 translate-x-4 translate-y-4 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3]"
+            className="absolute inset-0 translate-x-4 translate-y-4 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black"
           />
-          <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] p-8 shadow-[8px_8px_0_0_#C1502E] dark:shadow-[8px_8px_0_0_rgba(193,80,46,0.5)]">
+          <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] p-8 shadow-[8px_8px_0_0_#C1502E]">
             <SocialLinks
               user={displayData}
               isEditing={isEditing}
