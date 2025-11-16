@@ -4,13 +4,11 @@
 
 ## 🎯 Features
 
-- **Member Management**: Register and manage club member profiles
+- **User Profiles**: Build and showcase professional profiles
 - **Interview Experiences**: Share and browse interview experiences
 - **DSA Dashboard**: Track Data Structures and Algorithms progress
 - **Progress Tracking**: Monitor individual learning progress
 - **Topic Management**: Organize and track various CS topics
-- **User Profiles**: Build and showcase professional profiles
-- **Role-based Access**: Admin and member role management
 
 ## 🛠️ Tech Stack
 
@@ -29,7 +27,6 @@
 - **Express** - Web framework
 - **TypeScript** - Type safety
 - **JWT** - Authentication
-- **Better Auth** - Authentication library
 - **Zod** - Schema validation
 - **Helmet** - Security middleware
 - **Rate Limiting** - API protection
