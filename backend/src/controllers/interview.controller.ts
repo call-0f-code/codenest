@@ -5,14 +5,16 @@ import api from "../utils/api";
 export const getAllInterviews = async (req: Request, res: Response) => {
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.query.limit as string) || 10;
+  const verdict = (req.query.verdict as string) || "All";
 
-  const response = await api.get(`/interviews?page=${page}&limit=${limit}`);
+  const response = await api.get(`/interviews?page=${page}&limit=${limit}&verdict=${verdict}`);
 
   return res.status(200).json({
     success: true,
     data: response.data.data,       
     page: response.data.page,
     limit: response.data.limit,
+    verdict: response.data.verdict,
     total: response.data.total,
     totalPages: response.data.totalPages,
   });
