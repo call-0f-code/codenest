@@ -7,10 +7,12 @@ export function useInterview (interviewId) {
     
     //all interview exps, most are probably rejections lmao
     const [page, setPage] = useState(1);
-    const limit = 10; // You can change if needed
+    const [verdict, setVerdict] = useState("All");
+    const limit = 10; 
+
     const { data: interviewsResponse, isLoading, error } = useQuery({
-        queryKey: ["interviews", page], 
-        queryFn: () => getAllInterviewExps(page, limit),
+        queryKey: ["interviews", page, verdict], 
+        queryFn: () => getAllInterviewExps(page, limit, verdict),
         keepPreviousData: true,
     });
 
@@ -45,7 +47,7 @@ export function useInterview (interviewId) {
     return {
         interview, 
         interviews,
-        isLoading, 
+        isLoading,
         error, 
         isInterviewExpLoading, 
         interviewExpError,
@@ -55,7 +57,9 @@ export function useInterview (interviewId) {
         page,
         setPage,
         totalPages,
-        limit
+        limit,
+        verdict,
+        setVerdict
     }
 
 } 

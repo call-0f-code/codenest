@@ -1,9 +1,8 @@
 import api from "./api";
 
-export const getAllInterviewExps = async (page = 1, limit = 10) => {
-  const response = await api.get(`/interviews?page=${page}&limit=${limit}`);
+export const getAllInterviewExps = async (page = 1, limit = 10, verdict = "All") => {
+  const response = await api.get(`/interviews?page=${page}&limit=${limit}&verdict=${verdict}`);
   return response.data; 
-  // response.data contains: data, page, limit, total, totalPages
 };
 
 

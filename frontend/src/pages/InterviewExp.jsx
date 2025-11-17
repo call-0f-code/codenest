@@ -7,16 +7,12 @@ import InterviewExperienceForm from "@/components/interview/InterviewExperienceF
 import InterviewExperienceItem from "@/components/interview/InterviewExperienceItem";
 
 export default function InterviewExperiences() {
-  const { interviews, isLoading, postInterviewExp,page,setPage,totalPages } = useInterview();
+  const { interviews, isLoading, postInterviewExp,page,setPage,totalPages, setVerdict } = useInterview();
   const [filter, setFilter] = useState("All");
   const [showForm, setShowForm] = useState(false);
 
   // Ensure interviews is always an array
   const interviewsArray = Array.isArray(interviews) ? interviews : [];
-
-  const filteredInterviews = filter === "All" 
-    ? interviewsArray 
-    : interviewsArray.filter(i => i.verdict === filter);
 
   const handleFormSubmit = (data) => {
     postInterviewExp.mutate(data);
@@ -159,7 +155,11 @@ export default function InterviewExperiences() {
         >
           <InterviewFilters 
             activeFilter={filter} 
-            onFilterChange={setFilter} 
+            onFilterChange={(newFilter) => {
+              setFilter(newFilter);
+              setPage(1);        
+              setVerdict(newFilter); 
+            }} 
           />
         </motion.div>
 
@@ -176,7 +176,7 @@ export default function InterviewExperiences() {
               </span>
             </motion.div>
           </div>
-        ) : filteredInterviews.length === 0 ? (
+        ) : !isLoading && interviewsArray.length === 0 ? (
           <div className="text-center py-12">
             <motion.div 
               className="inline-block bg-[#2C1810] dark:bg-[#F5E6D3] px-8 py-4 border-4 border-black dark:border-[#2C1810] -rotate-2 shadow-[6px_6px_0px_0px_rgba(193,80,46,1)]"
@@ -191,7 +191,7 @@ export default function InterviewExperiences() {
         ) : (
           <div className="space-y-4">
             <AnimatePresence>
-              {filteredInterviews.map((interview, index) => (
+              {interviewsArray.map((interview, index) => (
                 <motion.div 
                   key={interview.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -209,7 +209,7 @@ export default function InterviewExperiences() {
           </div>
         )}
         {/*  PAGINATION BLOCK ADDED */}
-        {!isLoading && filteredInterviews.length > 0 && (
+        {!isLoading && interviewsArray.length > 0 && (
           <div className="mt-12 flex justify-center items-center gap-6">
             <button
               onClick={() => setPage(page - 1)}
