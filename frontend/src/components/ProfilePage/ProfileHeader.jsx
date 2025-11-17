@@ -30,7 +30,7 @@ export const ProfileHeader = ({
   const userEmail = user?.email || "No email provided";
 
   return (
-    <section className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] p-7 shadow-[8px_8px_0_rgba(0,0,0,1)] dark:shadow-[8px_8px_0_rgba(245,230,211,0.3)] flex flex-col md:flex-row items-center justify-between gap-8 rounded-none overflow-hidden hover:rotate-[0.5deg] hover:scale-[1.01] transition-transform duration-300 ease-in-out">
+    <section className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] p-7 shadow-[8px_8px_0_rgba(0,0,0,1)] dark:shadow-[8px_8px_0_rgba(245,230,211,0.3)] flex flex-col md:flex-row items-center justify-between gap-8 rounded-none overflow-hidden">
       {/* --- Left: Info --- */}
       <div className="flex-1 text-center md:text-left space-y-2 z-20">
         <h1 className="text-[2.5rem] md:text-[4rem] font-black uppercase text-[#2C1810] dark:text-[#F5E6D3] tracking-tight leading-none">
@@ -55,14 +55,14 @@ export const ProfileHeader = ({
       {/* --- Right: Profile Image --- */}
       <div
         className={`relative w-44 h-44 md:w-56 md:h-56 border-4 border-black dark:border-[#F5E6D3] bg-[#C1502E] dark:bg-[#F5E6D3]/10 overflow-hidden shadow-[6px_6px_0_rgba(0,0,0,1)] dark:shadow-[6px_6px_0_rgba(245,230,211,0.3)] group z-20 ${
-          isEditing ? "cursor-pointer hover:scale-105" : ""
+          isEditing ? "cursor-pointer" : ""
         } transition-all duration-300`}
         onClick={isEditing ? handleImageClick : undefined}
       >
         {user.profilePhoto ? (
             <img src= {previewImg?`${previewImg}`:`${user.profilePhoto}?t=${new Date(user.updatedAt)}`}
             alt={userName}
-            className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110"
+            className="object-cover w-full h-full"
           />
         ) : (
           <div className="flex items-center justify-center h-full text-[#F5E6D3] dark:text-[#C1502E]">

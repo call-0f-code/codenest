@@ -59,27 +59,68 @@ export default function HeroSection() {
         </div>
 
         {/* Right Side - Code Terminal */}
-        <div className="relative">
-          <div className="bg-[#2C1810] border-4 border-black shadow-[12px_12px_0px_0px_rgba(193,80,46,1)] p-8 rotate-2 hover:rotate-0 transition-transform duration-300">
-            <div className="flex items-center gap-2 mb-6">
-              <div className="w-4 h-4 bg-[#C1502E] border-2 border-black"></div>
-              <div className="w-4 h-4 bg-[#F5E6D3] border-2 border-black"></div>
-              <div className="w-4 h-4 bg-[#C1502E] border-2 border-black"></div>
-            </div>
-            <div className="font-mono text-lg space-y-3 text-[#F5E6D3]">
-              <div className="text-[#F5E6D3]/60">// Welcome to Call of Code</div>
-              <div className="text-[#C1502E] font-bold">
-                class <span className="text-[#F5E6D3]">CodingClub</span> {'{'}
-              </div>
-              <div className="ml-6">mission = <span className="text-[#C1502E]">"Inspire & Create"</span>;</div>
-              <div className="ml-6">members = <span className="text-[#C1502E] font-bold">∞</span>;</div>
-              <div className="ml-6">passion = <span className="text-[#C1502E] font-bold">MAX</span>;</div>
-              <div className="ml-6 bg-[#C1502E] text-[#F5E6D3] px-3 py-1 inline-block border-2 border-[#F5E6D3] font-bold">
-                {codeSnippets[currentSnippet]}
-              </div>
-              <div className="text-[#C1502E] font-bold">{'}'}</div>
-            </div>
-          </div>
+<div className="relative">
+  <div
+    className="
+      bg-[#2C1810] dark:bg-[#F5E6D3]
+      border-4 border-black 
+      shadow-[12px_12px_0px_0px_rgba(193,80,46,1)]
+      p-8 rotate-2 hover:rotate-0
+      transition-transform duration-300
+    "
+  >
+    {/* Window Buttons */}
+    <div className="flex items-center gap-2 mb-6">
+      <div className="w-4 h-4 bg-[#C1502E] border-2 border-black dark:border-[#F5E6D3]"></div>
+      <div className="w-4 h-4 bg-[#F5E6D3] border-2 border-black dark:border-[#F5E6D3]"></div>
+      <div className="w-4 h-4 bg-[#C1502E] border-2 border-black dark:border-[#F5E6D3]"></div>
+    </div>
+
+    {/* Text */}
+    <div
+      className="
+        font-mono text-lg space-y-3
+        text-[#F5E6D3] dark:text-[#2C1810]
+      "
+    >
+      {/* Comment */}
+      <div className="text-[#F5E6D3]/60 dark:text-[#2C1810]/60">
+        // Welcome to Call of Code
+      </div>
+
+      {/* Class line */}
+      <div className="font-bold text-[#C1502E]">
+        class <span className="text-[#F5E6D3] dark:text-[#2C1810]">CodingClub</span> {'{'}
+      </div>
+
+      <div className="ml-6">
+        mission =
+        <span className="text-[#C1502E]"> "Inspire & Create"</span>;
+      </div>
+
+      <div className="ml-6">
+        members = <span className="text-[#C1502E] font-bold">∞</span>;
+      </div>
+
+      <div className="ml-6">
+        passion = <span className="text-[#C1502E] font-bold">MAX</span>;
+      </div>
+
+      {/* Dynamic snippet box */}
+      <div
+        className="
+          ml-6 px-3 py-1 inline-block font-bold
+          bg-[#C1502E] text-[#F5E6D3]
+          dark:bg-[#C1502E] dark:text-[#2C1810]
+          border-2 border-[#F5E6D3] dark:border-[#2C1810]
+        "
+      >
+        {codeSnippets[currentSnippet]}
+      </div>
+
+      <div className="font-bold text-[#C1502E]">{'}'}</div>
+    </div>
+  </div>
 
           {/* Decorative elements */}
           <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-[#C1502E] border-4 border-black -rotate-12"></div>
