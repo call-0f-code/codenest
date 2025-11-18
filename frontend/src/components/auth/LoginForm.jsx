@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
 import { useMembers } from "@/hooks/useMember";
 import { globalToast } from "@/utils/toast";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = ({ setIsLogin, setShowForgotPassword }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,6 +12,8 @@ const LoginForm = ({ setIsLogin, setShowForgotPassword }) => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useMembers();
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,6 +24,7 @@ const LoginForm = ({ setIsLogin, setShowForgotPassword }) => {
         onSuccess: () => {
           globalToast.success("Login Successfull");
           setIsLoading(false);
+          navigate('/profile');
         },
         onError: () => {
           setIsLogin(false);
