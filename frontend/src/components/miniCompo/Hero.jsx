@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Sparkles, Rocket, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function HeroSection() {
   const codeSnippets = [
@@ -11,6 +12,7 @@ export default function HeroSection() {
   ];
 
   const [currentSnippet, setCurrentSnippet] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -47,14 +49,13 @@ export default function HeroSection() {
           </p>
 
           <div className="flex flex-wrap gap-6">
-            <button className="group px-10 py-5 bg-[#C1502E] text-[#F5E6D3] text-xl font-black border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center gap-3">
+            <button onClick={ () => ( navigate('/dsa'))}
+            className="group px-10 py-5 bg-[#C1502E] text-[#F5E6D3] text-xl font-black border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center gap-3">
               <Rocket className="h-6 w-6" />
               START CODING
               <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform" />
             </button>
-            <button className="px-10 py-5 bg-[#F5E6D3] dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] text-xl font-black border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all">
-              EXPLORE
-            </button>
+           
           </div>
         </div>
 

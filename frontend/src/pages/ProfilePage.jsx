@@ -5,6 +5,7 @@ import { useTheme } from "@/context/ThemeContext";
 import { useMembers } from "@/hooks/useMember";
 import { globalToast } from "@/utils/toast";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
   const { theme } = useTheme();
@@ -13,6 +14,8 @@ const ProfilePage = () => {
   const [userData, setUserData] = useState(null);
   const [formData, setFormData] = useState(null); 
   const [profileImageFile, setProfileImageFile] = useState(null);
+  const token = localStorage.getItem('token') | null;
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (members && JSON.stringify(members) !== JSON.stringify(userData)) {
@@ -86,6 +89,8 @@ const ProfilePage = () => {
     }));
   };
 
+
+
   if (isLoading || !userData) {
     return (
       <main className="min-h-screen flex items-center justify-center bg-[#F5E6D3] dark:bg-[#2C1810]">
@@ -96,6 +101,13 @@ const ProfilePage = () => {
     );
   }
 
+    if( !members ){
+    return (
+        globalToast.success("Unauthorize user Redirecting to login"),
+        navigate('/signup')
+    )
+  }
+
   const displayData = isEditing ? formData : userData;
 
   return (
@@ -104,16 +116,7 @@ const ProfilePage = () => {
         theme === "dark" ? "dark bg-[#2C1810]" : "bg-[#F5E6D3]"
       }`}
     >
-      <header className="max-w-7xl mx-auto px-6 py-8 flex justify-between items-center">
-        <div className="bg-[#C1502E] border-4 border-black dark:border-[#F5E6D3] px-6 py-3 font-black text-[#F5E6D3] text-xl shadow-[6px_6px_0_0_#000] dark:shadow-[6px_6px_0_0_rgba(245,230,211,0.3)] rotate-1">
-          CALL OF CODE
-        </div>
-        <div className="flex items-center gap-4">
-          <button className="border-4 border-black dark:border-[#F5E6D3] bg-[#C1502E] text-[#F5E6D3] px-6 py-3 font-black shadow-[6px_6px_0_0_#000] dark:shadow-[6px_6px_0_0_rgba(245,230,211,0.3)] hover:-rotate-1 transition-transform">
-            HOME
-          </button>
-        </div>
-      </header>
+      
 
       {/* Poster Wall Layout */}
       <section className="max-w-7xl mx-auto px-6 py-16 grid gap-16">
