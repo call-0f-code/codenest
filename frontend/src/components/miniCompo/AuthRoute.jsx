@@ -5,16 +5,15 @@ const AuthRoute = ({ children, requiredRoles }) => {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <div>Loading...</div>; 
+    return <div>Loading...</div>;
   }
 
-  
   if (!user) {
     return <Navigate to="/signup" replace />;
   }
 
-  if(!user.role || !requiredRoles?.includes(user.role)){
-    return <Navigate to="/unauthorized" replace/>
+  if (!user.role || !requiredRoles?.includes(user.role)) {
+    return <Navigate to="/unauthorized" replace />;
   }
 
   return children;

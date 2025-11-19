@@ -1,5 +1,5 @@
-import { Code2, Moon, Sun, User } from "lucide-react";
-import { Link, Links, useNavigate } from "react-router-dom";
+import { Code2, Sun, User } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -41,7 +41,9 @@ export default function Navbar() {
               </button>
 
               <button
-                onClick={() => { localStorage.removeItem('token') , navigate("/home")}}
+                onClick={() => {
+                  localStorage.removeItem("token"), navigate("/home");
+                }}
                 className="px-8 py-3 bg-[#C1502E] text-[#F5E6D3] font-black border-4 border-black dark:border-[#F5E6D3] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]  transition-all hover:translate-x-1 hover:translate-y-1"
               >
                 LOGOUT
