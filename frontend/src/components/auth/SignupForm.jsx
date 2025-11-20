@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Eye, EyeOff, User, Mail, Lock, GraduationCap, ArrowRight } from "lucide-react";
 import { useMembers } from "@/hooks/useMember";
 import { globalToast } from "@/utils/toast";
+import { useNavigate } from "react-router-dom";
 
 const SignupForm = ({ setIsLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -15,6 +16,7 @@ const SignupForm = ({ setIsLogin }) => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const { createNewMember } = useMembers();
+  const navigate = useNavigate();
 
   const passwordsMatch = formData.password === confirmPassword;
 
@@ -32,6 +34,7 @@ const SignupForm = ({ setIsLogin }) => {
         onSuccess: () => {
           globalToast.success("Member Sent for Approval");
           setIsLoading(false);
+          navigate('/')
         },
         onError: () => {
           setIsLoading(false);

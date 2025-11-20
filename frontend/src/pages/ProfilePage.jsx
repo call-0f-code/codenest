@@ -5,14 +5,16 @@ import { useTheme } from "@/context/ThemeContext";
 import { useMembers } from "@/hooks/useMember";
 import { globalToast } from "@/utils/toast";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
   const { theme } = useTheme();
   const { members, update, isLoading } = useMembers();
   const [isEditing, setIsEditing] = useState(false);
   const [userData, setUserData] = useState(null);
-  const [formData, setFormData] = useState(null); 
+  const [formData, setFormData] = useState(null);
   const [profileImageFile, setProfileImageFile] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (members && JSON.stringify(members) !== JSON.stringify(userData)) {
@@ -41,7 +43,7 @@ const ProfilePage = () => {
     try {
       const changedData = {};
       for (const key in formData) {
-        if (formData[key] !== userData[key] && key !== 'profilePhoto') {
+        if (formData[key] !== userData[key] && key !== "profilePhoto") {
           changedData[key] = formData[key];
         }
       }
@@ -58,9 +60,11 @@ const ProfilePage = () => {
       if (changedData.birth_date) {
         changedData.birth_date = new Date(changedData.birth_date).toISOString();
       }
-      
+
       if (changedData.passoutYear) {
-         changedData.passoutYear = new Date(changedData.passoutYear).toISOString();
+        changedData.passoutYear = new Date(
+          changedData.passoutYear
+        ).toISOString();
       }
 
       payload.append("memberData", JSON.stringify(changedData));
@@ -104,17 +108,6 @@ const ProfilePage = () => {
         theme === "dark" ? "dark bg-[#2C1810]" : "bg-[#F5E6D3]"
       }`}
     >
-      <header className="max-w-7xl mx-auto px-6 py-8 flex justify-between items-center">
-        <div className="bg-[#C1502E] border-4 border-black dark:border-[#F5E6D3] px-6 py-3 font-black text-[#F5E6D3] text-xl shadow-[6px_6px_0_0_#000] dark:shadow-[6px_6px_0_0_rgba(245,230,211,0.3)] rotate-1">
-          CALL OF CODE
-        </div>
-        <div className="flex items-center gap-4">
-          <button className="border-4 border-black dark:border-[#F5E6D3] bg-[#C1502E] text-[#F5E6D3] px-6 py-3 font-black shadow-[6px_6px_0_0_#000] dark:shadow-[6px_6px_0_0_rgba(245,230,211,0.3)] hover:-rotate-1 transition-transform">
-            HOME
-          </button>
-        </div>
-      </header>
-
       {/* Poster Wall Layout */}
       <section className="max-w-7xl mx-auto px-6 py-16 grid gap-16">
         {/* Poster Card - ProfileHeader */}
@@ -131,7 +124,7 @@ const ProfilePage = () => {
               onCancel={handleCancel}
               onSave={handleSave}
               onImageChange={handleImageChange}
-              previewImg={formData?.profilePhoto} 
+              previewImg={formData?.profilePhoto}
             />
           </div>
         </div>
@@ -171,8 +164,7 @@ const ProfilePage = () => {
         <div className="absolute bottom-3 right-3 w-10 h-10 bg-[#C1502E] border-4 border-black dark:border-[#F5E6D3] rotate-[8deg] opacity-50 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)]"></div>
         <div className="absolute top-60 right-35 w-8 h-8 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] rotate-[-5deg] opacity-50 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)]"></div>
         <div className="absolute bottom-60 left-3 w-8 h-8 bg-[#C1502E] border-4 border-black dark:border-[#F5E6D3] rotate-[8deg] opacity-60 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)]"></div>
-      <div className="absolute top-3 left-3 w-10 h-10 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] rotate-[-6deg] opacity-60 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)]"></div>
-        
+        <div className="absolute top-3 left-3 w-10 h-10 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] rotate-[-6deg] opacity-60 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)]"></div>
       </section>
 
       {/* Loading Overlay */}

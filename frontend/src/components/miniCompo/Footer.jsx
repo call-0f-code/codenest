@@ -64,8 +64,7 @@ export default function Footer() {
               { href: "/interviews", text: "Interviews" },
               { href: "/dsa", text: "DSA" },
               {
-                href:
-                  "https://mail.google.com/mail/?view=cm&fs=1&to=callofcode07@gmail.com",
+                href: "https://mail.google.com/mail/?view=cm&fs=1&to=callofcode07@gmail.com",
                 text: "Contact",
               },
             ].map((link) => (
@@ -142,6 +141,5 @@ export default function Footer() {
         </p>
       </div>
     </footer>
-
-          );
-        }
+  );
+}
