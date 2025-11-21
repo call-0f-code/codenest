@@ -5,7 +5,6 @@ import {
   XCircle,
   Clock,
   ChevronDown,
-  ChevronUp,
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { VERDICT_CONFIG } from "@/constants/interviewConstants";
@@ -31,7 +30,7 @@ export default function InterviewExperienceItem({ interview }) {
   const Icon = getIcon(config.icon);
 
   return (
-    <div className="relative">
+    <div className="relative mb-16">
       {/* This is the main "clickable" card. 
         It's one single accessible button.
       */}
@@ -80,8 +79,8 @@ export default function InterviewExperienceItem({ interview }) {
           </div>
         </motion.div>
 
-        {/* "Stamp" for Anonymous */}
-        {interview.isAnonymous && (
+        {/* Footer Info: Anonymous Tag OR User Profile Badge */}
+        {interview.isAnonymous ? (
           <motion.span
             className="absolute -bottom-3 left-4 z-20 text-xs font-black bg-black text-[#F5E6D3] px-3 py-1.5 border-2 border-[#C1502E]"
             initial={{ rotate: -3 }}
@@ -89,11 +88,35 @@ export default function InterviewExperienceItem({ interview }) {
           >
             👤 ANONYMOUS
           </motion.span>
+        ) : (
+          interview.member && (
+            <motion.div
+              className="absolute -bottom-6 left-4 z-20 flex items-center gap-3 bg-white dark:bg-[#1a0f0a] px-4 py-2 border-4 border-black dark:border-[#F5E6D3] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+              initial={{ rotate: 2 }}
+              whileHover={{ rotate: -1, scale: 1.05 }}
+              onClick={(e) => e.stopPropagation()} // Prevent card toggle when clicking profile
+            >
+              <img
+                src={interview.member.profilePhoto}
+                alt={interview.member.name}
+                className="w-10 h-10 rounded-full border-2 border-black dark:border-[#F5E6D3] object-cover"
+              />
+              <div className="flex flex-col">
+                <span className="text-[10px] font-bold text-[#C1502E] leading-tight">
+                  POSTED BY
+                </span>
+                <span className="text-sm font-black text-black dark:text-[#F5E6D3] leading-tight uppercase">
+                  {interview.member.name}
+                </span>
+              </div>
+            </motion.div>
+          )
         )}
 
         {/* Card Body Content */}
-        <div className="p-6 pt-16 pr-16 min-h-[100px] flex flex-col justify-center">
-          <p className="text-2xl font-black text-[#C1502E] dark:text-[#C1502E]">
+        {/* Added pb-10 to prevent overlap with the badge at bottom left */}
+        <div className="p-6 pt-16 pr-16 pb-10 min-h-[120px] flex flex-col justify-center">
+          <p className="text-2xl font-black text-[#C1502E] dark:text-[#C1502E] leading-tight">
             {interview.role}
           </p>
         </div>
@@ -145,9 +168,6 @@ export default function InterviewExperienceItem({ interview }) {
                 {/* Corner fold effect */}
                 <div className="absolute top-0 right-0 w-0 h-0 border-t-[34px] border-t-[#C1502E] border-l-[34px] border-l-transparent" />
 
-                {/* This is your complete, fixed ReactMarkdown section.
-                  No changes were needed here.
-                */}
                 <motion.div
                   className="prose prose-sm dark:prose-invert max-w-none text-[#2C1810] dark:text-[#F5E6D3] font-medium"
                   initial={{ y: -10, opacity: 0 }}
