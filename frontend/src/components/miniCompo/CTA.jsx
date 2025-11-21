@@ -20,7 +20,7 @@ export default function CTASection() {
               Join hundreds of creative minds building the future, one line of code at a time.
             </p>
             <button onClick={ () => ( navigate('/signup'))}
-            className="px-16 py-6 bg-[#F5E6D3] text-[#2C1810] text-2xl font-black border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:translate-x-2 hover:translate-y-2 transition-all inline-flex items-center gap-4">
+              className="px-16 py-6 bg-[#F5E6D3] text-[#2C1810] text-2xl font-black border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] inline-flex items-center gap-4 transition-all duration-150 hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5">
               JOIN CALL OF CODE
               <ArrowRight className="h-8 w-8" />
             </button>
