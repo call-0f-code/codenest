@@ -1,11 +1,11 @@
 import { PersonalInfo } from "@/components/ProfilePage/PersonalInfo";
 import { ProfileHeader } from "@/components/ProfilePage/ProfileHeader";
 import { SocialLinks } from "@/components/ProfilePage/SocialLink";
+import MyInterviewExperiences from "@/components/ProfilePage/MyInterviewExperiences"; // Import the new component
 import { useTheme } from "@/context/ThemeContext";
 import { useMembers } from "@/hooks/useMember";
 import { globalToast } from "@/utils/toast";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
   const { theme } = useTheme();
@@ -14,7 +14,6 @@ const ProfilePage = () => {
   const [userData, setUserData] = useState(null);
   const [formData, setFormData] = useState(null);
   const [profileImageFile, setProfileImageFile] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (members && JSON.stringify(members) !== JSON.stringify(userData)) {
@@ -109,7 +108,7 @@ const ProfilePage = () => {
       }`}
     >
       {/* Poster Wall Layout */}
-      <section className="max-w-7xl mx-auto px-6 py-16 grid gap-16">
+      <section className="max-w-7xl mx-auto px-6 py-16 grid gap-16 relative z-10">
         {/* Poster Card - ProfileHeader */}
         <div className={`relative`}>
           <div
@@ -158,14 +157,23 @@ const ProfilePage = () => {
             />
           </div>
         </div>
-        {/* Brutalist accents */}
-        <div className="absolute top-15 -right-4 w-16 h-16 bg-[#C1502E] border-4 border-black dark:border-[#F5E6D3] rotate-[10deg] opacity-30 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)] z-0" />
-        <div className="absolute bottom-2 left-20 w-14 h-10 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] rotate-[-8deg] opacity-30 shadow-[2px_2px_0_rgba(0,0,0,1)] dark:shadow-[2px_2px_0_rgba(245,230,211,0.2)] z-0" />
-        <div className="absolute bottom-3 right-3 w-10 h-10 bg-[#C1502E] border-4 border-black dark:border-[#F5E6D3] rotate-[8deg] opacity-50 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)]"></div>
-        <div className="absolute top-60 right-35 w-8 h-8 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] rotate-[-5deg] opacity-50 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)]"></div>
-        <div className="absolute bottom-60 left-3 w-8 h-8 bg-[#C1502E] border-4 border-black dark:border-[#F5E6D3] rotate-[8deg] opacity-60 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)]"></div>
-        <div className="absolute top-3 left-3 w-10 h-10 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] rotate-[-6deg] opacity-60 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)]"></div>
+
+        {/* Poster Card - My Experiences (Refactored) */}
+        <div className={`relative`}>
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 translate-x-4 translate-y-4 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black"
+          />
+          <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] p-8 shadow-[8px_8px_0_0_#000]">
+            <MyInterviewExperiences userId={userData?.id} />
+          </div>
+        </div>
       </section>
+
+      {/* Brutalist accents */}
+      <div className="absolute top-15 -right-4 w-16 h-16 bg-[#C1502E] border-4 border-black dark:border-[#F5E6D3] rotate-[10deg] opacity-30 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)] z-0" />
+      <div className="absolute bottom-2 left-20 w-14 h-10 bg-[#2C1810] dark:bg-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] rotate-[-8deg] opacity-30 shadow-[2px_2px_0_rgba(0,0,0,1)] dark:shadow-[2px_2px_0_rgba(245,230,211,0.2)] z-0" />
+      <div className="fixed bottom-10 right-10 w-10 h-10 bg-[#C1502E] border-4 border-black dark:border-[#F5E6D3] rotate-[8deg] opacity-50 shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.2)] z-0 pointer-events-none"></div>
 
       {/* Loading Overlay */}
       {update.isPending && (

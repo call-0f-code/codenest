@@ -7,7 +7,7 @@ import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
-import { $convertToMarkdownString, TRANSFORMERS } from "@lexical/markdown";
+import { $convertToMarkdownString, $convertFromMarkdownString, TRANSFORMERS } from "@lexical/markdown";
 import { HeadingNode, QuoteNode, $createQuoteNode } from "@lexical/rich-text";
 import { CodeNode, $createCodeNode } from "@lexical/code";
 import { LinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
@@ -29,14 +29,31 @@ import { INSERT_UNORDERED_LIST_COMMAND, INSERT_ORDERED_LIST_COMMAND } from "@lex
 import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
 import { VERDICT_CONFIG, VERDICT_OPTIONS } from "@/constants/interviewConstants";
 import { globalToast } from "@/utils/toast";
-  const getVerdictIcon = (verdict) => {
-    switch(verdict) {
-      case "Selected": return Trophy;
-      case "Rejected": return XCircle;
-      case "Pending": return Clock;
-      default: return Clock;
+
+// Helper to populate editor with initial markdown
+function PopulateInitialDataPlugin({ initialContent }) {
+  const [editor] = useLexicalComposerContext();
+  
+  useEffect(() => {
+    if (initialContent) {
+      editor.update(() => {
+        $convertFromMarkdownString(initialContent, TRANSFORMERS);
+      });
     }
-  };
+  }, [editor, initialContent]);
+  
+  return null;
+}
+
+const getVerdictIcon = (verdict) => {
+  switch(verdict) {
+    case "Selected": return Trophy;
+    case "Rejected": return XCircle;
+    case "Pending": return Clock;
+    default: return Clock;
+  }
+};
+
 // Toolbar Component
 function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext();
@@ -268,7 +285,7 @@ const initialConfig = {
   onError: (error) => console.error(error),
 };
 
-export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending }) {
+export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending, initialData }) {
   const [formData, setFormData] = useState({
     company: "",
     role: "",
@@ -278,6 +295,19 @@ export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending
   const [editorContent, setEditorContent] = useState("");
   const [characterCount, setCharacterCount] = useState(0);
   const editorStateRef = useRef(null);
+
+  // Populate form on initialData change
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        company: initialData.company || "",
+        role: initialData.role || "",
+        verdict: initialData.verdict || "Pending",
+        isAnonymous: initialData.isAnonymous || false
+      });
+      // Editor content is handled by PopulateInitialDataPlugin
+    }
+  }, [initialData]);
 
   const handleEditorChange = (editorState, editor) => {
     editorStateRef.current = editorState;
@@ -295,7 +325,9 @@ export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending
 
   const handleSubmit = () => {
     // Validate
-    if (!formData.company || !formData.role || characterCount < 10) {
+    if (!formData.company || !formData.role || (characterCount < 10 && !initialData)) {
+       // Note: relax validation slightly for edits if user didn't touch editor, 
+       // but strictly speaking editorContent should be up to date.
       globalToast.error("Please fill all required fields. Content must be at least 10 characters.");
       return;
     }
@@ -307,26 +339,19 @@ export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending
 
     onSubmit(submitData);
     
-    // Reset
-    setFormData({
-      company: "",
-      role: "",
-      verdict: "Pending",
-      isAnonymous: false
-    });
-    setEditorContent("");
-    setCharacterCount(0);
+    // Reset only if not editing (or let parent handle it)
+    if (!initialData) {
+      setFormData({
+        company: "",
+        role: "",
+        verdict: "Pending",
+        isAnonymous: false
+      });
+      setEditorContent("");
+      setCharacterCount(0);
+    }
     
     if (onSuccess) onSuccess();
-  };
-
-  const getVerdictIcon = (verdict) => {
-    switch(verdict) {
-      case "Selected": return Trophy;
-      case "Rejected": return XCircle;
-      case "Pending": return Clock;
-      default: return Clock;
-    }
   };
 
   return (
@@ -336,7 +361,7 @@ export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending
           <Briefcase className="h-6 w-6 text-[#F5E6D3]" />
         </div>
         <h3 className="text-3xl font-black text-[#2C1810] dark:text-[#F5E6D3]">
-          SHARE YOUR EXPERIENCE
+          {initialData ? "EDIT EXPERIENCE" : "SHARE YOUR EXPERIENCE"}
         </h3>
       </div>
 
@@ -406,6 +431,7 @@ export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending
           <div className="border-4 border-black dark:border-[#F5E6D3] bg-white dark:bg-[#2C1810] focus-within:shadow-[6px_6px_0px_0px_rgba(193,80,46,1)] transition-all">
             <LexicalComposer initialConfig={initialConfig}>
               <ToolbarPlugin />
+              <PopulateInitialDataPlugin initialContent={initialData?.content} />
               <div className="relative">
                 <RichTextPlugin
                   contentEditable={
@@ -456,7 +482,7 @@ export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending
           className="w-full group px-8 py-5 bg-[#C1502E] text-[#F5E6D3] text-xl font-black border-4 border-black dark:border-[#F5E6D3] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(245,230,211,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[12px_12px_0px_0px_rgba(245,230,211,1)] hover:-translate-x-1 hover:-translate-y-1 active:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:active:shadow-[4px_4px_0px_0px_rgba(245,230,211,1)] active:translate-x-1 active:translate-y-1 transition-all duration-150 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Send className="h-6 w-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-          {isPending ? "POSTING..." : "POST EXPERIENCE"}
+          {isPending ? "POSTING..." : (initialData ? "UPDATE EXPERIENCE" : "POST EXPERIENCE")}
         </button>
       </div>
     </div>

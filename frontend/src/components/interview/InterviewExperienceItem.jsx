@@ -5,11 +5,18 @@ import {
   XCircle,
   Clock,
   ChevronDown,
+  Trash2,
+  Pencil,
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { VERDICT_CONFIG } from "@/constants/interviewConstants";
 
-export default function InterviewExperienceItem({ interview }) {
+export default function InterviewExperienceItem({
+  interview,
+  showProfileInfo = true,
+  onEdit,
+  onDelete,
+}) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const config = VERDICT_CONFIG[interview.verdict];
@@ -31,9 +38,7 @@ export default function InterviewExperienceItem({ interview }) {
 
   return (
     <div className="relative mb-16">
-      {/* This is the main "clickable" card. 
-        It's one single accessible button.
-      */}
+      {/* Main Card */}
       <motion.div
         className="relative z-10 bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] overflow-visible cursor-pointer"
         initial={{ opacity: 0, scale: 0.95 }}
@@ -47,7 +52,6 @@ export default function InterviewExperienceItem({ interview }) {
         style={{
           boxShadow: "6px 6px 0px 0px rgba(0,0,0,1)",
         }}
-        // Accessibility props for the clickable card
         role="button"
         tabIndex={0}
         aria-expanded={isExpanded}
@@ -59,7 +63,7 @@ export default function InterviewExperienceItem({ interview }) {
           }
         }}
       >
-        {/* "File Tab" for Company */}
+        {/* Company Tab */}
         <motion.div
           className="absolute -top-4 left-6 z-20 bg-[#C1502E] text-[#F5E6D3] px-4 py-2 border-4 border-black dark:border-[#F5E6D3] font-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
           whileHover={{ rotate: -3, scale: 1.05 }}
@@ -67,7 +71,7 @@ export default function InterviewExperienceItem({ interview }) {
           <h4 className="text-xl">{interview.company}</h4>
         </motion.div>
 
-        {/* "Stamp" for Verdict */}
+        {/* Verdict Stamp */}
         <motion.div
           className={`${config.bg} absolute -top-3 -right-3 z-20 p-2 border-4 border-black dark:border-[#F5E6D3] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]`}
           initial={{ rotate: 5 }}
@@ -79,49 +83,86 @@ export default function InterviewExperienceItem({ interview }) {
           </div>
         </motion.div>
 
-        {/* Footer Info: Anonymous Tag OR User Profile Badge */}
-        {interview.isAnonymous ? (
-          <motion.span
-            className="absolute -bottom-3 left-4 z-20 text-xs font-black bg-black text-[#F5E6D3] px-3 py-1.5 border-2 border-[#C1502E]"
-            initial={{ rotate: -3 }}
-            whileHover={{ rotate: 3, scale: 1.1 }}
-          >
-            👤 ANONYMOUS
-          </motion.span>
-        ) : (
-          interview.member && (
-            <motion.div
-              className="absolute -bottom-6 left-4 z-20 flex items-center gap-3 bg-white dark:bg-[#1a0f0a] px-4 py-2 border-4 border-black dark:border-[#F5E6D3] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
-              initial={{ rotate: 2 }}
-              whileHover={{ rotate: -1, scale: 1.05 }}
-              onClick={(e) => e.stopPropagation()} // Prevent card toggle when clicking profile
-            >
-              <img
-                src={interview.member.profilePhoto}
-                alt={interview.member.name}
-                className="w-10 h-10 rounded-full border-2 border-black dark:border-[#F5E6D3] object-cover"
-              />
-              <div className="flex flex-col">
-                <span className="text-[10px] font-bold text-[#C1502E] leading-tight">
-                  POSTED BY
-                </span>
-                <span className="text-sm font-black text-black dark:text-[#F5E6D3] leading-tight uppercase">
-                  {interview.member.name}
-                </span>
-              </div>
-            </motion.div>
-          )
+        {/* Action Buttons (Edit/Delete) - visible if props provided */}
+        {(onEdit || onDelete) && (
+          <div className="absolute top-16 right-4 z-30 flex flex-col gap-3">
+            {onEdit && (
+              <motion.button
+                whileHover={{ scale: 1.1, rotate: -5 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEdit(interview);
+                }}
+                className="p-2 bg-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] text-black hover:bg-blue-400 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]"
+                title="Edit"
+              >
+                <Pencil className="w-5 h-5" />
+              </motion.button>
+            )}
+            {onDelete && (
+              <motion.button
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete(interview.id);
+                }}
+                className="p-2 bg-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] text-black hover:bg-red-500 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]"
+                title="Delete"
+              >
+                <Trash2 className="w-5 h-5" />
+              </motion.button>
+            )}
+          </div>
         )}
 
-        {/* Card Body Content */}
-        {/* Added pb-10 to prevent overlap with the badge at bottom left */}
+        {/* Footer: Profile Info (Conditional) */}
+        {showProfileInfo && (
+          <>
+            {interview.isAnonymous ? (
+              <motion.span
+                className="absolute -bottom-3 left-4 z-20 text-xs font-black bg-black text-[#F5E6D3] px-3 py-1.5 border-2 border-[#C1502E]"
+                initial={{ rotate: -3 }}
+                whileHover={{ rotate: 3, scale: 1.1 }}
+              >
+                👤 ANONYMOUS
+              </motion.span>
+            ) : (
+              interview.member && (
+                <motion.div
+                  className="absolute -bottom-6 left-4 z-20 flex items-center gap-3 bg-white dark:bg-[#1a0f0a] px-4 py-2 border-4 border-black dark:border-[#F5E6D3] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                  initial={{ rotate: 2 }}
+                  whileHover={{ rotate: -1, scale: 1.05 }}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <img
+                    src={interview.member.profilePhoto}
+                    alt={interview.member.name}
+                    className="w-10 h-10 rounded-full border-2 border-black dark:border-[#F5E6D3] object-cover"
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold text-[#C1502E] leading-tight">
+                      POSTED BY
+                    </span>
+                    <span className="text-sm font-black text-black dark:text-[#F5E6D3] leading-tight uppercase">
+                      {interview.member.name}
+                    </span>
+                  </div>
+                </motion.div>
+              )
+            )}
+          </>
+        )}
+
+        {/* Card Body */}
         <div className="p-6 pt-16 pr-16 pb-10 min-h-[120px] flex flex-col justify-center">
           <p className="text-2xl font-black text-[#C1502E] dark:text-[#C1502E] leading-tight">
             {interview.role}
           </p>
         </div>
 
-        {/* Expand/Collapse Icon (purely decorative) */}
+        {/* Expand Icon */}
         <div className="absolute bottom-4 right-4 text-black dark:text-[#F5E6D3]">
           <motion.div
             animate={{ rotate: isExpanded ? 180 : 0 }}
@@ -132,7 +173,7 @@ export default function InterviewExperienceItem({ interview }) {
         </div>
       </motion.div>
 
-      {/* Expanded Content Area */}
+      {/* Expanded Content */}
       <AnimatePresence>
         {isExpanded && (
           <motion.div
@@ -140,14 +181,13 @@ export default function InterviewExperienceItem({ interview }) {
             style={{
               clipPath:
                 "polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%)",
-              marginTop: -4, // Overlaps the bottom border of the card above
+              marginTop: -4,
             }}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            {/* Zigzag pattern decoration */}
             <div
               className="absolute top-0 left-0 right-0 h-2 bg-[#C1502E]"
               style={{
@@ -157,7 +197,6 @@ export default function InterviewExperienceItem({ interview }) {
             />
 
             <div className="p-6 pt-8 relative">
-              {/* Content background with cut corner */}
               <div
                 className="relative bg-white dark:bg-[#1a0f0a] border-4 border-black dark:border-[#F5E6D3] p-6"
                 style={{
@@ -165,7 +204,6 @@ export default function InterviewExperienceItem({ interview }) {
                     "polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 0 100%)",
                 }}
               >
-                {/* Corner fold effect */}
                 <div className="absolute top-0 right-0 w-0 h-0 border-t-[34px] border-t-[#C1502E] border-l-[34px] border-l-transparent" />
 
                 <motion.div
@@ -181,14 +219,13 @@ export default function InterviewExperienceItem({ interview }) {
                           className={[
                             "mb-3 text-[#2C1810] dark:text-[#F5E6D3]",
                             className,
-                          ]
-                            .filter(Boolean)
-                            .join(" ")}
+                          ].filter(Boolean).join(" ")}
                           {...rest}
                         >
                           {children}
                         </p>
                       ),
+                      // ... (rest of components remain same)
                       strong: ({ node, ...props }) => (
                         <strong
                           className="font-black text-[#C1502E]"
