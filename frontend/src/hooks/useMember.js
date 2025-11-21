@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { signIn, signUp, getDetails, forgotPassword, verifyOtp, resetPassword, updateMember } from "../utils/api/memberApi";
+import { signIn, signUp, getDetails, forgotPassword, verifyOtp, resetPassword, updateMember, getMemberInterviews } from "../utils/api/memberApi";
 import { globalToast } from "@/utils/toast";
 
 
@@ -85,4 +85,16 @@ export function useMembers(){
     resetpassword,
     update
   };
+}
+
+// New hook for fetching member interviews
+export function useMemberInterviews(memberId) {
+  const { data: memberInterviews = [], isLoading: isLoadingInterviews } = useQuery({
+    queryKey: ['memberInterviews', memberId],
+    queryFn: () => getMemberInterviews(memberId),
+    enabled: !!memberId,
+    select: (data) => data.interviews // Assuming api returns { success: true, data: [...] }
+  });
+
+  return { memberInterviews, isLoadingInterviews };
 }

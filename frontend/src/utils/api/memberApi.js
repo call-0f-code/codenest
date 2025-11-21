@@ -36,3 +36,9 @@ export const updateMember = async(formData)=>{
         headers: { "Content-Type": "multipart/form-data" },
     })
 }
+
+// Fetch interviews for a specific member
+export const getMemberInterviews = async(memberId) => {
+    const response = await api.get(`/members/${memberId}/interviews`);
+    return response.data;
+}

@@ -61,7 +61,7 @@ export default function Footer() {
           <ul className="space-y-2 text-[10px] sm:text-xs md:text-sm">
             {[
               { href: "#about", text: "About Us" },
-              { href: "/interviews", text: "Interviews" },
+              { href: "/interviewExp", text: "Interviews" },
               { href: "/dsa", text: "DSA" },
               {
                 href: "https://mail.google.com/mail/?view=cm&fs=1&to=callofcode07@gmail.com",
