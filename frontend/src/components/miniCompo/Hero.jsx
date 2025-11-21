@@ -50,7 +50,7 @@ export default function HeroSection() {
 
           <div className="flex flex-wrap gap-6">
             <button onClick={ () => ( navigate('/dsa'))}
-            className="group px-10 py-5 bg-[#C1502E] text-[#F5E6D3] text-xl font-black border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center gap-3">
+            className="group px-10 py-5 bg-[#C1502E] text-[#F5E6D3] text-xl font-black border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-150 flex items-center gap-3 hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 active:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1">
               <Rocket className="h-6 w-6" />
               START CODING
               <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform" />

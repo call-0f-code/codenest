@@ -20,14 +20,13 @@ export default function Navbar() {
         <div className="flex items-center gap-6">
           <Link
             to={"/dsa"}
-            className="px-6 py-2 bg-[#C1502E] text-[#F5E6D3] font-black border-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] border-black dark:border-[#F5E6D3] hover:translate-x-1 hover:translate-y-1 transition-transform"
+            className="px-6 py-2 font-black border-4 border-black dark:border-[#F5E6D3] bg-[#C1502E] text-[#F5E6D3] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(245,230,211,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[6px_6px_0px_0px_rgba(245,230,211,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] dark:active:shadow-[1px_1px_0px_0px_rgba(245,230,211,1)] active:translate-x-0.5 active:translate-y-0.5 transition-all duration-150"
           >
             DSA
           </Link>
           <Link
             to={"/interviewExp"}
-            className="px-6 py-2 bg-[#C1502E] text-[#F5E6D3] font-black border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:border-[#F5E6D3] hover:translate-x-1 hover:translate-y-1 transition-transform"
-          >
+            className="px-6 py-2 font-black border-4 border-black dark:border-[#F5E6D3] bg-[#C1502E] text-[#F5E6D3] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(245,230,211,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[6px_6px_0px_0px_rgba(245,230,211,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] dark:active:shadow-[1px_1px_0px_0px_rgba(245,230,211,1)] active:translate-x-0.5 active:translate-y-0.5 transition-all duration-150"          >
             Blogs
           </Link>
 
@@ -36,8 +35,7 @@ export default function Navbar() {
             <div className="flex gap-16 justify-end">
               <button
                 onClick={() => navigate("/profile")}
-                className="px-6 py-2 bg-[#C1502E] text-[#F5E6D3] font-black border-4 border-black dark:border-[#F5E6D3] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]  transition-all hover:translate-x-1 hover:translate-y-1"
-              >
+                className="px-6 py-2 font-black border-4 border-black dark:border-[#F5E6D3] bg-[#C1502E] text-[#F5E6D3] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(245,230,211,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[6px_6px_0px_0px_rgba(245,230,211,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] dark:active:shadow-[1px_1px_0px_0px_rgba(245,230,211,1)] active:translate-x-0.5 active:translate-y-0.5 transition-all duration-150"                >
                 <User />
               </button>
 
@@ -45,8 +43,7 @@ export default function Navbar() {
                 onClick={() => {
                   localStorage.removeItem("token"), navigate("/home");
                 }}
-                className="px-6 py-2 bg-[#C1502E] text-[#F5E6D3] font-black border-4 border-black dark:border-[#F5E6D3] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]  transition-all hover:translate-x-1 hover:translate-y-1"
-              >
+                className="px-6 py-2 font-black border-4 border-black dark:border-[#F5E6D3] bg-[#C1502E] text-[#F5E6D3] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(245,230,211,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[6px_6px_0px_0px_rgba(245,230,211,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] dark:active:shadow-[1px_1px_0px_0px_rgba(245,230,211,1)] active:translate-x-0.5 active:translate-y-0.5 transition-all duration-150"              >
                 <LogOut/>
               </button>
             </div>
@@ -54,8 +51,7 @@ export default function Navbar() {
             <>
               <button
                 onClick={() => navigate("/signup")}
-                className="px-8 py-3 bg-[#C1502E] text-[#F5E6D3] font-black border-4 border-black dark:border-[#F5E6D3] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(245,230,211,1)] transition-all hover:translate-x-1 hover:translate-y-1"
-              >
+                className="px-6 py-2 font-black border-4 border-black dark:border-[#F5E6D3] bg-[#C1502E] text-[#F5E6D3] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(245,230,211,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[6px_6px_0px_0px_rgba(245,230,211,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] dark:active:shadow-[1px_1px_0px_0px_rgba(245,230,211,1)] active:translate-x-0.5 active:translate-y-0.5 transition-all duration-150"              >
                 JOIN NOW
               </button>
             </>

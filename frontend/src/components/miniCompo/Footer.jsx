@@ -116,15 +116,7 @@ export default function Footer() {
                 onMouseEnter={() => setHoverIndex(index)}
                 onMouseLeave={() => setHoverIndex(null)}
                 className={`
-                  relative p-3 text-2xl sm:text-3xl border-4 rounded-md transition-all duration-300
-                  /* ICON BOX (INVERTED) */
-                  bg-[#F5E6D3] text-[#2C1810] border-[#F5E6D3] shadow-[8px_8px_0px_0px_rgba(193,80,46,1)]
-                  dark:bg-[#3B2418] dark:text-[#F5E6D3] dark:border-[#3B2418]
-                  ${
-                    hoverIndex === index
-                      ? "translate-x-[4px] translate-y-[4px] shadow-[6px_6px_0_#F5E6D3] dark:shadow-[6px_6px_0_#1a1a1a]"
-                      : ""
-                  }
+                  relative p-3 text-2xl sm:text-3xl border-4 rounded-md transition-all duration-150 bg-[#F5E6D3] text-[#2C1810] border-[#F5E6D3] shadow-[8px_8px_0px_0px_rgba(193,80,46,1)] dark:bg-[#3B2418] dark:text-[#F5E6D3] dark:border-[#3B2418] dark:shadow-[8px_8px_0px_0px_rgba(193,80,46,1)] ${hoverIndex===index?"translate-x-[4px] translate-y-[4px] hover:shadow-[10px_10px_0px_0px_rgba(193,80,46,1)] dark:hover:shadow-[10px_10px_0px_0px_rgba(193,80,46,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-[6px_6px_0px_0px_rgba(193,80,46,1)] dark:active:shadow-[6px_6px_0px_0px_rgba(193,80,46,1)] active:translate-x-0.5 active:translate-y-0.5":""}
                 `}
               >
                 <Icon />
