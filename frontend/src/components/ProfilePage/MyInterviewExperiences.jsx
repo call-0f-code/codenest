@@ -72,7 +72,7 @@ const MyInterviewExperiences = ({ userId }) => {
           />
         </div>
       ) : (
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col">
           {isLoadingInterviews ? (
             <div className="text-center font-bold text-xl animate-pulse">
               Loading experiences...
