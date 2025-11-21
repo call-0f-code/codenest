@@ -51,7 +51,7 @@ const MyInterviewExperiences = ({ userId }) => {
       <div className="flex items-center gap-4 mb-8 border-b-4 border-black dark:border-[#F5E6D3] pb-4">
         <FileText className="w-10 h-10 text-[#C1502E]" />
         <h2 className="text-3xl font-black text-[#2C1810] dark:text-[#F5E6D3] uppercase">
-          MY BATTLE STORIES
+          MY INTERVIEW EXPERIENCES
         </h2>
       </div>
 
