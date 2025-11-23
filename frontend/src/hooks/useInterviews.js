@@ -1,4 +1,4 @@
-import { createInterviewExp, deleteInterviewExp, getAllInterviewExps, getInterviewExpById, updateInterviewExp } from "@/utils/api/interviewApi";
+import { createInterviewExp, getAllInterviewExps, getInterviewExpById } from "@/utils/api/interviewApi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
@@ -29,7 +29,11 @@ export function useInterview (interviewId) {
     //create an interview exp, for people who want to self-report their Ls
     const postInterviewExp =   useMutation({
         mutationFn: (interviewData) => createInterviewExp(interviewData),
-        onSuccess: () => queryClient.invalidateQueries({queryKey: ['interviews']})
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ['interviews']})
+            globalToast.success("Interview posted successfully!");
+        },
+        onError: () => globalToast.error("Failed to post interview :(")
     })
 
     return {

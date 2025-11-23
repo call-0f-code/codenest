@@ -95,25 +95,24 @@ export function useMemberInterviews(memberId) {
     enabled: !!memberId,
     select: (data) => data.interviews // Assuming api returns { success: true, data: [...] }
   });
-
-  return { memberInterviews, isLoadingInterviews };
+  const deleteMemberInterview = useMutation({
+    mutationFn: (memberId) => deleteInterviewExp(memberId),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["memberInterviews"], memberId);
+      globalToast.success("Interview deleted successfully");
+    },
+    onError: () => globalToast.error("Failed to delete interview"),
+  });
+  
+  const updateMemberInterview = useMutation({
+    mutationFn: ({ memberId, data }) => updateInterviewExp(memberId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["memberInterviews"], memberId);
+      globalToast.success("Interview updated successfully");
+      setEditingInterview(null);
+    },
+    onError: () => globalToast.error("Failed to update interview"),
+  });
+  
+  return { memberInterviews, isLoadingInterviews, updateMemberInterview, deleteMemberInterview };
 }
-
-export const deleteMemberInterview = useMutation({
-  mutationFn: deleteInterviewExp(memberId),
-  onSuccess: () => {
-    queryClient.invalidateQueries(["memberInterviews"], memberId);
-    globalToast.success("Interview deleted successfully");
-  },
-  onError: () => globalToast.error("Failed to delete interview"),
-});
-
-export const updateMemberInterview = useMutation({
-  mutationFn: ({ memberId, data }) => updateInterviewExp(memberId, data),
-  onSuccess: () => {
-    queryClient.invalidateQueries(["memberInterviews"], memberId);
-    globalToast.success("Interview updated successfully");
-    setEditingInterview(null);
-  },
-  onError: () => globalToast.error("Failed to update interview"),
-});

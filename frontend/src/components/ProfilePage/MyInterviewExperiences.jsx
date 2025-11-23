@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { FileText, X } from "lucide-react";
-import { useMemberInterviews, deleteMemberInterview, updateMemberInterview } from "@/hooks/useMember";
+import { useMemberInterviews } from "@/hooks/useMember";
 import InterviewExperienceItem from "@/components/interview/InterviewExperienceItem";
 import InterviewExperienceForm from "@/components/interview/InterviewExperienceForm";
+import { use } from "react";
 
 const MyInterviewExperiences = ({ memberID }) => {
   const [editingInterview, setEditingInterview] = useState(null);
 
   // Fetch interviews for the current user
-  const { memberInterviews, isLoadingInterviews } = useMemberInterviews(memberID);
+  const { memberInterviews, isLoadingInterviews, deleteMemberInterview, updateMemberInterview } = useMemberInterviews(memberID);
 
   // Mutations for managing interviews
 
