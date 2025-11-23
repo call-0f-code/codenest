@@ -1,24 +1,21 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getCompletedQuestions, toggleQuestion } from "@/utils/api/questionApi";
 import { getQuestionsById } from "@/utils/api/topicApi";
+import { useEffect, useState } from "react";
 
 export const useQuestions = (topicId) => {
     const queryclient = useQueryClient();
-export const useQuestions = (topicId) => {
-    const queryclient = useQueryClient();
-    const [isAuthenticated, setIsAuthenticated] = React.useState(
+    const [isAuthenticated, setIsAuthenticated] = useState(
         () => !!localStorage.getItem("token")
     );
 
-    React.useEffect(() => {
+    useEffect(() => {
         const handleStorageChange = () => {
             setIsAuthenticated(!!localStorage.getItem("token"));
         };
         window.addEventListener("storage", handleStorageChange);
         return () => window.removeEventListener("storage", handleStorageChange);
     }, []);
-    
-    // ... rest of the hook implementation
 
     const {
         data: questions = [],
