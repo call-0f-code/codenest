@@ -113,11 +113,7 @@ export function TopicsView({ onViewQuestions }) {
           <div className="flex justify-end">
             <button
               onClick={() => onViewQuestions(topic)}
-              className="relative px-8 py-3 border-2 border-[#2C1810] dark:border-[#F5E6D3]
-              bg-[#C1502E] text-[#F5E6D3] dark:bg-[#F5E6D3] dark:text-[#2C1810]
-              font-extrabold rounded-lg shadow-[4px_4px_0_#2C1810]
-              hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[6px_6px_0_#2C1810]
-              transition-all duration-300 uppercase tracking-wider flex items-center gap-3"
+                className="relative px-8 py-3 border-2 border-[#2C1810] dark:border-[#F5E6D3] bg-[#C1502E] text-[#F5E6D3] dark:bg-[#F5E6D3] dark:text-[#2C1810] font-extrabold rounded-lg shadow-[4px_4px_0_#2C1810] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[6px_6px_0_#2C1810] active:translate-x-1 active:translate-y-1 active:shadow-[2px_2px_0_#2C1810] transition-all duration-300 uppercase tracking-wider flex items-center gap-3"
             >
               Start <ArrowRight className="w-5 h-5" />
             </button>
