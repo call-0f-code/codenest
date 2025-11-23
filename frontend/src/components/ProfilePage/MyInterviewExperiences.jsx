@@ -2,8 +2,7 @@ import { useState } from "react";
 import { FileText, X, AlertTriangle } from "lucide-react"; // Added AlertTriangle
 import { useMemberInterviews } from "@/hooks/useMember";
 import InterviewExperienceItem from "@/components/interview/InterviewExperienceItem";
- import InterviewExperienceForm from "@/components/interview/InterviewExperienceForm"; // Assuming this is used elsewhere or you might need it back
-
+import InterviewExperienceForm from "@/components/interview/InterviewExperienceForm";
 // --- Internal Neo-Brutalist Modal Component ---
 const ConfirmationModal = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
@@ -101,7 +100,6 @@ const MyInterviewExperiences = ({ userId }) => {
   const handleUpdateInterview = (data) => {
     if (editingInterview) {
       updateMemberInterview.mutate({ id: editingInterview.id, data });
-      setEditingInterview(null);
     }
   };
 

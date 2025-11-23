@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInterview } from "@/hooks/useInterviews";
-import InterviewHeader from "@/components/interview/InterviewHeader";
 import InterviewFilters from "@/components/interview/InterviewFilters";
 import InterviewExperienceForm from "@/components/interview/InterviewExperienceForm";
 import InterviewExperienceItem from "@/components/interview/InterviewExperienceItem";
