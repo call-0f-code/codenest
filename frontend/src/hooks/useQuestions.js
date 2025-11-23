@@ -4,8 +4,21 @@ import { getQuestionsById } from "@/utils/api/topicApi";
 
 export const useQuestions = (topicId) => {
     const queryclient = useQueryClient();
-    // Check if user is logged in
-    const isAuthenticated = !!localStorage.getItem("token");
+export const useQuestions = (topicId) => {
+    const queryclient = useQueryClient();
+    const [isAuthenticated, setIsAuthenticated] = React.useState(
+        () => !!localStorage.getItem("token")
+    );
+
+    React.useEffect(() => {
+        const handleStorageChange = () => {
+            setIsAuthenticated(!!localStorage.getItem("token"));
+        };
+        window.addEventListener("storage", handleStorageChange);
+        return () => window.removeEventListener("storage", handleStorageChange);
+    }, []);
+    
+    // ... rest of the hook implementation
 
     const {
         data: questions = [],
