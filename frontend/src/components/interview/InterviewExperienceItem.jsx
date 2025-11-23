@@ -83,7 +83,7 @@ export default function InterviewExperienceItem({
           </div>
         </motion.div>
 
-        {/* Action Buttons (Edit/Delete) - visible if props provided */}
+        {/* Action Buttons (Edit/Delete) - Updated for Dark Mode */}
         {(onEdit || onDelete) && (
           <div className="absolute top-16 right-4 z-30 flex flex-col gap-3">
             {onEdit && (
@@ -94,7 +94,7 @@ export default function InterviewExperienceItem({
                   e.stopPropagation();
                   onEdit(interview);
                 }}
-                className="p-2 bg-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] text-black hover:bg-blue-400 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]"
+                className="p-2 bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] text-[#2C1810] dark:text-[#F5E6D3] hover:bg-blue-400 dark:hover:bg-blue-600 hover:text-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-colors"
                 title="Edit"
               >
                 <Pencil className="w-5 h-5" />
@@ -108,7 +108,7 @@ export default function InterviewExperienceItem({
                   e.stopPropagation();
                   onDelete(interview.id);
                 }}
-                className="p-2 bg-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] text-black hover:bg-red-500 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]"
+                className="p-2 bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] text-[#2C1810] dark:text-[#F5E6D3] hover:bg-red-500 dark:hover:bg-red-600 hover:text-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-colors"
                 title="Delete"
               >
                 <Trash2 className="w-5 h-5" />
@@ -225,7 +225,6 @@ export default function InterviewExperienceItem({
                           {children}
                         </p>
                       ),
-                      // ... (rest of components remain same)
                       strong: ({ node, ...props }) => (
                         <strong
                           className="font-black text-[#C1502E]"
