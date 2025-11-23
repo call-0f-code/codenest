@@ -3,7 +3,13 @@ import { FaTwitter, FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 
 export default function Footer() {
   const [hoverIndex, setHoverIndex] = useState(null);
-
+  const CARD_CLASS = `
+  relative p-6 rounded-md border-4 transition-all duration-300
+  bg-[#3B2418] text-[#F5E6D3] border-[#F5E6D3] shadow-[14px_14px_0_#F5E6D3]
+  hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-[8px_8px_0_#F5E6D3]
+  dark:bg-[#FFF9F3] dark:text-[#3B2418] dark:border-[#3B2418]
+  dark:shadow-[14px_14px_0_#3B2418] dark:hover:shadow-[8px_8px_0_#3B2418]
+  `;
   return (
     <footer
       className="
@@ -28,14 +34,7 @@ export default function Footer() {
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 w-full max-w-6xl mx-auto">
         {/* About Us */}
         <div
-          className="
-            relative p-6 rounded-md border-4 transition-all duration-300
-            /* CARD (INVERTED) */
-            bg-[#3B2418] text-[#F5E6D3] border-[#F5E6D3] shadow-[14px_14px_0_#F5E6D3]
-            hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-[8px_8px_0_#F5E6D3]
-            dark:bg-[#FFF9F3] dark:text-[#3B2418] dark:border-[#3B2418]
-            dark:shadow-[14px_14px_0_#3B2418] dark:hover:shadow-[8px_8px_0_#3B2418]
-          "
+          className={CARD_CLASS}
         >
           <h2 className="text-lg sm:text-xl font-black mb-3">About Us</h2>
           <p className="text-[10px] sm:text-xs md:text-sm leading-relaxed">
@@ -49,13 +48,7 @@ export default function Footer() {
 
         {/* QUICK LINKS */}
         <div
-          className="
-            relative p-6 rounded-md border-4 transition-all duration-300
-            bg-[#3B2418] text-[#F5E6D3] border-[#F5E6D3] shadow-[14px_14px_0_#F5E6D3]
-            hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-[8px_8px_0_#F5E6D3]
-            dark:bg-[#FFF9F3] dark:text-[#3B2418] dark:border-[#3B2418]
-            dark:shadow-[14px_14px_0_#3B2418] dark:hover:shadow-[8px_8px_0_#3B2418]
-          "
+          className={CARD_CLASS}
         >
           <h2 className="text-lg sm:text-xl font-black mb-3">Quick Links</h2>
           <ul className="space-y-2 text-[10px] sm:text-xs md:text-sm">
@@ -85,13 +78,7 @@ export default function Footer() {
 
         {/* FOLLOW US */}
         <div
-          className="
-            relative p-6 rounded-md border-4 transition-all duration-300
-            bg-[#3B2418] text-[#F5E6D3] border-[#F5E6D3] shadow-[14px_14px_0_#F5E6D3]
-            hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-[8px_8px_0_#F5E6D3]
-            dark:bg-[#FFF9F3] dark:text-[#3B2418] dark:border-[#3B2418]
-            dark:shadow-[14px_14px_0_#3B2418] dark:hover:shadow-[8px_8px_0_#3B2418]
-          "
+            className={CARD_CLASS}
         >
           <h2 className="text-lg sm:text-xl font-black mb-3">Follow Us</h2>
 
