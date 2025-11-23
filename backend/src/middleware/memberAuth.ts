@@ -14,7 +14,7 @@ export const auth = async(req: Request, res: Response, next: NextFunction) => {
   }
 
   if (!token) {
-    throw new ApiError('Not authorized, no token', 400);
+    throw new ApiError('Unauthenticated User, no token', 400);
   }
 
   const decoded = await jwt.verify(token, config.JWT_SECRET);
