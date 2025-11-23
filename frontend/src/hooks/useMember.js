@@ -93,7 +93,7 @@ export function useMemberInterviews(memberId) {
     queryKey: ['memberInterviews', memberId],
     queryFn: () => getMemberInterviews(memberId),
     enabled: !!memberId,
-    select: (data) => data.interviews // Assuming api returns { success: true, data: [...] }
+    select: (data) => data.interviews
   });
   const deleteMemberInterview = useMutation({
     mutationFn: (memberId) => deleteInterviewExp(memberId),
