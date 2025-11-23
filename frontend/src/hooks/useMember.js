@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { signIn, signUp, getDetails, forgotPassword, verifyOtp, resetPassword, updateMember, getMemberInterviews } from "../utils/api/memberApi";
 import { globalToast } from "@/utils/toast";
-
+import { deleteInterviewExp, updateInterviewExp } from "@/utils/api/interviewApi";
 
 export function useMembers(){
   const queryclient = useQueryClient();
@@ -98,3 +98,22 @@ export function useMemberInterviews(memberId) {
 
   return { memberInterviews, isLoadingInterviews };
 }
+
+export const deleteMemberInterview = useMutation({
+  mutationFn: deleteInterviewExp(memberId),
+  onSuccess: () => {
+    queryClient.invalidateQueries(["memberInterviews"], memberId);
+    globalToast.success("Interview deleted successfully");
+  },
+  onError: () => globalToast.error("Failed to delete interview"),
+});
+
+export const updateMemberInterview = useMutation({
+  mutationFn: ({ memberId, data }) => updateInterviewExp(memberId, data),
+  onSuccess: () => {
+    queryClient.invalidateQueries(["memberInterviews"], memberId);
+    globalToast.success("Interview updated successfully");
+    setEditingInterview(null);
+  },
+  onError: () => globalToast.error("Failed to update interview"),
+});

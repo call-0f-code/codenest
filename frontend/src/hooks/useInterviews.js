@@ -32,18 +32,6 @@ export function useInterview (interviewId) {
         onSuccess: () => queryClient.invalidateQueries({queryKey: ['interviews']})
     })
 
-    //update interview exps, for those who are too dumb to get it right the first time
-    const fixInterviewExp = useMutation({
-        mutationFn: ({interviewId, interviewData}) => updateInterviewExp(interviewId, interviewData), 
-        onSuccess: () => queryClient.invalidateQueries({queryKey: ['interviews']})
-    })
-
-    //delete interview exp, for those who lost the balls they had when they posted it
-    const removeInterviewExp = useMutation({
-        mutationFn: (interviewId) => deleteInterviewExp(interviewId),
-        onSuccess: () => queryClient.invalidateQueries({queryKey: ['interviews']})
-    })
-
     return {
         interview, 
         interviews,
@@ -52,8 +40,6 @@ export function useInterview (interviewId) {
         isInterviewExpLoading, 
         interviewExpError,
         postInterviewExp,
-        fixInterviewExp, 
-        removeInterviewExp,
         page,
         setPage,
         totalPages,

@@ -1,48 +1,27 @@
 import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FileText, X } from "lucide-react";
-import { globalToast } from "@/utils/toast";
-import { deleteInterviewExp, updateInterviewExp } from "@/utils/api/interviewApi";
-import { useMemberInterviews } from "@/hooks/useMember";
+import { useMemberInterviews, deleteMemberInterview, updateMemberInterview } from "@/hooks/useMember";
 import InterviewExperienceItem from "@/components/interview/InterviewExperienceItem";
 import InterviewExperienceForm from "@/components/interview/InterviewExperienceForm";
 
-const MyInterviewExperiences = ({ userId }) => {
+const MyInterviewExperiences = ({ memberID }) => {
   const [editingInterview, setEditingInterview] = useState(null);
-  const queryClient = useQueryClient();
 
   // Fetch interviews for the current user
-  const { memberInterviews, isLoadingInterviews } = useMemberInterviews(userId);
+  const { memberInterviews, isLoadingInterviews } = useMemberInterviews(memberID);
 
   // Mutations for managing interviews
-  const deleteMutation = useMutation({
-    mutationFn: deleteInterviewExp,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["memberInterviews"]);
-      globalToast.success("Interview deleted successfully");
-    },
-    onError: () => globalToast.error("Failed to delete interview"),
-  });
 
-  const updateMutation = useMutation({
-    mutationFn: ({ id, data }) => updateInterviewExp(id, data),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["memberInterviews"]);
-      globalToast.success("Interview updated successfully");
-      setEditingInterview(null);
-    },
-    onError: () => globalToast.error("Failed to update interview"),
-  });
 
   const handleDeleteInterview = (id) => {
     if (window.confirm("Are you sure you want to delete this experience?")) {
-      deleteMutation.mutate(id);
+      deleteMemberInterview.mutate(id);
     }
   };
 
   const handleUpdateInterview = (data) => {
     if (editingInterview) {
-      updateMutation.mutate({ id: editingInterview.id, data });
+      updateMemberInterview.mutate({ id: editingInterview.id, data });
     }
   };
 
@@ -67,7 +46,7 @@ const MyInterviewExperiences = ({ userId }) => {
           <InterviewExperienceForm
             initialData={editingInterview}
             onSubmit={handleUpdateInterview}
-            isPending={updateMutation.isPending}
+            isPending={updateMemberInterview.isPending}
             onSuccess={() => setEditingInterview(null)}
           />
         </div>
