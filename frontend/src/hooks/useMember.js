@@ -89,6 +89,8 @@ export function useMembers(){
 
 // New hook for fetching member interviews
 export function useMemberInterviews(memberId) {
+  const queryClient = useQueryClient();
+
   const { data: memberInterviews = [], isLoading: isLoadingInterviews } = useQuery({
     queryKey: ['memberInterviews', memberId],
     queryFn: () => getMemberInterviews(memberId),
@@ -96,7 +98,7 @@ export function useMemberInterviews(memberId) {
     select: (data) => data.interviews
   });
   const deleteMemberInterview = useMutation({
-    mutationFn: (memberId) => deleteInterviewExp(memberId),
+    mutationFn: deleteInterviewExp,
     onSuccess: () => {
       queryClient.invalidateQueries(["memberInterviews"], memberId);
       globalToast.success("Interview deleted successfully");
@@ -105,11 +107,10 @@ export function useMemberInterviews(memberId) {
   });
   
   const updateMemberInterview = useMutation({
-    mutationFn: ({ memberId, data }) => updateInterviewExp(memberId, data),
+    mutationFn: ({ id, data }) => updateInterviewExp(id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries(["memberInterviews"], memberId);
+      queryClient.invalidateQueries(["memberInterviews"]);
       globalToast.success("Interview updated successfully");
-      setEditingInterview(null);
     },
     onError: () => globalToast.error("Failed to update interview"),
   });

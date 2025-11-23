@@ -7,7 +7,6 @@ import InterviewExperienceForm from "@/components/interview/InterviewExperienceF
 
 const MyInterviewExperiences = ({ userId }) => {
   const [editingInterview, setEditingInterview] = useState(null);
-  console.log("Member ID in MyInterviewExperiences:", userId);
   // Fetch interviews for the current user
   const { memberInterviews, isLoadingInterviews, deleteMemberInterview, updateMemberInterview } = useMemberInterviews(userId);
 
@@ -21,6 +20,7 @@ const MyInterviewExperiences = ({ userId }) => {
   const handleUpdateInterview = (data) => {
     if (editingInterview) {
       updateMemberInterview.mutate({ id: editingInterview.id, data });
+      setEditingInterview(null);
     }
   };
 
