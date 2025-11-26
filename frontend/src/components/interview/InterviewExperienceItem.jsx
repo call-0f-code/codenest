@@ -40,18 +40,10 @@ export default function InterviewExperienceItem({
     <div className="relative mb-16">
       {/* Main Card */}
       <motion.div
-        className="relative z-10 bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] overflow-visible cursor-pointer"
+        className="relative z-10 bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] overflow-visible cursor-pointer shadow-[6px_6px_0px_0px_#000000] dark:shadow-[6px_6px_0px_0px_#69564B] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[12px_12px_0px_0px_#000000] dark:hover:shadow-[12px_12px_0px_0px_#69564B] transition-all duration-300"
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.3 }}
-        whileHover={{
-          x: -4,
-          y: -4,
-          boxShadow: "12px 12px 0px 0px rgba(0,0,0,1)",
-        }}
-        style={{
-          boxShadow: "6px 6px 0px 0px rgba(0,0,0,1)",
-        }}
         role="button"
         tabIndex={0}
         aria-expanded={isExpanded}
