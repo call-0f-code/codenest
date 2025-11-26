@@ -13,7 +13,10 @@ export default function Navbar() {
   const inactiveStyle = "px-6 py-2 font-black border-4 border-black dark:border-[#F5E6D3] bg-[#C1502E] text-[#F5E6D3] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(245,230,211,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[6px_6px_0px_0px_rgba(245,230,211,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] dark:active:shadow-[1px_1px_0px_0px_rgba(245,230,211,1)] active:translate-x-0.5 active:translate-y-0.5 transition-all duration-150";
 
   // NEW ACTIVE STYLE: Dark Brown/Beige inverted, no shadow ("pressed" look)
-  const activeStyle = "px-6 py-2 font-black border-4 border-black bg-[#2C1810] text-[#F5E6D3] dark:bg-[#F5E6D3] dark:text-[#2C1810] translate-x-0.5 translate-y-0.5 shadow-none cursor-default";
+  const activeStyle = "px-6 py-2 font-black border-4 border-black dark:border-[#F5E6D3] bg-[#C1502E] text-[#F5E6D3] dark:bg-[#C1502E] dark:text-[#F5E6D3] translate-x-[4px] translate-y-[4px] shadow-none transition-all duration-150";
+
+
+
 
   return (
     <nav className="border-b-4 border-black dark:border-[#F5E6D3] bg-[#F5E6D3] dark:bg-[#2C1810]">
