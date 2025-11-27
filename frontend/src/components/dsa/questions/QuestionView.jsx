@@ -62,7 +62,7 @@ export function QuestionsView({ selectedTopic, onBack }) {
           />
           <button
             onClick={onBack}
-            className="relative border-4 border-black bg-[#F5E6D3] dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] px-6 py-3 font-extrabold flex items-center gap-2 shadow-[6px_6px_0_0_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-transform"
+            className="relative border-4 border-black bg-[#2C1810] dark:bg-[#F5E6D3] text-[#F5E6D3] dark:text-[#2C1810] px-6 py-3 font-extrabold flex items-center gap-2 shadow-[6px_6px_0_0_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-transform"
           >
             <ArrowLeft className="w-5 h-5" />
             BACK TO TOPICS

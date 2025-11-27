@@ -1,102 +1,122 @@
-import { User, Camera, Edit2, Save, X } from 'lucide-react'
-import { useRef } from 'react'
+import { User, Camera, Edit2, Save, X } from "lucide-react";
+import { useRef } from "react";
 
-export const ProfileHeader = ({ user, isEditing, onEdit, onCancel, onSave, onImageChange,previewImg }) => {
+export const ProfileHeader = ({
+  user,
+  isEditing,
+  onEdit,
+  onCancel,
+  onSave,
+  onImageChange,
+  previewImg,
+}) => {
   const fileInputRef = useRef(null);
 
-  const handleImageClick = () => {
-    if (isEditing && fileInputRef.current) {
-      fileInputRef.current.click();
-    }
+  const handleImageClick = (e) => {
+    e.stopPropagation(); // Prevent event bubbling
+    if (isEditing && fileInputRef.current) fileInputRef.current.click();
   };
 
   const handleImageUpload = (e) => {
     const file = e.target.files?.[0];
     if (file && onImageChange) {
-      // Preview the image
       const reader = new FileReader();
-      reader.onloadend = () => {
-        onImageChange(file, reader.result);
-      };
+      reader.onloadend = () => onImageChange(file, reader.result);
       reader.readAsDataURL(file);
     }
   };
 
+  const userName = user?.name || "Guest User";
+  const userEmail = user?.email || "No email provided";
+
   return (
-    <div className="relative border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] p-6 md:p-8">
-      <div className="pointer-events-none rotate-270 absolute right-0 top-0 h-0 w-0 border-b-[80px] border-l-[80px] border-b-[#3dd68c]/20 border-l-transparent" />
-      
-      <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-        <div className="relative">
-          <div className="h-32 w-32 border-4 border-[#3dd68c] bg-[#2a2d35] dark:bg-[#1a1f2e] flex items-center justify-center overflow-hidden">
-            {user.profilePhoto ? (
-              <img src= {previewImg?`${previewImg}`:`${user.profilePhoto}?t=${new Date(user.updatedAt)}`} alt={user.name} className="h-full w-full object-cover" />
-            ) : (
-              <User className="h-16 w-16 text-[#3dd68c]" />
-            )}
-          </div>
-          {isEditing && (
-            <>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="hidden"
-              />
-              <button
-                type="button"
-                onClick={handleImageClick}
-                className="absolute -bottom-2 -right-2 h-10 w-10 border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] flex items-center justify-center hover:bg-[#35c17d] transition-colors"
-              >
-                <Camera className="h-5 w-5 text-[#1a1f2e]" />
-              </button>
-            </>
-          )}
-        </div>
+    <section className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] p-7 shadow-[8px_8px_0_rgba(0,0,0,1)] dark:shadow-[8px_8px_0_rgba(245,230,211,0.3)] flex flex-col md:flex-row items-center justify-between gap-8 rounded-none overflow-hidden">
+      {/* --- Left: Info --- */}
+      <div className="flex-1 text-center md:text-left space-y-2 z-20">
+        <h1 className="text-[2.5rem] md:text-[4rem] font-black uppercase text-[#2C1810] dark:text-[#F5E6D3] tracking-tight leading-none">
+          {userName}
+        </h1>
+        <p className="text-base md:text-lg font-semibold text-[#C1502E] dark:text-[#F5E6D3]/70">
+          {userEmail}
+        </p>
 
-        <div className="flex-1 text-center md:text-left">
-          <h1 className=" text-3xl font-bold text-[#1a1f2e] dark:text-white mb-2">
-            {user.name}
-          </h1>
-          <p className="text-[#5f6b72] dark:text-[#8b96a5] mb-4">{user.email}</p>
-          
-          {user.isManager && (
-            <div className="inline-block border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] px-4 py-1  text-xs font-bold text-[#1a1f2e]">
-              MANAGER
-            </div>
-          )}
-        </div>
+        {user?.isManager && (
+          <span className="inline-block mt-2 bg-[#C1502E] text-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] font-black px-3 py-0.5 shadow-[4px_4px_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_rgba(245,230,211,0.3)] text-sm rotate-[-1deg]">
+            MANAGER
+          </span>
+        )}
 
-        <div className="flex gap-2">
-          {!isEditing ? (
-            <button
-              onClick={onEdit}
-              className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] px-6 py-2  text-sm font-bold text-[#1a1f2e] hover:bg-[#35c17d] transition-colors flex items-center gap-2"
-            >
-              <Edit2 className="h-4 w-4" />
-              EDIT
-            </button>
-          ) : (
-            <>
-              <button
-                onClick={onSave}
-                className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-[#3dd68c] px-6 py-2  text-sm font-bold text-[#1a1f2e] hover:bg-[#35c17d] transition-colors flex items-center gap-2"
-              >
-                <Save className="h-4 w-4" />
-                SAVE
-              </button>
-              <button
-                onClick={onCancel}
-                className="border-2 border-[#2a2d35] dark:border-[#3a4a5f] bg-white dark:bg-[#273142] px-6 py-2  text-sm text-[#2a2d35] dark:text-[#c5d1de] hover:bg-[#f5f5f5] dark:hover:bg-[#2d3848] transition-colors flex items-center gap-2"
-              >
-                <X className="h-4 w-4" />
-                CANCEL
-              </button>
-            </>
-          )}
+        {/* Poster label */}
+        <div className="absolute -top-1 left-4 bg-[#2C1810] text-[#F5E6D3] text-xs font-black px-3 py-0.5 border-4 border-black dark:border-[#F5E6D3] rotate-[-3deg] shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.3)]">
+          PROFILE
         </div>
       </div>
-    </div>
+
+      {/* --- Right: Profile Image --- */}
+      <div
+        className={`relative w-44 h-44 md:w-56 md:h-56 border-4 border-black dark:border-[#F5E6D3] bg-[#C1502E] dark:bg-[#F5E6D3]/10 overflow-hidden shadow-[6px_6px_0_rgba(0,0,0,1)] dark:shadow-[6px_6px_0_rgba(245,230,211,0.3)] group z-20 ${
+          isEditing ? "cursor-pointer" : ""
+        } transition-all duration-300`}
+        onClick={isEditing ? handleImageClick : undefined}
+      >
+        {user.profilePhoto ? (
+            <img src= {previewImg?`${previewImg}`:`${user.profilePhoto}?t=${new Date(user.updatedAt)}`}
+            alt={userName}
+            className="object-cover w-full h-full"
+          />
+        ) : (
+          <div className="flex items-center justify-center h-full text-[#F5E6D3] dark:text-[#C1502E]">
+            <User className="h-14 w-14" />
+          </div>
+        )}
+
+        {isEditing && (
+          <>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="hidden"
+            />
+            <button
+              onClick={handleImageClick}
+              type="button"
+              className="absolute bottom-3 right-3 bg-[#F5E6D3] dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] p-2 font-black shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.3)] hover:bg-[#C1502E] hover:text-[#F5E6D3] transition-all"
+            >
+              <Camera className="h-4 w-4" />
+            </button>
+          </>
+        )}
+      </div>
+
+      {/* --- Buttons --- */}
+      <div className="absolute top-4 right-4 flex flex-wrap gap-3 z-30">
+        {!isEditing ? (
+          <button
+            onClick={onEdit}
+            className="bg-[#C1502E] text-[#F5E6D3] text-sm md:text-base font-black px-5 py-2 border-4 border-black dark:border-[#F5E6D3] shadow-[4px_4px_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_rgba(245,230,211,0.3)] hover:-translate-y-[2px] transition-all flex items-center gap-1"
+          >
+            <Edit2 className="h-4 w-4" /> EDIT
+          </button>
+        ) : (
+          <>
+            <button
+              onClick={onSave}
+              className="bg-[#C1502E] text-[#F5E6D3] text-sm md:text-base font-black px-5 py-2 border-4 border-black dark:border-[#F5E6D3] shadow-[4px_4px_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_rgba(245,230,211,0.3)] hover:-translate-y-[2px] transition-all flex items-center gap-1"
+            >
+              <Save className="h-4 w-4" /> SAVE
+            </button>
+            <button
+              onClick={onCancel}
+              className="bg-[#F5E6D3] dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] text-sm md:text-base font-black px-5 py-2 border-4 border-black dark:border-[#F5E6D3] shadow-[4px_4px_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_rgba(245,230,211,0.3)] hover:-translate-y-[2px] transition-all flex items-center gap-1"
+            >
+              <X className="h-4 w-4" /> CANCEL
+            </button>
+          </>
+        )}
+      </div>
+
+    </section>
   );
 };

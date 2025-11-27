@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Sparkles, Rocket, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function HeroSection() {
   const codeSnippets = [
@@ -11,6 +12,7 @@ export default function HeroSection() {
   ];
 
   const [currentSnippet, setCurrentSnippet] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -47,39 +49,79 @@ export default function HeroSection() {
           </p>
 
           <div className="flex flex-wrap gap-6">
-            <button className="group px-10 py-5 bg-[#C1502E] text-[#F5E6D3] text-xl font-black border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center gap-3">
+            <button onClick={ () => ( navigate('/dsa'))}
+            className="group px-10 py-5 bg-[#C1502E] text-[#F5E6D3] text-xl font-black border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-150 flex items-center gap-3 hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 active:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1">
               <Rocket className="h-6 w-6" />
               START CODING
               <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform" />
             </button>
-            <button className="px-10 py-5 bg-[#F5E6D3] dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] text-xl font-black border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all">
-              EXPLORE
-            </button>
+           
           </div>
         </div>
 
         {/* Right Side - Code Terminal */}
-        <div className="relative">
-          <div className="bg-[#2C1810] border-4 border-black shadow-[12px_12px_0px_0px_rgba(193,80,46,1)] p-8 rotate-2 hover:rotate-0 transition-transform duration-300">
-            <div className="flex items-center gap-2 mb-6">
-              <div className="w-4 h-4 bg-[#C1502E] border-2 border-black"></div>
-              <div className="w-4 h-4 bg-[#F5E6D3] border-2 border-black"></div>
-              <div className="w-4 h-4 bg-[#C1502E] border-2 border-black"></div>
-            </div>
-            <div className="font-mono text-lg space-y-3 text-[#F5E6D3]">
-              <div className="text-[#F5E6D3]/60">// Welcome to Call of Code</div>
-              <div className="text-[#C1502E] font-bold">
-                class <span className="text-[#F5E6D3]">CodingClub</span> {'{'}
-              </div>
-              <div className="ml-6">mission = <span className="text-[#C1502E]">"Inspire & Create"</span>;</div>
-              <div className="ml-6">members = <span className="text-[#C1502E] font-bold">∞</span>;</div>
-              <div className="ml-6">passion = <span className="text-[#C1502E] font-bold">MAX</span>;</div>
-              <div className="ml-6 bg-[#C1502E] text-[#F5E6D3] px-3 py-1 inline-block border-2 border-[#F5E6D3] font-bold">
-                {codeSnippets[currentSnippet]}
-              </div>
-              <div className="text-[#C1502E] font-bold">{'}'}</div>
-            </div>
-          </div>
+<div className="relative">
+  <div
+    className="
+      bg-[#2C1810] dark:bg-[#F5E6D3]
+      border-4 border-black 
+      shadow-[12px_12px_0px_0px_rgba(193,80,46,1)]
+      p-8 rotate-2 hover:rotate-0
+      transition-transform duration-300
+    "
+  >
+    {/* Window Buttons */}
+    <div className="flex items-center gap-2 mb-6">
+      <div className="w-4 h-4 bg-[#C1502E] border-2 border-black dark:border-[#F5E6D3]"></div>
+      <div className="w-4 h-4 bg-[#F5E6D3] border-2 border-black dark:border-[#F5E6D3]"></div>
+      <div className="w-4 h-4 bg-[#C1502E] border-2 border-black dark:border-[#F5E6D3]"></div>
+    </div>
+
+    {/* Text */}
+    <div
+      className="
+        font-mono text-lg space-y-3
+        text-[#F5E6D3] dark:text-[#2C1810]
+      "
+    >
+      {/* Comment */}
+      <div className="text-[#F5E6D3]/60 dark:text-[#2C1810]/60">
+        // Welcome to Call of Code
+      </div>
+
+      {/* Class line */}
+      <div className="font-bold text-[#C1502E]">
+        class <span className="text-[#F5E6D3] dark:text-[#2C1810]">CodingClub</span> {'{'}
+      </div>
+
+      <div className="ml-6">
+        mission =
+        <span className="text-[#C1502E]"> "Inspire & Create"</span>;
+      </div>
+
+      <div className="ml-6">
+        members = <span className="text-[#C1502E] font-bold">∞</span>;
+      </div>
+
+      <div className="ml-6">
+        passion = <span className="text-[#C1502E] font-bold">MAX</span>;
+      </div>
+
+      {/* Dynamic snippet box */}
+      <div
+        className="
+          ml-6 px-3 py-1 inline-block font-bold
+          bg-[#C1502E] text-[#F5E6D3]
+          dark:bg-[#C1502E] dark:text-[#2C1810]
+          border-2 border-[#F5E6D3] dark:border-[#2C1810]
+        "
+      >
+        {codeSnippets[currentSnippet]}
+      </div>
+
+      <div className="font-bold text-[#C1502E]">{'}'}</div>
+    </div>
+  </div>
 
           {/* Decorative elements */}
           <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-[#C1502E] border-4 border-black -rotate-12"></div>

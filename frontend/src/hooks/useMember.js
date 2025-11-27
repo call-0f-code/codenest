@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { signIn, signUp, getDetails, forgotPassword, verifyOtp, resetPassword, updateMember } from "../utils/api/memberApi";
+import { signIn, signUp, getDetails, forgotPassword, verifyOtp, resetPassword, updateMember, getMemberInterviews } from "../utils/api/memberApi";
 import { globalToast } from "@/utils/toast";
-
+import { deleteInterviewExp, updateInterviewExp } from "@/utils/api/interviewApi";
 
 export function useMembers(){
   const queryclient = useQueryClient();
@@ -85,4 +85,35 @@ export function useMembers(){
     resetpassword,
     update
   };
+}
+
+// New hook for fetching member interviews
+export function useMemberInterviews(memberId) {
+  const queryClient = useQueryClient();
+
+  const { data: memberInterviews = [], isLoading: isLoadingInterviews } = useQuery({
+    queryKey: ['memberInterviews', memberId],
+    queryFn: () => getMemberInterviews(memberId),
+    enabled: !!memberId,
+    select: (data) => data.interviews
+  });
+  const deleteMemberInterview = useMutation({
+    mutationFn: deleteInterviewExp,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["memberInterviews"], memberId);
+      globalToast.success("Interview deleted successfully");
+    },
+    onError: () => globalToast.error("Failed to delete interview"),
+  });
+  
+  const updateMemberInterview = useMutation({
+    mutationFn: ({ id, data }) => updateInterviewExp(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["memberInterviews"]);
+      globalToast.success("Interview updated successfully");
+    },
+    onError: () => globalToast.error("Failed to update interview"),
+  });
+  
+  return { memberInterviews, isLoadingInterviews, updateMemberInterview, deleteMemberInterview };
 }

@@ -1,230 +1,243 @@
-import { useEffect, useState } from "react";
-import { Building, Calendar, MapPin, ChevronDown, ChevronUp } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import axios from "axios";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useInterview } from "@/hooks/useInterviews";
+import InterviewFilters from "@/components/interview/InterviewFilters";
+import InterviewExperienceForm from "@/components/interview/InterviewExperienceForm";
+import InterviewExperienceItem from "@/components/interview/InterviewExperienceItem";
 
-const interviewExperiences = [
-  {
-    id: 1,
-    company: "Google",
-    role: "Software Engineer",
-    verdict: "Selected",
-    candidate: "John Doe",
-    content:
-      "The interview process was thorough and challenging. Started with a phone screen focusing on data structures, followed by multiple onsite rounds covering algorithms, system design, and behavioral questions. The interviewers were very professional and gave hints when I was stuck. Key advice: practice system design extensively and be ready to explain your thought process clearly. The coding questions were medium to hard level, mostly involving trees and dynamic programming.",
-  },
-  {
-    id: 2,
-    company: "Microsoft",
-    role: "SDE II",
-    verdict: "Selected",
-    candidate: "Jane Smith",
-    content:
-      "Great experience overall. The interviewers were friendly and the questions were fair. Heavy focus on problem-solving and coding skills with some system design discussions. Had 4 rounds total - 2 coding rounds, 1 system design, and 1 behavioral. The coding questions were well-balanced and tested different aspects of programming. Make sure to communicate your approach before diving into code.",
-  },
-  {
-    id: 3,
-    company: "Amazon",
-    role: "Software Development Engineer",
-    verdict: "Rejected",
-    candidate: "Mike Johnson",
-    content:
-      "The process was well-structured but quite intense. Leadership Principles questions were heavily emphasized along with coding challenges. Unfortunately didn't make it past the final round due to a system design question I couldn't complete in time. Advice: Study Amazon's Leadership Principles thoroughly and practice system design under time pressure.",
-  },
-  {
-    id: 4,
-    company: "Meta",
-    role: "Software Engineer E4",
-    verdict: "Selected",
-    candidate: "Sarah Chen",
-    content:
-      "Challenging but fair interview process. Strong emphasis on coding efficiency, system design at scale, and cultural fit. The behavioral rounds were particularly important and they really dig deep into past experiences. Technical rounds included coding problems focused on algorithms and data structures, plus a system design round for scalability challenges.",
-  },
-  {
-    id: 5,
-    company: "Netflix",
-    role: "Senior Software Engineer",
-    verdict: "Pending",
-    candidate: "Alex Rodriguez",
-    content:
-      "Unique interview process focused heavily on real-world problem solving and scalability challenges. Less focus on traditional algorithmic questions and more on practical engineering problems. Still waiting for the final decision but the experience was refreshing compared to other tech companies.",
-  },
-];
+export default function InterviewExperiences() {
+  const { interviews, isLoading, postInterviewExp,page,setPage,totalPages, setVerdict } = useInterview();
+  const [filter, setFilter] = useState("All");
+  const [showForm, setShowForm] = useState(false);
 
-const companies = ["All", "Google", "Microsoft", "Amazon", "Meta", "Netflix"];
-const verdicts = ["All", "Selected", "Rejected", "Pending"];
+  // Ensure interviews is always an array
+  const interviewsArray = Array.isArray(interviews) ? interviews : [];
 
-const InterviewExp = () => {
-  const [selectedCompany, setSelectedCompany] = useState("All");
-  const [selectedVerdict, setSelectedVerdict] = useState("All");
-  const [expandedItems, setExpandedItems] = useState({});
-
-  const [experiences , setExperiences] = useState([]);
-
-  const filteredExperiences = interviewExperiences.filter((exp) => {
-    return (
-      (selectedCompany === "All" || exp.company === selectedCompany) &&
-      (selectedVerdict === "All" || exp.verdict === selectedVerdict)
-    );
-  });
-
-  const getVerdictColor = (verdict) => {
-    switch (verdict) {
-      case "Selected":
-        return "bg-green-600 text-green-100";
-      case "Rejected":
-        return "bg-red-600 text-red-100";
-      case "Pending":
-        return "bg-yellow-600 text-yellow-100";
-      default:
-        return "bg-gray-600 text-gray-100";
-    }
+  const handleFormSubmit = (data) => {
+    postInterviewExp.mutate(data);
   };
-
-  const toggleExpanded = (id) => {
-    setExpandedItems((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
-
-  useEffect(()=>{
-    const fetchExperiences = async()=>{
-      try{
-        const res = await axios.get("http://localhost:3000/api/v1/getInteviewExp" , {
-          headers : {"Content-Type" : "application/json"},
-          withCredentials : true,
-        });
-        console.log(res);
-        if(res.data.success){
-          setExperiences(res.data.data);
-        }
-
-      }
-      catch(err){
-        alert(err.response.data.message);
-      }
-    };
-    fetchExperiences();
-  }, []);
 
   return (
-    <div className="p-6">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white mb-2">Interview Experiences</h1>
-        <p className="text-gray-400">Learn from real interview experiences shared by the community</p>
-      </div>
-
-      {/* Filters */}
-      <div className="space-y-4 mb-8">
-        <div>
-          <h3 className="text-sm font-medium text-gray-300 mb-2">Company</h3>
-          <div className="flex gap-2 flex-wrap">
-            {companies.map((company) => (
-              <Button
-                key={company}
-                variant={selectedCompany === company ? "default" : "outline"}
-                size="sm"
-                className={`${
-                  selectedCompany === company
-                    ? "bg-purple-600 hover:bg-purple-700 text-white"
-                    : "border-gray-700 text-gray-300 hover:text-white hover:bg-gray-800"
-                }`}
-                onClick={() => setSelectedCompany(company)}
+    <div className="min-h-screen bg-[#F5E6D3] dark:bg-[#1a0f0a] px-6 py-12">
+      <div className="max-w-7xl mx-auto">
+        {/* Header with Button */}
+        <div className="mb-12">
+          <div className="flex items-start justify-between gap-8 flex-wrap">
+            {/* Left: Header Content */}
+            <motion.div 
+              className="flex-1 min-w-[300px]"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <motion.div 
+                className="inline-block bg-[#C1502E] px-6 py-3 border-4 border-black dark:border-[#F5E6D3] font-black -rotate-2 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(245,230,211,1)] mb-6"
+                whileHover={{ 
+                  rotate: -1, 
+                  boxShadow: "8px 8px 0px 0px rgba(0,0,0,1)" 
+                }}
               >
-                {company}
-              </Button>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <h3 className="text-sm font-medium text-gray-300 mb-2">Result</h3>
-          <div className="flex gap-2 flex-wrap">
-            {verdicts.map((verdict) => (
-              <Button
-                key={verdict}
-                variant={selectedVerdict === verdict ? "default" : "outline"}
-                size="sm"
-                className={`${
-                  selectedVerdict === verdict
-                    ? "bg-purple-600 hover:bg-purple-700 text-white"
-                    : "border-gray-700 text-gray-300 hover:text-white hover:bg-gray-800"
-                }`}
-                onClick={() => setSelectedVerdict(verdict)}
-              >
-                {verdict}
-              </Button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Interview Experiences */}
-      <div className="space-y-6">
-        {experiences.map((exp) => (
-          <Collapsible
-            key={exp._id}
-            open={expandedItems[exp._id]}
-            onOpenChange={() => toggleExpanded(exp._id)}
-          >
-            <div className="bg-gray-800 rounded-lg border border-gray-700 p-6 hover:border-purple-500 transition-all duration-300">
-              <div className="flex justify-between items-start mb-4">
-                <div className="flex items-center gap-4">
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <Building className="w-5 h-5 text-purple-400" />
-                      <h3 className="text-xl font-semibold text-white">{exp.company}</h3>
-                    </div>
-                    <p className="text-gray-400">{exp.role}</p>
-                  </div>
-                </div>
-
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getVerdictColor(exp.verdict)}`}>
-                  {exp.verdict}
+                <span className="text-[#F5E6D3] flex items-center gap-2">
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  INTERVIEW EXPERIENCES
                 </span>
-              </div>
+              </motion.div>
+              
+              <h1 className="text-6xl lg:text-7xl font-black text-[#2C1810] dark:text-[#F5E6D3] mb-4 leading-none">
+                SHARE YOUR
+                <br />
+                <motion.span 
+                  className="text-[#C1502E] inline-block"
+                  whileHover={{ rotate: 2 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  JOURNEY.
+                </motion.span>
+              </h1>
+              
+              <p className="text-xl font-bold text-[#2C1810] dark:text-[#F5E6D3] max-w-2xl">
+                Help fellow coders by sharing your interview experiences. Every story matters!
+              </p>
+            </motion.div>
 
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-4 text-sm text-gray-400">
-                  <span>by {exp.candidate}</span>
-                </div>
-
-                <CollapsibleTrigger asChild>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="border-gray-700 text-gray-300 hover:bg-gray-700 hover:text-white"
+            {/* Right: Add Experience Button with Decorative Elements */}
+            <motion.div 
+              className="relative"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              {/* Decorative squares */}
+              <motion.div 
+                className="absolute -top-4 -right-4 w-16 h-16 bg-[#C1502E] border-4 border-black dark:border-[#F5E6D3] -z-10"
+                animate={{ rotate: [12, 18, 12] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <motion.div 
+                className="absolute -bottom-4 -left-4 w-12 h-12 bg-[#F5E6D3] dark:bg-[#C1502E] border-4 border-black dark:border-[#F5E6D3] -z-10"
+                animate={{ rotate: [-12, -18, -12] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              />
+              
+              <motion.button
+                onClick={() => setShowForm(!showForm)}
+                className="group relative px-8 py-6 bg-[#C1502E] text-[#F5E6D3] text-xl font-black border-4 border-black dark:border-[#F5E6D3]"
+                whileHover={{ 
+                  x: -4, 
+                  y: -4,
+                  boxShadow: "12px 12px 0px 0px rgba(0,0,0,1)"
+                }}
+                whileTap={{ 
+                  x: 4, 
+                  y: 4,
+                  boxShadow: "4px 4px 0px 0px rgba(0,0,0,1)"
+                }}
+                style={{
+                  boxShadow: "8px 8px 0px 0px rgba(0,0,0,1)"
+                }}
+              >
+                <span className="flex items-center gap-3">
+                  <motion.svg 
+                    className="h-6 w-6" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor"
+                    whileHover={{ rotate: 90 }}
+                    transition={{ duration: 0.3 }}
                   >
-                    {expandedItems[exp.id] ? (
-                      <>
-                        <ChevronUp className="w-4 h-4 mr-1" />
-                        Collapse
-                      </>
+                    {showForm ? (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
                     ) : (
-                      <>
-                        <ChevronDown className="w-4 h-4 mr-1" />
-                        Read Full Experience
-                      </>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" />
                     )}
-                  </Button>
-                </CollapsibleTrigger>
-              </div>
+                  </motion.svg>
+                  {showForm ? "CLOSE" : "ADD EXPERIENCE"}
+                </span>
+                
+                {/* Animated corner accent */}
+                <motion.div 
+                  className="absolute -top-2 -right-2 w-4 h-4 bg-[#F5E6D3] border-2 border-black dark:border-[#F5E6D3]"
+                  whileHover={{ rotate: 45 }}
+                />
+              </motion.button>
+            </motion.div>
+          </div>
+        </div>
 
-              <CollapsibleContent className="space-y-4">
-                <div className="border-t border-gray-700 pt-4">
-                  <h4 className="text-lg font-medium text-white mb-3">Interview Experience</h4>
-                  <p className="text-gray-300 leading-relaxed">{exp.content}</p>
-                </div>
-              </CollapsibleContent>
-            </div>
-          </Collapsible>
-        ))}
+        {/* Form with entrance animation */}
+        <AnimatePresence>
+          {showForm && (
+            <motion.div 
+              className="mb-12"
+              initial={{ opacity: 0, y: -20, height: 0 }}
+              animate={{ opacity: 1, y: 0, height: "auto" }}
+              exit={{ opacity: 0, y: -20, height: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <InterviewExperienceForm 
+                onSuccess={() => setShowForm(false)}
+                onSubmit={handleFormSubmit}
+                isPending={postInterviewExp.isPending}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Filters with enhanced styling */}
+        <motion.div 
+          className="mb-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+        >
+          <InterviewFilters 
+            activeFilter={filter} 
+            onFilterChange={(newFilter) => {
+              setFilter(newFilter);
+              setPage(1);        
+              setVerdict(newFilter); 
+            }} 
+          />
+        </motion.div>
+
+        {/* Experiences List */}
+        {isLoading ? (
+          <div className="text-center py-12">
+            <motion.div 
+              className="inline-block bg-[#2C1810] dark:bg-[#F5E6D3] px-8 py-4 border-4 border-black dark:border-[#2C1810] shadow-[6px_6px_0px_0px_rgba(193,80,46,1)]"
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              <span className="font-black text-[#F5E6D3] dark:text-[#2C1810]">
+                LOADING EXPERIENCES...
+              </span>
+            </motion.div>
+          </div>
+        ) : !isLoading && interviewsArray.length === 0 ? (
+          <div className="text-center py-12">
+            <motion.div 
+              className="inline-block bg-[#2C1810] dark:bg-[#F5E6D3] px-8 py-4 border-4 border-black dark:border-[#2C1810] -rotate-2 shadow-[6px_6px_0px_0px_rgba(193,80,46,1)]"
+              whileHover={{ rotate: 0 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <span className="font-black text-[#F5E6D3] dark:text-[#2C1810]">
+                NO EXPERIENCES FOUND
+              </span>
+            </motion.div>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <AnimatePresence>
+              {interviewsArray.map((interview, index) => (
+                <motion.div 
+                  key={interview.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ 
+                    duration: 0.3,
+                    delay: index * 0.05
+                  }}
+                >
+                  <InterviewExperienceItem interview={interview} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        )}
+        {/*  PAGINATION BLOCK ADDED */}
+        {!isLoading && interviewsArray.length > 0 && (
+          <div className="mt-12 flex justify-center items-center gap-6">
+            <button
+              onClick={() => setPage(page - 1)}
+              disabled={page === 1}
+              className="px-6 py-3 bg-[#C1502E] text-[#F5E6D3] text-lg font-black border-4 border-black 
+                          dark:border-[#F5E6D3] disabled:opacity-40 disabled:cursor-not-allowed
+                          hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] 
+                          transition-transform"
+            >
+              PREVIOUS
+            </button>
+
+            <span className="font-black text-2xl text-[#2C1810] dark:text-[#F5E6D3]">
+              PAGE {page} / {totalPages}
+            </span>
+
+            <button
+              onClick={() => setPage(page + 1)}
+              disabled={page === totalPages}
+              className="px-6 py-3 bg-[#C1502E] text-[#F5E6D3] text-lg font-black border-4 border-black 
+                          dark:border-[#F5E6D3] disabled:opacity-40 disabled:cursor-not-allowed
+                          hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] 
+                          transition-transform"
+            >
+              NEXT
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
-};
-
-export default InterviewExp;
+}
