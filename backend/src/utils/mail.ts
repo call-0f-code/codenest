@@ -40,7 +40,7 @@ export const sendOTP = async (email: string, otp: string) => {
 
   try {
     const {data, error} = await resend.emails.send({
-      from: config.EMAIL_ID, 
+      from: `"Call Of Code" <${config.EMAIL_ID}>`, 
       to: email,
       subject: 'Password Reset OTP - Call Of Code',
       html,
