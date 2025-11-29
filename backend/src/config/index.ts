@@ -32,6 +32,5 @@ export default{
     GITHUB_CLIENT_SECRET: validateEnvVar('GITHUB_CLIENT_SECRET', process.env.GITHUB_CLIENT_SECRET),
     GITHUB_CALLBACK_URL: validateEnvVar('GITHUB_CALLBACK_URL', process.env.GITHUB_CALLBACK_URL),
     EMAIL_ID: validateEnvVar('EMAIL_ID', process.env.EMAIL_ID),
-    EMAIL_PASS: validateEnvVar('EMAIL_PASS', process.env.EMAIL_PASS),
-    EMAIL_SERVICES: validateEnvVar('EMAIL_SERVICES', process.env.EMAIL_SERVICES)
+    RESEND_API_KEY: validateEnvVar('RESEND_API_KEY', process.env.RESEND_API_KEY),
 }
