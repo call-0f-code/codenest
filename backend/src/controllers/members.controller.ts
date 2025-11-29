@@ -8,7 +8,7 @@ import { ApiError } from "../utils/apiError";
 import { imageSchema, resetPasswordSchema, UpdateSchema } from "../validation/members.validator";
 import axios from "axios";
 import { otpStorage } from "../utils/otpStore";
-import { sendOTP } from "../utils/nodeMailer";
+import { sendOTP } from "../utils/mail";
 
 const generateOtp = () => {
     return Math.floor(100000 + Math.random() * 900000).toString();

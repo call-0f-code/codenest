@@ -1,20 +1,10 @@
-import nodemailer from  'nodemailer';
-import config from '../config/index'
+import { Resend } from 'resend';
+import config from '../config/index';
 
-export const sendOTP = async(email:string,otp:string)=>{
-    const transport = nodemailer.createTransport({
-        service: config.EMAIL_SERVICES,
-        auth: {
-            user: config.EMAIL_ID,
-            pass: config.EMAIL_PASS
-        }
-    });
+export const sendOTP = async (email: string, otp: string) => {
+  const resend = new Resend(config.RESEND_API_KEY);
 
-    const mailOptions = {
-        from: config.EMAIL_ID,
-        to: email,
-        subject: 'Password Reset OTP - Call Of Code',
-        html: `
+  const html = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
             <div style="text-align: center; margin-bottom: 30px;">
             <h1 style="color: #333; margin-bottom: 10px;">Password Reset Request</h1>
@@ -44,10 +34,28 @@ export const sendOTP = async(email:string,otp:string)=>{
             </p>
             </div>
         </div>
-        `,
-        text: `Your password reset OTP is: ${otp}. This code will expire in 10 minutes. If you didn't request this, please ignore this email.`
-    };
+  `;
 
-    await transport.sendMail(mailOptions);
+  const text = `Your password reset OTP is: ${otp}. This code will expire in 10 minutes. If you didn't request this, please ignore this email.`;
+
+  try {
+    const {data, error} = await resend.emails.send({
+      from: config.EMAIL_ID, 
+      to: email,
+      subject: 'Password Reset OTP - Call Of Code',
+      html,
+      text,
+    });
+
+
+    if (error) {
+        throw new Error(
+            typeof error === 'string' ? error : JSON.stringify(error)
+        );
+    }
     
-}
+    return data;
+  } catch (error) {
+    throw error; 
+  }
+};
