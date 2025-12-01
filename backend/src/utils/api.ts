@@ -31,7 +31,7 @@ api.interceptors.response.use(
     }
 
     if(error.response && error.response.status === 400) {
-      throw new ApiError('Bad Request', 400);
+      throw new ApiError( error.response.data.message || 'Bad Request', 400);
     }
 
     if(error.response && error.response.status === 404) {

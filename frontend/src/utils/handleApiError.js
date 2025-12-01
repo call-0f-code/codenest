@@ -11,6 +11,7 @@ export const handleApiError = (error) => {
   switch (status) {
     case 400:
       toast.error(error.response?.data?.message || "Bad Request.");
+      
       break;
 
     case 401:
@@ -18,7 +19,7 @@ export const handleApiError = (error) => {
       break;
 
     case 403:
-      toast.error("Access denied.");
+      toast.error(error.response?.data?.message || "Access denied.");
       break;
 
     case 404:
