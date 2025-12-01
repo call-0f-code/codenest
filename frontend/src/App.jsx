@@ -9,6 +9,7 @@ import ProfilePage from "./pages/ProfilePage";
 import AuthPage from "./pages/Signup";
 import NotFound from "./pages/NotFound";
 import MainLayout from "./components/miniCompo/MainLayout";
+import ProtectedRoute from "./utils/ProtectedRoute";
 
 function App() {
   return (
@@ -23,8 +24,9 @@ function App() {
                   <Route path="/home" element={<Home/>} />
                   <Route path="dsa" element={<DsaDashboard/>} />
                   <Route path="interviewExp" element={<InterviewExp/>} />
+                  <Route element={<ProtectedRoute />}>
                   <Route path="profile" element={<ProfilePage/>} />
-                  
+                  </Route>
           </Route>
           <Route path="*" element={ <NotFound/>} />
       </Routes>

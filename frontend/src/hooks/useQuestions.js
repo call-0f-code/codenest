@@ -1,21 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getCompletedQuestions, toggleQuestion } from "@/utils/api/questionApi";
 import { getQuestionsById } from "@/utils/api/topicApi";
-import { useEffect, useState } from "react";
+import { useAuth } from "@/context/AuthContext";
+import { handleApiError } from "@/utils/handleApiError";
 
 export const useQuestions = (topicId) => {
     const queryclient = useQueryClient();
-    const [isAuthenticated, setIsAuthenticated] = useState(
-        () => !!localStorage.getItem("token")
-    );
-
-    useEffect(() => {
-        const handleStorageChange = () => {
-            setIsAuthenticated(!!localStorage.getItem("token"));
-        };
-        window.addEventListener("storage", handleStorageChange);
-        return () => window.removeEventListener("storage", handleStorageChange);
-    }, []);
+    const {accessToken} = useAuth()
 
     const {
         data: questions = [],
@@ -37,7 +28,7 @@ export const useQuestions = (topicId) => {
             return res.completedQuestion || [];
         },
         // Only fetch completed questions if the user is authenticated
-        enabled: isAuthenticated, 
+        enabled: !!accessToken, 
     });
 
     const toggle = useMutation({
@@ -45,7 +36,9 @@ export const useQuestions = (topicId) => {
         onSuccess: () => {
             queryclient.invalidateQueries({ queryKey: ['questions', topicId] });
             queryclient.invalidateQueries({ queryKey: ['completedQuestions'] })
-        }
+        },
+         onError: (err) => handleApiError(err),
+
     })
 
     return {
