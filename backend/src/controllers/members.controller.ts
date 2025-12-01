@@ -2,13 +2,14 @@ import { Request, Response } from "express";
 import api from "../utils/api";
 import bcrypt from 'bcrypt';
 import config from "../config";
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import FormData from "form-data";
 import { ApiError } from "../utils/apiError";
 import { imageSchema, resetPasswordSchema, UpdateSchema } from "../validation/members.validator";
 import axios from "axios";
 import { otpStorage } from "../utils/otpStore";
 import { sendOTP } from "../utils/mail";
+import { setRefreshCookie, signAccessToken, signRefreshToken } from "../utils/token";
 
 const generateOtp = () => {
     return Math.floor(100000 + Math.random() * 900000).toString();
@@ -48,8 +49,9 @@ export const login = async(req: Request, res:Response) => {
     }
 
     // Generate JWT token
-    const token = await jwt.sign({ userId }, config.JWT_SECRET as string, { expiresIn: "1d" });
-
+    const token = signAccessToken(userId);
+    const refreshToken = signRefreshToken(userId);
+     await setRefreshCookie(res,refreshToken);
     // Send response
     res.status(200).json({
       success: true,
@@ -177,7 +179,7 @@ export const verifyOtp = async(req:Request,res:Response) => {
     const check = await api.get(`/members/?email=${email}`);
     const userId = check.data.user.id;
 
-    const token = await jwt.sign({ userId }, config.JWT_SECRET as string, { expiresIn: "1d" });
+    const token = signAccessToken(userId);
     res.status(200).json({
         success: true,
         token: token
@@ -206,3 +208,34 @@ export const resetpassword = async (req: Request, res: Response) => {
         user: updation.data.user
     })
 };
+
+export const tokenRefresh = async(req:Request,res:Response) =>{
+  const token = req.cookies.refresh_token;
+  if(!token){
+    throw new ApiError('NO refresh token',401);
+  }
+  const decoded = jwt.verify(token,config.REFRESH_SECRET) as JwtPayload;
+
+  if(!decoded){
+    throw new ApiError('Invalid or expired refresh token',401);
+  }
+  const userId = decoded.userId;
+  if(!userId){
+    throw new ApiError('Invalid token payload',401)
+  }
+  const newToken = signAccessToken(userId);
+  const refreshToken = signRefreshToken(userId);
+  setRefreshCookie(res,refreshToken);
+
+  res.status(200).json({
+    success: true,
+    message: "Token Refresh successful",
+    token:newToken,
+  });
+
+}
+
+export const logout = async(req:Request,res:Response)=>{
+  res.clearCookie('refresh_token',{path:'/api/v1/members/refresh'})
+  res.status(200).json({message:"logged out"});
+}
