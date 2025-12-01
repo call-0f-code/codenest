@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import { AuthBridge } from "@/utils/api/authBridge";
-import { signout } from "@/utils/api/memberApi";
 
 export const AuthProvider = ({ children }) => {
   const [accessToken, setAccessTokenState] = useState(null);
@@ -10,8 +9,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const SignOut = async() => {
-    await signout()
     setAccessTokenState(null);
+    window.location.replace("/signup");
   };
 
   // register context functions so axios can call them
