@@ -1,241 +1,256 @@
 import { Request, Response } from "express";
 import api from "../utils/api";
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 import config from "../config";
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt, { JwtPayload } from "jsonwebtoken";
 import FormData from "form-data";
 import { ApiError } from "../utils/apiError";
-import { imageSchema, resetPasswordSchema, UpdateSchema } from "../validation/members.validator";
+import {
+  imageSchema,
+  resetPasswordSchema,
+  UpdateSchema,
+} from "../validation/members.validator";
 import axios from "axios";
 import { otpStorage } from "../utils/otpStore";
 import { sendOTP } from "../utils/mail";
-import { setRefreshCookie, signAccessToken, signRefreshToken } from "../utils/token";
+import {
+  setRefreshCookie,
+  signAccessToken,
+  signRefreshToken,
+} from "../utils/token";
 
 const generateOtp = () => {
-    return Math.floor(100000 + Math.random() * 900000).toString();
-}
-
-export const createMember = async(req: Request, res:Response) => {
-        
-    const hashedPassword = await bcrypt.hash(req.body.password, Number(config.SALTING));
-
-    req.body.password = hashedPassword;
-    const newUser = await api.post('members/', req.body)
-
-    res.status(201).json({
-        success: true,
-        message: newUser.data.message
-    })
-}
-
-export const login = async(req: Request, res:Response) => {
-
-    const { email, password } = req.body;
-    if(!email || !password) throw new ApiError("Email or password field absent", 400);
-
-    const check = await api.get(`/members/?email=${email}`);
-
-    const userId = check.data.user.id;
-    const hashedPassword = check.data.user.accounts[0];
-    const isApproved = check.data.user.isApproved;
-
-    if(!isApproved) {
-        throw new ApiError("Unauthorized access detected", 403)
-    }
-    
-    const isPasswordValid = await bcrypt.compare(password, hashedPassword.password);
-    if(!isPasswordValid) {
-      throw new ApiError("Invalid password", 403)
-    }
-
-    // Generate JWT token
-    const token = signAccessToken(userId);
-    const refreshToken = signRefreshToken(userId);
-     await setRefreshCookie(res,refreshToken);
-    // Send response
-    res.status(200).json({
-      success: true,
-      message: "Signin successful",
-      token,
-    });
-}
-
-export const getDetails = async(req: Request, res: Response) => {
-
-    const memberId = req.userId;
-
-    const user = await api.get(`/members/${memberId}`);
-
-    const users = user.data.user;
-    res.status(200).json({
-        success: true,
-        users
-    })   
-}
-
-export const updateMember = async(req: Request, res:Response) => {
-
-    const memberId = req.userId;
-    const memberData = req.body.memberData;
-
-  
-   
-    const formData = new FormData();
-    if(memberData){
-        formData.append("memberData", JSON.stringify(memberData));
-    }
-
-    if (req.file) {
-        const parseFile = imageSchema.safeParse(req.file)
-
-        if (!parseFile.success) {
-            throw new ApiError("Image file is missing or format not supported", 400);
-        }
-        
-        formData.append("file", req.file.buffer, req.file.originalname);
-    }
-    
-    const updation = await axios.patch(`${config.API_URL}/api/v1/members/${memberId}`, formData);
-
-    res.status(200).json({
-        success :true,
-        user: updation.data.user
-    })
-}
-
-export const getAchievements = async(req: Request, res:Response) => {
-
-    const memberId = req.userId;
-
-    const achievement = await api.get(`/members/${memberId}/achievements`);
-    const achievements = achievement.data.achievements;
-
-    res.status(200).json({
-        success: true,
-        achievements
-    })
-}
-
-export const getInterviews = async(req:Request, res:Response) => {
-
-    const memberId = req.userId;
-
-    const interview = await api.get(`/members/${memberId}/interviews`);
-
-    const interviews = interview.data.interviews;
-    res.status(200).json({
-        success: true,
-        interviews
-    })
-}
-
-export const getProjects = async(req:Request, res:Response) => {
-
-    const memberId = req.userId;
-
-    const project = await api.get(`members/${memberId}/projects`);
-    const projects = project.data.projects;
-
-    res.status(200).json({
-        success: true,
-        projects
-    })
-}
-
-export const forgotpassword = async (req: Request, res: Response) => {
-    const { email } = req.body;
-
-    if(!email) throw new ApiError('email field absent', 400);
-
-    const check = await api.get(`/members/?email=${email}`);
-    const user = check.data.user;
-
-    
-    if(!user) {
-        throw new ApiError('User not found', 404);
-    }
-    
-    if(!user.isApproved){
-        throw new ApiError('Unauthorized access detected', 403);      
-    }
-    const otp = generateOtp();
-    otpStorage.store(email, otp);
-    await sendOTP(email, otp);
-
-    res.status(200).json({
-        success: true,
-        message: 'OTP sent to your email'
-    })
+  return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
-export const verifyOtp = async(req:Request,res:Response) => {
+export const createMember = async (req: Request, res: Response) => {
+  const hashedPassword = await bcrypt.hash(
+    req.body.password,
+    Number(config.SALTING)
+  );
 
-    const {email ,otp} = req.body;
-    if(!email || !otp) throw new ApiError("email or otp field absent", 400);
-   
-    const isValid = otpStorage.verify(email,otp);
-    if(!isValid) throw new ApiError("OTP is not valid", 403);
+  req.body.password = hashedPassword;
+  const newUser = await api.post("members/", req.body);
 
-    const check = await api.get(`/members/?email=${email}`);
-    const userId = check.data.user.id;
+  res.status(201).json({
+    success: true,
+    message: newUser.data.message,
+  });
+};
 
-    const token = signAccessToken(userId);
-    res.status(200).json({
-        success: true,
-        token: token
-    })
+export const login = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  if (!email || !password)
+    throw new ApiError("Email or password field absent", 400);
+
+  const check = await api.get(`/members/?email=${email}`);
+
+  const userId = check.data.user.id;
+  const hashedPassword = check.data.user.accounts[0];
+  const isApproved = check.data.user.isApproved;
+
+  if (!isApproved) {
+    throw new ApiError("Unauthorized access detected", 403);
+  }
+
+  const isPasswordValid = await bcrypt.compare(
+    password,
+    hashedPassword.password
+  );
+  if (!isPasswordValid) {
+    throw new ApiError("Invalid password", 403);
+  }
+
+  // Generate JWT token
+  const token = signAccessToken(userId);
+  const refreshToken = signRefreshToken(userId);
+  await setRefreshCookie(res, refreshToken);
+  // Send response
+  res.status(200).json({
+    success: true,
+    message: "Signin successful",
+    token,
+  });
+};
+
+export const getDetails = async (req: Request, res: Response) => {
+  const memberId = req.userId;
+
+  const user = await api.get(`/members/${memberId}`);
+
+  const users = user.data.user;
+  res.status(200).json({
+    success: true,
+    users,
+  });
+};
+
+export const updateMember = async (req: Request, res: Response) => {
+  const memberId = req.userId;
+  const memberData = req.body.memberData;
+
+  const formData = new FormData();
+  if (memberData) {
+    formData.append("memberData", JSON.stringify(memberData));
+  }
+
+  if (req.file) {
+    const parseFile = imageSchema.safeParse(req.file);
+
+    if (!parseFile.success) {
+      throw new ApiError("Image file is missing or format not supported", 400);
+    }
+
+    formData.append("file", req.file.buffer, req.file.originalname);
+  }
+
+  const updation = await axios.patch(
+    `${config.API_URL}/api/v1/members/${memberId}`,
+    formData
+  );
+
+  res.status(200).json({
+    success: true,
+    user: updation.data.user,
+  });
+};
+
+export const getAchievements = async (req: Request, res: Response) => {
+  const memberId = req.userId;
+
+  const achievement = await api.get(`/members/${memberId}/achievements`);
+  const achievements = achievement.data.achievements;
+
+  res.status(200).json({
+    success: true,
+    achievements,
+  });
+};
+
+export const getInterviews = async (req: Request, res: Response) => {
+  const memberId = req.userId;
+
+  const interview = await api.get(`/members/${memberId}/interviews`);
+
+  const interviews = interview.data.interviews;
+  res.status(200).json({
+    success: true,
+    interviews,
+  });
+};
+
+export const getProjects = async (req: Request, res: Response) => {
+  const memberId = req.userId;
+
+  const project = await api.get(`members/${memberId}/projects`);
+  const projects = project.data.projects;
+
+  res.status(200).json({
+    success: true,
+    projects,
+  });
+};
+
+export const forgotpassword = async (req: Request, res: Response) => {
+  const { email } = req.body;
+
+  if (!email) throw new ApiError("email field absent", 400);
+
+  const check = await api.get(`/members/?email=${email}`);
+  const user = check.data.user;
+
+  if (!user) {
+    throw new ApiError("User not found", 404);
+  }
+
+  if (!user.isApproved) {
+    throw new ApiError("Unauthorized access detected", 403);
+  }
+  const otp = generateOtp();
+  otpStorage.store(email, otp);
+  await sendOTP(email, otp);
+
+  res.status(200).json({
+    success: true,
+    message: "OTP sent to your email",
+  });
+};
+
+export const verifyOtp = async (req: Request, res: Response) => {
+  const { email, otp } = req.body;
+  if (!email || !otp) throw new ApiError("email or otp field absent", 400);
+
+  const isValid = otpStorage.verify(email, otp);
+  if (!isValid) throw new ApiError("OTP is not valid", 403);
+
+  const check = await api.get(`/members/?email=${email}`);
+  const userId = check.data.user.id;
+
+  const token = signAccessToken(userId);
+  res.status(200).json({
+    success: true,
+    token: token,
+  });
 };
 
 export const resetpassword = async (req: Request, res: Response) => {
+  const memberId = req.userId;
+  const memberData = req.body.memberData;
 
-    const memberId = req.userId;
-    const memberData = req.body.memberData; 
+  let check = await resetPasswordSchema.safeParse(memberData);
+  if (!check.success) throw new ApiError("Validation error", 400);
 
-    let check = await resetPasswordSchema.safeParse(memberData);
-    if(!check.success) throw new ApiError('Validation error', 400);
+  const password = memberData.password;
 
-    const password = memberData.password;
+  if (!password) throw new ApiError("Password absent", 400);
+  const hashedPassword = await bcrypt.hash(password, Number(config.SALTING));
+  memberData.password = hashedPassword;
+  const formData = new FormData();
 
-    if( !password) throw new ApiError("Password absent", 400)
-    const hashedPassword = await bcrypt.hash(password, Number(config.SALTING));
-    memberData.password = hashedPassword
-    const formData = new FormData();
-    
-    formData.append("memberData", JSON.stringify(memberData));
-    const updation = await axios.patch(`${config.API_URL}/api/v1/members/${memberId}`, formData);
-    res.status(200).json({
-        success: true,
-        user: updation.data.user
-    })
+  formData.append("memberData", JSON.stringify(memberData));
+  const updation = await axios.patch(
+    `${config.API_URL}/api/v1/members/${memberId}`,
+    formData
+  );
+  res.status(200).json({
+    success: true,
+    user: updation.data.user,
+  });
 };
 
-export const tokenRefresh = async(req:Request,res:Response) =>{
+export const tokenRefresh = async (req: Request, res: Response) => {
   const token = req.cookies.refresh_token;
-  if(!token){
-    throw new ApiError('NO refresh token',401);
-  }
-  const decoded = jwt.verify(token,config.REFRESH_SECRET) as JwtPayload;
 
-  if(!decoded){
-    throw new ApiError('Invalid or expired refresh token',401);
+  if (!token) {
+    throw new ApiError("NO refresh token", 401);
   }
+  let decoded: JwtPayload;
+
+  try {
+    decoded = jwt.verify(token, config.REFRESH_SECRET) as JwtPayload;
+  } catch (err: any) {
+    if (err.name === "TokenExpiredError") {
+      throw new ApiError("Token expired", 401);
+    }
+    throw new ApiError("Invalid token", 401);
+  }
+
   const userId = decoded.userId;
-  if(!userId){
-    throw new ApiError('Invalid token payload',401)
+  if (!userId) {
+    throw new ApiError("Invalid token payload", 401);
   }
   const newToken = signAccessToken(userId);
   const refreshToken = signRefreshToken(userId);
-  setRefreshCookie(res,refreshToken);
+  setRefreshCookie(res, refreshToken);
 
   res.status(200).json({
     success: true,
     message: "Token Refresh successful",
-    token:newToken,
+    token: newToken,
   });
+};
 
-}
-
-export const logout = async(req:Request,res:Response)=>{
-  res.clearCookie('refresh_token',{path:'/api/v1/members/refresh'})
-  res.status(200).json({message:"logged out"});
-}
+export const logout = async (req: Request, res: Response) => {
+  res.clearCookie("refresh_token", { path: "/api/v1/members/refresh" });
+  res.status(200).json({ message: "logged out" });
+};
