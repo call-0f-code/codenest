@@ -42,3 +42,8 @@ export const getMemberInterviews = async(memberId) => {
     const response = await api.get(`/members/${memberId}/interviews`);
     return response.data;
 }
+
+export const signout = async ()=>{
+    await api.post('/members/logout');
+    return
+}

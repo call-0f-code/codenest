@@ -4,24 +4,29 @@ import { Request, Response, NextFunction } from 'express';
 import { ApiError } from '../utils/apiError';
 
 export const auth = async(req: Request, res: Response, next: NextFunction) => {
-  let token;
 
   //check for oauth
   //if(req.userId) return next();
 
-  if (req.headers.authorization?.startsWith('Bearer')) {
-    token = req.headers.authorization.split(' ')[1];
-  }
+  const [scheme,tokenFromHeader] = (req.headers.authorization || '').split(' ');
+  const tokenFromCookie = req.cookies.access_token;
 
-  if (!token) {
-    throw new ApiError('Unauthenticated User, no token', 400);
-  }
+  const token = scheme ==='Bearer' && tokenFromHeader? tokenFromHeader:tokenFromCookie;
 
-  const decoded = await jwt.verify(token, config.JWT_SECRET);
-  if(!decoded) {    
-    throw new ApiError("Invalid or expired token", 403);
-  }
+  if(!token) throw new ApiError('No token provided',401)
 
-  req.userId = (decoded as JwtPayload).userId;
+
+ let decoded:JwtPayload;
+
+    try{
+        decoded = jwt.verify(token, config.JWT_SECRET) as JwtPayload;
+    }catch(err:any){
+        if (err.name === 'TokenExpiredError') {
+            throw new ApiError('Token expired', 401);
+        }
+        throw new ApiError('Invalid token', 401);
+    }
+
+  req.userId = decoded.userId;
   next();
 };

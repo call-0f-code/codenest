@@ -1,11 +1,13 @@
+import { useAuth } from "@/context/AuthContext";
+import { useMembers } from "@/hooks/useMember";
 import { Code2, LogOut, User } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
-  const token = localStorage.getItem("token") || null;
-
+  const {accessToken} = useAuth();
+  const {logout} = useMembers();
   // Helper to check if the current path matches the link
   const isActive = (path) => location.pathname === path || location.pathname.startsWith(path + '/');
 
@@ -46,7 +48,7 @@ export default function Navbar() {
           </Link>
 
           <div>
-             {token ? (
+             {accessToken ? (
             <div className="flex gap-16 justify-end">
               <button
                 onClick={() => navigate("/profile")}
@@ -57,8 +59,9 @@ export default function Navbar() {
 
               <button
                 onClick={() => {
-                  localStorage.removeItem("token"), navigate("/home");
+                  logout.mutate();
                 }}
+                disabled={logout.isPending}
                 className={inactiveStyle} // Logout button always keeps default style
               >
                 <LogOut/>

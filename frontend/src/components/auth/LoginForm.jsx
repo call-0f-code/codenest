@@ -3,33 +3,18 @@
 import { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
 import { useMembers } from "@/hooks/useMember";
-import { globalToast } from "@/utils/toast";
-import { useNavigate } from "react-router-dom";
+
 
 const LoginForm = ({ setIsLogin, setShowForgotPassword }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const { login } = useMembers();
-
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
     login.mutate(
-      { email, password },
-      {
-        onSuccess: () => {
-          globalToast.success("Login Successfull");
-          setIsLoading(false);
-          navigate('/profile');
-        },
-        onError: () => {
-          setIsLogin(false);
-        },
-      }
+      { email, password }
     );
   };
 
@@ -104,10 +89,10 @@ const LoginForm = ({ setIsLogin, setShowForgotPassword }) => {
         />
         <button
           type="submit"
-          disabled={isLoading}
+          disabled={login.isPending}
           className="relative h-12 w-full border-4 border-[#2C1810] dark:border-[#F5E6D3] bg-[#C1502E] dark:bg-[#C1502E] text-sm font-black text-[#F5E6D3] hover:translate-x-1 hover:translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(245,230,211,1)] transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
         >
-          {isLoading ? (
+          {login.isPending ? (
             <>
               <div className="h-4 w-4 animate-spin border-2 border-[#F5E6D3] border-t-transparent rounded-full" />
               <span>AUTHENTICATING...</span>
