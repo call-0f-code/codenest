@@ -1,10 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { signIn, signUp, getDetails, forgotPassword, verifyOtp, resetPassword, updateMember, getMemberInterviews } from "../utils/api/memberApi";
+import { signIn, signUp, getDetails, forgotPassword, verifyOtp, resetPassword, updateMember, getMemberInterviews, signout } from "../utils/api/memberApi";
 import { globalToast } from "@/utils/toast";
 import { deleteInterviewExp, updateInterviewExp } from "@/utils/api/interviewApi";
+import { handleApiError } from "@/utils/handleApiError";
+import { useAuth } from "@/context/AuthContext";
 
 export function useMembers(){
   const queryclient = useQueryClient();
+    const {setAccessToken} = useAuth()
+
   
   const { data: members = [], isLoading, error } = useQuery({
     queryKey: ['members'],
@@ -12,7 +16,6 @@ export function useMembers(){
       const data = await getDetails();
       return data.users;
     },
-    enabled:!!localStorage.getItem('token')
 });
 
   const login = useMutation({
@@ -21,17 +24,20 @@ export function useMembers(){
       return data.token;
     },
     onSuccess: (token) => {
+      globalToast.success("Login Successfull");
       queryclient.invalidateQueries({ queryKey: ['members'] });
       if (token) {
-        localStorage.setItem('token', token);
+        setAccessToken(token);
       }
+      window.location.replace("/profile");
     },
+    onError: (err) => handleApiError(err),
+
   });
 
   const createNewMember = useMutation({
-    mutationFn: async(memberData) => 
-        await signUp(memberData.email, memberData.password, memberData.name, memberData.passoutYear),
-    
+    mutationFn: async(memberData) => await signUp(memberData.email, memberData.password, memberData.name, memberData.passoutYear),
+    onError: (err) => handleApiError(err),
   })
 
   const forgotpassword = useMutation({
@@ -40,7 +46,8 @@ export function useMembers(){
     },
     onSuccess : ()=>{
       globalToast.success("OTP Sent Successfully")
-    }
+    },
+    
   })
 
   const verifyotp = useMutation({
@@ -51,9 +58,11 @@ export function useMembers(){
     onSuccess : (token)=>{
       globalToast.success("OTP verified")
       if (token) {
-        localStorage.setItem('token', token);
+        setAccessToken(token);
       }
-    }
+    },
+    onError: (err) => handleApiError(err),
+
   })
 
   const resetpassword = useMutation({
@@ -61,9 +70,11 @@ export function useMembers(){
       await resetPassword(memberData)
     },
     onSuccess : ()=>{
-      localStorage.removeItem('token')
+      setAccessToken(null)
       globalToast.success("Password reset successfully");
-    }
+    },
+         onError: (err) => handleApiError(err),
+
   })
 
   const update = useMutation({
@@ -71,8 +82,20 @@ export function useMembers(){
     onSuccess:()=>{
       queryclient.invalidateQueries({ queryKey: ['members'] });
       globalToast.success("Profile Updated")
-    }
+    },
+         onError: (err) => handleApiError(err),
+
   })
+
+    const logout = useMutation({
+        mutationFn: signout,
+        onSuccess:()=>{
+            setAccessToken(null);
+            queryclient.setQueryData(["members"],null)
+            window.location.replace("/signup");
+        },
+         onError: (err) => handleApiError(err),
+    })
 
   return {
     members,
@@ -83,7 +106,8 @@ export function useMembers(){
     forgotpassword,
     verifyotp,
     resetpassword,
-    update
+    update,
+    logout
   };
 }
 

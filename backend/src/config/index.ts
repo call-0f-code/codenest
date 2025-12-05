@@ -21,7 +21,19 @@ export default{
         }
         return parseInt(process.env.RATE_LIMIT_MAX_REQUESTS)
     },
-
+     REFRESH_TTL: ()=>{
+        if(!process.env.REFRESH_TTL){
+            return 7;
+        }
+        return parseInt(process.env.REFRESH_TTL)
+    },
+    ACCESS_TTL: ()=>{
+        if(!process.env.ACCESS_TTL){
+            return 15;
+        }
+        return parseInt(process.env.ACCESS_TTL)
+    },
+    REFRESH_SECRET: validateEnvVar('REFRESH_SECRET', process.env.REFRESH_SECRET),
     JWT_SECRET: validateEnvVar('JWT_SECRET', process.env.JWT_SECRET),
     SALTING: validateEnvVar('SALTING', process.env.SALTING),
     API_URL: validateEnvVar('API_URL', process.env.API_URL),

@@ -1,8 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getTopics, getQuestionsById } from "../utils/api/topicApi";
+import { useQuery } from "@tanstack/react-query";
+import { getTopics } from "../utils/api/topicApi";
 
 export const useTopics = () => {
-    const queryclient = useQueryClient();
 
     const {data:topics = [],isLoading, error} = useQuery({
         queryKey:['topics'],

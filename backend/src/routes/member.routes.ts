@@ -26,6 +26,9 @@ export default function memberRouter(upload: Multer){
     router.post('/signin', validate(SigninSchema), memberCtrl.login);
     router.post('/forgotPassword',validate(forgotPasswordSchema), memberCtrl.forgotpassword);
     router.post('/verifyOtp',memberCtrl.verifyOtp)
+    router.post('/refresh',memberCtrl.tokenRefresh);
+    router.post('/logout',memberCtrl.logout);
+    
 
     router.use(auth);
 
