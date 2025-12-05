@@ -251,6 +251,12 @@ export const tokenRefresh = async (req: Request, res: Response) => {
 };
 
 export const logout = async (req: Request, res: Response) => {
-  res.clearCookie("refresh_token", { path: "/api/v1/members/refresh" });
-  res.status(200).json({ message: "logged out" });
+  res.clearCookie('refresh_token', 
+    {   
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: '/api/v1/members/refresh' 
+    });
+  res.status(200).json({ message: 'logged out' });
 };
