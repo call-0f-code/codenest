@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Eye, EyeOff, User, Mail, Lock, GraduationCap, ArrowRight } from "lucide-react";
+import { Eye, EyeOff, User, Mail, Lock, GraduationCap, ArrowRight, ChevronDown } from "lucide-react";
 import { useMembers } from "@/hooks/useMember";
 import { globalToast } from "@/utils/toast";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +17,15 @@ const SignupForm = ({ setIsLogin }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { createNewMember } = useMembers();
   const navigate = useNavigate();
+    const [isOpen, setIsOpen] = useState(false);
+
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 9 }, (_, i) => currentYear - 4 + i);
+
+  const handleYearSelect = (year) => {
+    setFormData({ ...formData, passoutYear: year.toString() });
+    setIsOpen(false);
+  };
 
   const passwordsMatch = formData.password === confirmPassword;
 
@@ -149,28 +158,47 @@ const SignupForm = ({ setIsLogin }) => {
         </div>
       </div>
 
-      <div className="space-y-2">
+<div className="w-full max-w-md space-y-2">
         <label className="text-xs font-bold tracking-wider text-[#2C1810] dark:text-[#F5E6D3]">
           PASSOUT YEAR
         </label>
         <div className="relative">
           <GraduationCap className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-[#C1502E] z-10" />
-          <input
-            type="number"
-            placeholder="eg. 2027"
-            value={formData.passoutYear}
-            onChange={(e) => {
-              const year = parseInt(e.target.value);
-              const currentYear = new Date().getFullYear();
-              if (year >= currentYear - 4 && year <= currentYear + 4) {
-                setFormData({ ...formData, passoutYear: e.target.value });
-              }
-            }}
-            min={new Date().getFullYear() - 4}
-            max={new Date().getFullYear() + 4}
-            className="h-12 w-full border-4 border-[#2C1810] dark:border-[#F5E6D3] bg-[#F5E6D3] dark:bg-[#2C1810] pl-12 pr-4 text-sm text-[#2C1810] dark:text-[#F5E6D3] placeholder:text-[#2C1810]/40 dark:placeholder:text-[#F5E6D3]/40 focus:outline-none focus:ring-0 focus:translate-x-1 focus:translate-y-1 transition-transform"
-            required
-          />
+          <button
+            type="button"
+            onClick={() => setIsOpen(!isOpen)}
+            className="h-12 w-full border-4 border-[#2C1810] dark:border-[#F5E6D3] bg-[#F5E6D3] dark:bg-[#2C1810] pl-12 pr-10 text-sm text-[#2C1810] dark:text-[#F5E6D3] text-left focus:outline-none focus:ring-0 focus:translate-x-1 focus:translate-y-1 transition-transform relative"
+          >
+            <span className={formData.passoutYear ? '' : 'text-[#2C1810]/40 dark:text-[#F5E6D3]/40'}>
+              {formData.passoutYear || 'eg. 2027'}
+            </span>
+            <ChevronDown className={`absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-[#C1502E] transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+          </button>
+          
+          {isOpen && (
+            <>
+              <div 
+                className="fixed inset-0 z-20" 
+                onClick={() => setIsOpen(false)}
+              />
+              <div className="absolute z-30 mt-2 w-full border-4 border-[#2C1810] dark:border-[#F5E6D3] bg-[#F5E6D3] dark:bg-[#2C1810] max-h-60 overflow-y-auto">
+                {years.map((year) => (
+                  <button
+                    key={year}
+                    type="button"
+                    onClick={() => handleYearSelect(year)}
+                    className={`w-full px-4 py-3 text-left text-sm hover:bg-[#C1502E]/10 transition-colors ${
+                      formData.passoutYear === year.toString()
+                        ? 'bg-[#C1502E]/20 text-[#C1502E] font-bold'
+                        : 'text-[#2C1810] dark:text-[#F5E6D3]'
+                    }`}
+                  >
+                    {year}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
 

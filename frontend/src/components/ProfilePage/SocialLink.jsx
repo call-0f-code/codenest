@@ -2,16 +2,16 @@ import { Award, Code2, Github, Linkedin, Twitter } from "lucide-react";
 
 export const SocialLinks = ({ user, isEditing, onChange }) => {
   const platforms = [
-    { key: "github", icon: Github, label: "GitHub", placeholder: "github.com/username" },
-    { key: "linkedin", icon: Linkedin, label: "LinkedIn", placeholder: "linkedin.com/in/username" },
-    { key: "twitter", icon: Twitter, label: "Twitter", placeholder: "twitter.com/username" },
+    { key: "github", icon: Github, label: "GitHub", placeholder: "https://github.com/username" },
+    { key: "linkedin", icon: Linkedin, label: "LinkedIn", placeholder: "https://linkedin.com/in/username" },
+    { key: "twitter", icon: Twitter, label: "Twitter", placeholder: "https://twitter.com/username" },
   ];
 
   const codingPlatforms = [
-    { key: "leetcode", icon: Code2, label: "LeetCode", placeholder: "leetcode.com/username" },
-    { key: "geeksforgeeks", icon: Code2, label: "GeeksforGeeks", placeholder: "geeksforgeeks.org/user/username" },
-    { key: "codechef", icon: Award, label: "CodeChef", placeholder: "codechef.com/users/username" },
-    { key: "codeforces", icon: Code2, label: "Codeforces", placeholder: "codeforces.com/profile/username" },
+    { key: "leetcode", icon: Code2, label: "LeetCode", placeholder: "https://leetcode.com/username" },
+    { key: "geeksforgeeks", icon: Code2, label: "GeeksforGeeks", placeholder: "https://geeksforgeeks.org/user/username" },
+    { key: "codechef", icon: Award, label: "CodeChef", placeholder: "https://codechef.com/users/username" },
+    { key: "codeforces", icon: Code2, label: "Codeforces", placeholder: "https://codeforces.com/profile/username" },
   ];
 
   const renderPlatformInput = (platform) => (
