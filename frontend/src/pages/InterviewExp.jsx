@@ -4,8 +4,9 @@ import { useInterview } from "@/hooks/useInterviews";
 import InterviewFilters from "@/components/interview/InterviewFilters";
 import InterviewExperienceForm from "@/components/interview/InterviewExperienceForm";
 import InterviewExperienceItem from "@/components/interview/InterviewExperienceItem";
+import { useEffect } from "react";
 
-export default function InterviewExperiences() {
+export default function InterviewExperiences({setCurrentQuestionContext}) {
   const { interviews, isLoading, postInterviewExp,page,setPage,totalPages, setVerdict } = useInterview();
   const [filter, setFilter] = useState("All");
   const [showForm, setShowForm] = useState(false);
@@ -16,6 +17,19 @@ export default function InterviewExperiences() {
   const handleFormSubmit = (data) => {
     postInterviewExp.mutate(data);
   };
+
+  // Inside InterviewExperiences function
+useEffect(() => {
+  if (interviewsArray.length > 0) {
+    setCurrentQuestionContext({
+      type: "INTERVIEW_COLLECTION",
+      pageTitle: "Interview Experiences",
+      count: interviewsArray.length,
+      // We send a snippet or IDs so the backend knows what to fetch
+      interviewIds: interviewsArray.map(i => i.id) 
+    });
+  }
+}, [interviewsArray, setCurrentQuestionContext]);
 
   return (
     <div className="min-h-screen bg-[#F5E6D3] dark:bg-[#1a0f0a] px-6 py-12">
@@ -201,7 +215,9 @@ export default function InterviewExperiences() {
                     delay: index * 0.05
                   }}
                 >
-                  <InterviewExperienceItem interview={interview} />
+                  <InterviewExperienceItem 
+                  interview={interview}
+                  setCurrentQuestionContext={setCurrentQuestionContext} />
                 </motion.div>
               ))}
             </AnimatePresence>

@@ -40,3 +40,44 @@
 .read-the-docs {
   color: #888;
 } */
+
+
+/* LIGHT THEME */
+:root {
+  /* CHATBOT – LIGHT */
+  --color-chatbot-border: #2C1810;
+  --color-chatbot-bg-window: #FFF6EE;
+  --color-chatbot-bg-messages: #F5E6D3;
+  --color-chatbot-text: #2C1810;
+}
+
+.dark {
+  /* CHATBOT – DARK */
+  --color-chatbot-border: #F5E6D3;
+  --color-chatbot-bg-window: #121212;
+  --color-chatbot-bg-messages: #1A1A1A;
+  --color-chatbot-text: #F5E6D3;
+}
+
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  background-color: currentColor; /* 👈 theme ke hisaab se */
+  border-radius: 50%;
+  animation: typing 1.4s infinite ease-in-out;
+}
+
+.typing-dot.delay-1 {
+  animation-delay: 0.2s;
+}
+.typing-dot.delay-2 {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing {
+  0% { opacity: 0.3; transform: translateY(0); }
+  20% { opacity: 1; transform: translateY(-3px); }
+  40% { opacity: 0.3; transform: translateY(0); }
+}
+
+

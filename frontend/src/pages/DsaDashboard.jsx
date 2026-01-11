@@ -2,9 +2,11 @@ import { useState } from "react";
 import { TopicsView } from "../components/dsa/topics/TopicView";
 import { QuestionsView } from "../components/dsa/questions/QuestionView";
 
-export default function DsaDashboard() {
+export default function DsaDashboard({ setCurrentQuestionContext }) {
   const [currentView, setCurrentView] = useState("topics");
-  const [selectedTopic, setSelectedTopic] = useState(null);
+const [selectedTopic, setSelectedTopic] = useState(null);
+
+
 
   const handleBackToTopics = () => {
     setCurrentView("topics");
@@ -14,6 +16,13 @@ export default function DsaDashboard() {
   const openTopicQuestions = (topic) => {
     setSelectedTopic(topic);
     setCurrentView("questions");
+
+    setCurrentQuestionContext({
+    type: "DSA",
+    topicId: topic.id,
+    topicTitle: topic.title,
+    isTopicOnly: true // Isse backend ko pata chalega ki abhi koi question select nahi hua hai
+  });
   };
 
   return (
@@ -48,6 +57,7 @@ export default function DsaDashboard() {
             <QuestionsView
               selectedTopic={selectedTopic}
               onBack={handleBackToTopics}
+              setCurrentQuestionContext={setCurrentQuestionContext}
             />
           </div>
         )}
