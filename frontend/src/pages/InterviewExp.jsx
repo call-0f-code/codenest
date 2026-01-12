@@ -19,17 +19,18 @@ export default function InterviewExperiences({ setCurrentQuestionContext }) {
   };
 
   // Inside InterviewExperiences function
-  useEffect(() => {
-    if (interviewsArray.length > 0) {
-      setCurrentQuestionContext({
-        type: "INTERVIEW_COLLECTION",
-        pageTitle: "Interview Experiences",
-        count: interviewsArray.length,
-        // We send a snippet or IDs so the backend knows what to fetch
-        interviewIds: interviewsArray.map(i => i.id)
-      });
-    }
-  }, [interviewsArray, setCurrentQuestionContext]);
+ useEffect(() => {
+  // Sirf tabhi update karein jab interviews load ho chuke hon aur array khali na ho
+  if (!isLoading && interviewsArray.length > 0) {
+    setCurrentQuestionContext({
+      type: "INTERVIEW_COLLECTION",
+      pageTitle: "Interview Experiences",
+      count: interviewsArray.length,
+      // Backend ko IDs bhej rahe hain taaki wo detailed content fetch kar sake
+      interviewIds: interviewsArray.map(i => i.id || i._id) 
+    });
+  }
+}, [isLoading, interviewsArray.length]); // interviewsArray.length is more stable
 
   return (
     <div className="min-h-screen bg-[#F5E6D3] dark:bg-[#1a0f0a] px-6 py-12">

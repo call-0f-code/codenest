@@ -1,58 +1,59 @@
-import fetch from "node-fetch";
+import api from "../utils/api";
 
 export async function fetchRAGContext(questionContext?: any) {
   if (!questionContext) return null;
 
   try {
-    // --- 1. DSA LOGIC ---
+    // --- CASE 1: DSA (Same as before, working fine) ---
     if (questionContext.type === "DSA") {
       if (questionContext.questionId) {
-        const res = await fetch(`${process.env.API_URL}/dsa/questions/${questionContext.questionId}`);
-        return res.ok ? await res.json() : null;
+        const res = await api.get(`/dsa/questions/${questionContext.questionId}`);
+        return res.data?.data || null;
       }
 
       if (questionContext.isTopicOnly && questionContext.topicId) {
-        const res = await fetch(`${process.env.API_URL}/topics/${questionContext.topicId}`);
-        return res.ok ? await res.json() : null;
+        const res = await api.get(`/topics/${questionContext.topicId}/questions`);
+        const questions = res.data?.questions || [];
+        return {
+          ...questionContext,
+          relatedQuestions: questions,
+          topicOverview: `This topic contains ${questions.length} practice questions.`
+        };
       }
     }
 
-    // --- 2. INTERVIEW COLLECTION (Analysis Mode) ---
-
-    if (questionContext.type === "INTERVIEW_COLLECTION") {
-      if (questionContext.interviewIds && questionContext.interviewIds.length > 0) {
-        const res = await fetch(`${process.env.API_URL}/interviews?ids=${questionContext.interviewIds.join(',')}`);
-        const data = await res.json() as any;
-        return Array.isArray(data) ? data : (data.interviews || []);
-      }
-
-      const res = await fetch(`${process.env.API_URL}/interviews/all`);
-      if (!res.ok) return [];
-      const data = await res.json() as any;
-      return Array.isArray(data) ? data : (data.interviews || []);
-    }
-
-
+    // --- CASE 2 & 3: INTERVIEW SYSTEM (The finale Fix) ---
     if (questionContext.type === "INTERVIEW_EXPERIENCE") {
-      const res = await fetch(`http://localhost:3000/api/v1/interviews/${questionContext.id}`);
+      const specificRes = await api.get(`/interviews/${questionContext.id}`);
+      const specificData = specificRes.data?.data;
 
-      if (res.ok) {
-        const json = await res.json() as any;
+  
+     
+      const globalRes = await api.get(`/interviews?limit=20`);
+      const allInterviews = globalRes.data?.data || [];
 
-        // Extract the actual data (handling potential API wrappers)
-        const actualData = json.data || json.interview || json;
-
-        console.log("SUCCESS: Data found for", actualData.company);
-        return { ...questionContext, ...actualData };
-      }
-      console.log("Fetch failed. Status:", res.status);
-      return questionContext;
+      return {
+        currentInterview: specificData,
+        otherInterviews: allInterviews.map((i: any) => ({
+          student: i.member?.name || "Anonymous",
+          company: i.company,
+          verdict: i.verdict,
+          id: i._id
+        })), 
+        contextMeta: questionContext
+      };
     }
 
-  } catch (error) {
-    console.error("Error in RAG retrieval:", error);
-    return null;
-  }
+    // Default Case
+    if (questionContext.type === "INTERVIEW_COLLECTION") {
+      const res = await api.get(`/interviews?limit=50`);
+      const data = res.data?.data || res.data?.interviews || [];
+  return data;
+    }
 
+  } catch (error: any) {
+    console.error("RAG Fetch Error:", error.message);
+    return questionContext; 
+  }
   return null;
 }

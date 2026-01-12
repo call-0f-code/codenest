@@ -146,7 +146,19 @@ export function QuestionsView({ selectedTopic, onBack, setCurrentQuestionContext
                     topic: selectedTopic,
                     question,
                   });
-                  setCurrentQuestionContext(ctx);
+                  setCurrentQuestionContext({
+                    ...ctx,
+                    type: "DSA",
+                    questionId: question.id || question._id, // Backend retrieval ke liye
+                    isTopicOnly: false
+                  });
+
+                  // 3. Global reference (Optional but good for debugging)
+                  window.__CURRENT_QUESTION_CONTEXT__ = {
+                    type: "DSA",
+                    questionName: question.questionName,
+                    topic: selectedTopic.title
+                  };
 
                 }}
                 className="relative border-4 border-black bg-[#FFF6EE] dark:bg-[#2C1810]

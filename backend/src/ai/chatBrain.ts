@@ -21,6 +21,11 @@ You are Cortex, an intelligent AI analyst for "Call of Code".
 STRICT LIMITATION: Your knowledge is limited EXCLUSIVELY to DSA and Interview Experiences.
 
 🎯 YOUR GOALS:
+1. If user says hi or hello, greet them back briefly and ask how you can assist in DSA/Interview prep.
+2. Provide accurate, concise, and relevant answers ONLY related to DSA problems or interview experiences.
+3. Politely refuse to answer anything outside DSA/Interviews with the Refusal Message below.
+
+💡 SPECIAL INSTRUCTIONS BASED ON CONTEXT:
 1. DSA HELP (3-Step Method): 
    - Start with a **simple hint** only.
    - If user asks for solution (e.g., "give code", "solve it"), provide: (a) Brute-force logic + code, (b) Optimal solution + code.
@@ -36,22 +41,25 @@ RULES:
 
   console.log("🧠 QUESTION CONTEXT IN chatBrain 👉", questionContext);
 
-  // --- CASE 1: DSA TOPIC ONLY ---
-  if (questionContext?.type === "DSA" && questionContext.isTopicOnly) {
-    return `
-${baseRole}
-User is currently browsing the topic: ${questionContext.topicTitle}.
+ // --- CASE 1: DSA TOPIC ONLY ---
+if (questionContext?.type === "DSA" && questionContext.isTopicOnly) {
+  const questionsList = ragData?.relatedQuestions 
+    ? ragData.relatedQuestions.map((q: any) => `- ${q.title}`).join("\n")
+    : "No questions listed for this topic yet.";
 
-Conversation so far:
-${formatHistory(history)}
+  return `
+${baseRole}
+User is browsing: ${questionContext.topicTitle}
+Available Questions in this topic:
+${questionsList}
 
 Instructions:
-- Provide a brief overview of ${questionContext.topicTitle}.
-- Mention common interview patterns.
+- Briefly explain the importance of ${questionContext.topicTitle} in interviews.
+- If user asks what to solve, suggest questions from the list above.
 
 User Query: ${userAnswer}
 `;
-  }
+}
 
   // --- CASE 2: SPECIFIC DSA QUESTION ---
   if (questionContext?.type === "DSA" && questionContext.questionId) {
@@ -76,20 +84,17 @@ Instructions:
 
   // --- CASE 3: INTERVIEW ANALYST (COLLECTION) ---
   if (questionContext?.type === "INTERVIEW_COLLECTION") {
-    // 🛡️ SAFETY CHECK: Ensure ragData is an array before mapping
-    const allExperiences = Array.isArray(ragData) 
-      ? ragData.map((exp: any) => `
-          Company: ${exp.company}
-          Verdict: ${exp.verdict}
-          Experience: ${exp.content}
-        `).join("\n---\n")
-      : "No interview data available to analyze.";
+    // Check if ragData exists and has items
+    const allExperiences = (Array.isArray(ragData) && ragData.length > 0)
+      ? ragData.slice(0, 10).map((exp: any) => // Top 10 for performance
+          `Student: ${exp.member?.name || "User"} | Company: ${exp.company} | Verdict: ${exp.verdict} | Summary: ${exp.role}`
+        ).join("\n")
+      : "No specific interview stories found in the database.";
 
     return `
 ${baseRole}
-You are an Interview Analyst. You have access to ${questionContext.count || 0} interview stories.
-
-DATASET:
+CONTEXT: The user is looking at the Interview Experiences page.
+DATABASE SUMMARY (Last few stories):
 ${allExperiences}
 
 User Question: ${userAnswer}
@@ -98,27 +103,30 @@ Instructions:
 - Analyze the common patterns in the stories provided.
 - Identify common mistakes leading to "Rejected" verdicts.
 - Determine which companies focused more on DSA.
+- If they ask for details of a specific person, tell them to click on that card for a deep-dive analysis.
 `;
   }
 
   // --- CASE 4: SINGLE INTERVIEW EXPERIENCE ---
-  // chatBrain.ts update for CASE 4
-// --- CASE 4: SINGLE INTERVIEW EXPERIENCE ---
 if (questionContext?.type === "INTERVIEW_EXPERIENCE") {
-  const interview = ragData || questionContext; 
-  // Added a check to see if content is actually there
-  const content = ragData?.content || "No database content found. Request might have failed.";
-
-  // LOGGING: Check your backend terminal to see what is being packed into the prompt
-  console.log("🛠️ PROMPT BUILDING WITH CONTENT:", content.substring(0, 50) + "...");
+  const current = ragData?.currentInterview || questionContext;
+  const content = ragData?.currentInterview?.content || "Story content loading...";
+  const studentName = current.member?.name || current.studentName || "the candidate";
 
   return `
 ${baseRole}
-CURRENT CONTEXT:
-Company: ${interview.company}
-Role: ${interview.role}
-Verdict: ${interview.verdict}
-Full Experience: ${content}
+CONTEXT: Interview for ${current.company}.
+CANDIDATE: ${studentName} | VERDICT: ${current.verdict}
+DATA: """${content}"""
+
+INSTRUCTIONS:
+1. If the user says "hi" or "hello", greet them professionally and ask what they want to know specifically.
+2. Provide the FULL ANALYSIS ONLY if the user asks a specific question (e.g., "what rounds?", "questions?", "give analysis").
+3. Use this format for analysis:
+   🔍 **Analysis: ${current.company} Journey**
+   - **The Process**: ...
+   - **Technical Deep-Dive**: ...
+   - **The Verdict Factor**: ...
 
 User Query: ${userAnswer}
 `;

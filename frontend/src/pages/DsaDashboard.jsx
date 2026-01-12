@@ -10,8 +10,15 @@ const [selectedTopic, setSelectedTopic] = useState(null);
 const handleBackToTopics = () => {
     setCurrentView("topics");
     setSelectedTopic(null);
-  };
-
+    
+    // AI context ko reset karein taaki wo general baatein kar sake
+    if (setCurrentQuestionContext) {
+      setCurrentQuestionContext(null); 
+    }
+    
+    // Debugging ke liye global context bhi clean karein
+    window.__CURRENT_QUESTION_CONTEXT__ = null;
+};
   const openTopicQuestions = (topic) => {
     setSelectedTopic(topic);
     setCurrentView("questions");

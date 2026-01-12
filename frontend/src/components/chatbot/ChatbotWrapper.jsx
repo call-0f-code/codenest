@@ -76,7 +76,7 @@ export default function ChatbotWrapper({ currentQuestionContext }) {
       const newState = !prev;
 
       if (newState && messages.length === 0) {
-        const welcome = "SYSTEM_READY: Cortex online. How can I help you debug your experience today?";
+        const welcome = "How can I help you to debug your problem today?";
         let currentText = "";
         let index = 0;
 

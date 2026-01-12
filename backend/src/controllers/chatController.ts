@@ -9,17 +9,15 @@ export async function chatController(req: Request, res: Response) {
       path,
       userAnswer,
       questionContext,
-      history,
+      history = [], // Added default value
     } = req.body;
-
 
     // Fetch RAG data 
     const ragData = await fetchRAGContext(questionContext);
+    
+    
     if (ragData) {
-      console.log("✅ DATA FOUND. Company:", ragData.company || "N/A");
-      console.log("📝 CONTENT PREVIEW:", ragData.content?.substring(0, 50) + "...");
-    } else {
-      console.log("🔍 DATA TO AI: No record found.");
+      console.log(` Context Loaded: ${ragData.company || ragData.topicTitle || 'General'}`);
     }
 
     const prompt = buildPrompt({
@@ -32,24 +30,30 @@ export async function chatController(req: Request, res: Response) {
 
     // Call Gemini
     const chat = geminiModel.startChat({
-      history: [], // History handled in prompt
+      history: [], 
     });
 
-    const result = await chat.sendMessage(prompt); // prompt has all context
-    const reply = result.response.text();
-
-    // Send Response
-    res.json({ reply });
+    try {
+      const result = await chat.sendMessage(prompt);
+      const reply = result.response.text();
+      return res.json({ reply }); // Explicit return
+    } catch (aiError: any) {
+      // ⚠️ Handle Gemini Specific Overload (503)
+      if (aiError.status === 503 || aiError.message?.includes("503")) {
+        return res.status(503).json({
+          reply: "Google's AI servers are a bit busy 🧠⚡. Please wait 5-10 seconds and try again!",
+        });
+      }
+      throw aiError; // Pass to main catch
+    }
 
   } catch (error) {
-    console.error("Chat Controller Error:", error);
-
+    console.error("🚨 Chat Controller Error:", error);
     const err = error as Error;
 
-
     res.status(500).json({
-      reply: "Cortex is having trouble accessing the context right now. Please try again.",
-      error: err.message
+      reply: "Cortex encountered an issue. Let's try that again in a moment.",
+      error: process.env.NODE_ENV === 'development' ? err.message : undefined // Hide technical error in production
     });
   }
 }

@@ -36,18 +36,26 @@ export default function InterviewExperienceItem({
   };
 
   const handleCardClick = () => {
-    setIsExpanded(!isExpanded);
+    const nextExpandedState = !isExpanded;
+    setIsExpanded(nextExpandedState);
     
-    // Bot ko specific interview ka context dena
-    if (setCurrentQuestionContext) {
+    // Agar expand ho raha hai, tabhi context set karein
+    if (nextExpandedState && setCurrentQuestionContext) {
       setCurrentQuestionContext({
         type: "INTERVIEW_EXPERIENCE",
-        id: interview.id,
+        id: interview.id || interview._id, // MongoDB ID support
         company: interview.company,
         role: interview.role,
         verdict: interview.verdict,
         isTopicOnly: false
       });
+      
+      // Global reference (optional debug ke liye)
+      window.__CURRENT_QUESTION_CONTEXT__ = {
+        type: "INTERVIEW_EXPERIENCE",
+        company: interview.company,
+        role: interview.role,
+      };
     }
   };
 
@@ -64,26 +72,13 @@ export default function InterviewExperienceItem({
         role="button"
         tabIndex={0}
         aria-expanded={isExpanded}
-        onClick={() => {
-          handleCardClick();
-          window.__CURRENT_QUESTION_CONTEXT__ = {
-            type: "INTERVIEW_EXPERIENCE",
-            company: interview.company,
-            role: interview.role,
-            verdict: interview.verdict,
-            summary: interview.content?.slice(0, 500), // optional
-            
-          };
-
-          setIsExpanded(!isExpanded)
-        }
-        }
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          setIsExpanded(!isExpanded);
-        }
-      }}
+        onClick={handleCardClick} // Fixed Call
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            handleCardClick();
+          }
+        }}
       >
       {/* Company Tab */}
       <motion.div
