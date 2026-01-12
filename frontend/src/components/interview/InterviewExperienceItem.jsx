@@ -16,7 +16,7 @@ export default function InterviewExperienceItem({
   showProfileInfo = true,
   onEdit,
   onDelete,
-  setCurrentQuestionContext
+  setCurrentQuestionContext // For chatbot context setting
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
 

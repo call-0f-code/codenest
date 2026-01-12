@@ -62,11 +62,6 @@ export default function ChatbotIcon({ onClick }) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: -10 }}
             exit={{ opacity: 0, y: 10 }}
-            /* BOX DYNAMICS: 
-               - w-fit: Box sirf text jitna bada hoga.
-               - dark:bg-white: Black theme mein white bg ho jayega.
-               - bg-black: White theme mein black bg ho jayega.
-            */
             className="mb-4 bg-black dark:bg-white text-white dark:text-black px-3 py-1.5 text-[10px] font-mono border-l-4 border-[#C1502E] shadow-[4px_4px_0_0_#2C1810] w-fit"
           >
             <div className="flex flex-col">
@@ -87,7 +82,6 @@ export default function ChatbotIcon({ onClick }) {
           borderColor: DARK_BROWN, 
           backgroundColor: hovered ? "#FFFFFF" : OFF_WHITE_LIGHT,
           borderRadius: "12px",
-          /* SHADOW: Glow add kiya hai for dark mode popping */
           boxShadow: hovered 
             ? `8px 8px 0px ${BURNT_ORANGE}, 0px 0px 15px rgba(193, 80, 46, 0.4)` 
             : `6px 6px 0px ${DARK_BROWN}`,

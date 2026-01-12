@@ -2,13 +2,13 @@
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import { useState, useRef, useEffect } from "react";
-import ChatbotIcon from "./ChatbotIcon"; // Import the icon component
+import ChatbotIcon from "./ChatbotIcon";
 import { useLocation } from "react-router-dom";
 
-// Specific theme colors from QuestionsView.jsx
+
 const COLORS = {
   border: "var(--color-chatbot-border, #000000)",
-  window: "var(--color-chatbot-bg-window, #F5E6D3)", // Light: #F5E6D3, Dark: #1A0D08
+  window: "var(--color-chatbot-bg-window, #F5E6D3)",
   messages: "var(--color-chatbot-bg-messages, #EAD8C3)",
   text: "var(--color-chatbot-text, #2C1810)",
 
@@ -39,8 +39,6 @@ const TerminalIcon = ({ size = "md" }) => {
     </div>
   );
 };
-
-
 
 export default function ChatbotWrapper({ currentQuestionContext }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -112,7 +110,7 @@ export default function ChatbotWrapper({ currentQuestionContext }) {
     const userQuery = input;
     const currentPath = location.pathname; // This is the "Context Awareness" part!
 
-    // Add user message to UI
+
     const updatedMessages = [...messages, { from: "user", text: userQuery }];
     setMessages(updatedMessages);
     setInput("");
@@ -153,10 +151,10 @@ export default function ChatbotWrapper({ currentQuestionContext }) {
 
   return (
     <>
-      {/* 1. Floating Icon */}
+  
       <ChatbotIcon onClick={toggleChat} />
 
-      {/* 2. Chat Window */}
+     
       <AnimatePresence>
         {isOpen && (
           // Wrapper to hold the floating effect
@@ -201,7 +199,6 @@ export default function ChatbotWrapper({ currentQuestionContext }) {
 
                 {/* Header Buttons */}
                 <div className="flex gap-2">
-                  {/* Maximize Button - Turns GREEN on hover */}
                   <button
                     onClick={toggleFullScreen}
                     className="bg-transparent border-2 border-black p-1 shadow-[2px_2px_0_0_black] hover:bg-green-500 hover:text-white transition-all active:translate-y-0.5 active:shadow-none"
@@ -217,8 +214,6 @@ export default function ChatbotWrapper({ currentQuestionContext }) {
                       </svg>
                     )}
                   </button>
-
-                  {/* Close Button - Turns RED on hover */}
                   <button
                     onClick={() => setIsOpen(false)}
                     className="bg-transparent border-2 border-black p-1 shadow-[2px_2px_0_0_black] hover:bg-red-500 hover:text-white transition-all active:translate-y-0.5 active:shadow-none"
@@ -233,7 +228,6 @@ export default function ChatbotWrapper({ currentQuestionContext }) {
               </div>
 
               {/* Messages */}
-              {/* Message Area */}
               <div className="flex-1 overflow-y-auto p-6 space-y-6" style={{ backgroundColor: COLORS.messages, scrollbarWidth: "none" }}>
                 {messages.map((msg, idx) => (
                   <div key={idx} className={`flex ${msg.from === "user" ? 'justify-end' : 'justify-start'}`}>
@@ -266,19 +260,19 @@ export default function ChatbotWrapper({ currentQuestionContext }) {
                 ))}
 
                 {isTyping && (
-  <div className="flex items-center gap-3">
-    <TerminalIcon size="sm" />
-    <div 
-      className="flex gap-1.5 px-4 py-3 border-4 border-black bg-black shadow-[4px_4px_0_0_black]"
-      style={{ borderRadius: "15px 15px 15px 2px" }}
-    >
-      {/* Dots: Light theme mein Saffron, Dark theme mein White */}
-      <div className="w-2 h-2 rounded-full animate-bounce [animation-delay:-0.3s] bg-[#FF9933] dark:bg-white" />
-      <div className="w-2 h-2 rounded-full animate-bounce [animation-delay:-0.15s] bg-[#FF9933] dark:bg-white" />
-      <div className="w-2 h-2 rounded-full animate-bounce bg-[#FF9933] dark:bg-white" />
-    </div>
-  </div>
-)}
+                  <div className="flex items-center gap-3">
+                    <TerminalIcon size="sm" />
+                    <div
+                      className="flex gap-1.5 px-4 py-3 border-4 border-black bg-black shadow-[4px_4px_0_0_black]"
+                      style={{ borderRadius: "15px 15px 15px 2px" }}
+                    >
+
+                      <div className="w-2 h-2 rounded-full animate-bounce [animation-delay:-0.3s] bg-[#FF9933] dark:bg-white" />
+                      <div className="w-2 h-2 rounded-full animate-bounce [animation-delay:-0.15s] bg-[#FF9933] dark:bg-white" />
+                      <div className="w-2 h-2 rounded-full animate-bounce bg-[#FF9933] dark:bg-white" />
+                    </div>
+                  </div>
+                )}
 
                 <div ref={messagesEndRef} />
               </div>
@@ -293,7 +287,7 @@ export default function ChatbotWrapper({ currentQuestionContext }) {
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                     placeholder="ENTER QUERY..."
-                    /* "text-black" add kiya hai taaki light theme mein typing dikhe */
+
                     className="flex-1 bg-white border-4 border-black p-3 text-xs font-bold uppercase text-black placeholder:text-black/40 focus:outline-none"
                     style={{ boxShadow: `4px 4px 0 0 ${COLORS.border}` }}
                   />
@@ -306,7 +300,7 @@ export default function ChatbotWrapper({ currentQuestionContext }) {
                   </button>
                 </div>
               </div>
-              
+
             </motion.div>
           </div>
         )}

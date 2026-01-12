@@ -7,8 +7,7 @@ export default function DsaDashboard({ setCurrentQuestionContext }) {
 const [selectedTopic, setSelectedTopic] = useState(null);
 
 
-
-  const handleBackToTopics = () => {
+const handleBackToTopics = () => {
     setCurrentView("topics");
     setSelectedTopic(null);
   };
@@ -21,7 +20,7 @@ const [selectedTopic, setSelectedTopic] = useState(null);
     type: "DSA",
     topicId: topic.id,
     topicTitle: topic.title,
-    isTopicOnly: true // Isse backend ko pata chalega ki abhi koi question select nahi hua hai
+    isTopicOnly: true 
   });
   };
 

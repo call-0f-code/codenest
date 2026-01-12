@@ -141,14 +141,13 @@ export function QuestionsView({ selectedTopic, onBack, setCurrentQuestionContext
               {/* Main floating card */}
               <div
                 onClick={() => {
-      
-                    const ctx= buildQuestionContext({
-                      topic: selectedTopic,
-                      question,
-                    });
+
+                  const ctx = buildQuestionContext({
+                    topic: selectedTopic,
+                    question,
+                  });
                   setCurrentQuestionContext(ctx);
-                  console.log("BUILT CTX 👉", ctx);
-          
+
                 }}
                 className="relative border-4 border-black bg-[#FFF6EE] dark:bg-[#2C1810]
       p-8 rounded-lg shadow-[10px_10px_0_0_#2C1810]
@@ -183,7 +182,7 @@ export function QuestionsView({ selectedTopic, onBack, setCurrentQuestionContext
                 {/* Actions */}
                 <div className="flex justify-between items-center">
                   <button
-                    onClick={(e) =>{ 
+                    onClick={(e) => {
                       e.stopPropagation();
                       handleToggle(question.id)
                     }}
@@ -202,8 +201,8 @@ export function QuestionsView({ selectedTopic, onBack, setCurrentQuestionContext
                   </button>
 
                   <button
-                    onClick={(e) =>{
-                      e.stopPropagation();  
+                    onClick={(e) => {
+                      e.stopPropagation();
                       window.open(question.link, "_blank", "noopener,noreferrer")
                     }}
                     className="relative border-4 border-black bg-[#F5E6D3] dark:bg-[#FFF6EE] 
