@@ -2,18 +2,33 @@ import { useState } from "react";
 import { TopicsView } from "../components/dsa/topics/TopicView";
 import { QuestionsView } from "../components/dsa/questions/QuestionView";
 
-export default function DsaDashboard() {
+export default function DsaDashboard({ setCurrentQuestionContext }) {
   const [currentView, setCurrentView] = useState("topics");
-  const [selectedTopic, setSelectedTopic] = useState(null);
+const [selectedTopic, setSelectedTopic] = useState(null);
 
-  const handleBackToTopics = () => {
+
+const handleBackToTopics = () => {
     setCurrentView("topics");
     setSelectedTopic(null);
-  };
-
+    
+    // AI context ko reset karein taaki wo general baatein kar sake
+    if (setCurrentQuestionContext) {
+      setCurrentQuestionContext(null); 
+    }
+    
+    // Debugging ke liye global context bhi clean karein
+    window.__CURRENT_QUESTION_CONTEXT__ = null;
+};
   const openTopicQuestions = (topic) => {
     setSelectedTopic(topic);
     setCurrentView("questions");
+
+    setCurrentQuestionContext({
+    type: "DSA",
+    topicId: topic.id,
+    topicTitle: topic.title,
+    isTopicOnly: true 
+  });
   };
 
   return (
@@ -48,6 +63,7 @@ export default function DsaDashboard() {
             <QuestionsView
               selectedTopic={selectedTopic}
               onBack={handleBackToTopics}
+              setCurrentQuestionContext={setCurrentQuestionContext}
             />
           </div>
         )}

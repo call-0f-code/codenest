@@ -8,6 +8,9 @@ import { errorHandler } from './utils/apiError';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser'
+import chatRoutes from "./routes/chat.route";
+
+
 
 
 const app = express();
@@ -32,6 +35,8 @@ app.use(limiter)
 app.use(cookieParser());
 app.use(json());
 app.use(urlencoded({ extended: true }));
+app.use(express.json()); 
+app.use("/chat", chatRoutes); 
 
 const upload = multer({ storage: multer.memoryStorage(),
   limits: { fileSize: 2 * 1024 * 1024 }
