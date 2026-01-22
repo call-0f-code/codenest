@@ -23,7 +23,7 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="px-4 sm:px-6 py-12 sm:py-16 md:py-20">
+    <section className="px-4 sm:px-6 py-12 sm:py-16 md:py-20 overflow-hidden">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-center">
         {/* Left Side */}
         <div className="space-y-6 sm:space-y-8">
@@ -60,18 +60,18 @@ export default function HeroSection() {
         </div>
 
         {/* Right Side - Code Terminal */}
-        <div className="relative">
+        <div className="relative w-full max-w-full overflow-visible">
           <div
             className="
       bg-[#2C1810] dark:bg-[#F5E6D3]
       border-4 border-black 
-      shadow-[8px_8px_0px_0px_rgba(193,80,46,1)] sm:shadow-[10px_10px_0px_0px_rgba(193,80,46,1)] md:shadow-[12px_12px_0px_0px_rgba(193,80,46,1)]
-      p-4 sm:p-6 md:p-8 rotate-1 sm:rotate-2 hover:rotate-0
-      transition-transform duration-300
+      shadow-[6px_6px_0px_0px_rgba(193,80,46,1)] sm:shadow-[8px_8px_0px_0px_rgba(193,80,46,1)] md:shadow-[10px_10px_0px_0px_rgba(193,80,46,1)] lg:shadow-[12px_12px_0px_0px_rgba(193,80,46,1)]
+      p-3 sm:p-4 md:p-6 lg:p-8 rotate-1 sm:rotate-2 hover:rotate-0
+      transition-transform duration-300 max-w-full
     "
           >
             {/* Window Buttons */}
-            <div className="flex items-center gap-2 mb-4 sm:mb-6">
+            <div className="flex items-center gap-2 mb-3 sm:mb-4 md:mb-6">
               <div className="w-3 h-3 sm:w-4 sm:h-4 bg-[#C1502E] border-2 border-black dark:border-[#F5E6D3]"></div>
               <div className="w-3 h-3 sm:w-4 sm:h-4 bg-[#F5E6D3] border-2 border-black dark:border-[#F5E6D3]"></div>
               <div className="w-3 h-3 sm:w-4 sm:h-4 bg-[#C1502E] border-2 border-black dark:border-[#F5E6D3]"></div>
@@ -80,52 +80,52 @@ export default function HeroSection() {
             {/* Text */}
             <div
               className="
-        font-mono text-sm sm:text-base md:text-lg space-y-2 sm:space-y-3
-        text-[#F5E6D3] dark:text-[#2C1810]
+        font-mono text-xs sm:text-sm md:text-base lg:text-lg space-y-1.5 sm:space-y-2 md:space-y-3
+        text-[#F5E6D3] dark:text-[#2C1810] overflow-x-auto
       "
             >
               {/* Comment */}
-              <div className="text-[#F5E6D3]/60 dark:text-[#2C1810]/60">
+              <div className="text-[#F5E6D3]/60 dark:text-[#2C1810]/60 whitespace-nowrap">
         // Welcome to Call of Code
               </div>
 
               {/* Class line */}
-              <div className="font-bold text-[#C1502E]">
+              <div className="font-bold text-[#C1502E] whitespace-nowrap">
                 class <span className="text-[#F5E6D3] dark:text-[#2C1810]">CodingClub</span> {'{'}
               </div>
 
-              <div className="ml-4 sm:ml-6">
+              <div className="ml-3 sm:ml-4 md:ml-6 whitespace-nowrap">
                 mission =
                 <span className="text-[#C1502E]"> "Inspire & Create"</span>;
               </div>
 
-              <div className="ml-4 sm:ml-6">
+              <div className="ml-3 sm:ml-4 md:ml-6 whitespace-nowrap">
                 members = <span className="text-[#C1502E] font-bold">∞</span>;
               </div>
 
-              <div className="ml-4 sm:ml-6">
+              <div className="ml-3 sm:ml-4 md:ml-6 whitespace-nowrap">
                 passion = <span className="text-[#C1502E] font-bold">MAX</span>;
               </div>
 
               {/* Dynamic snippet box */}
               <div
                 className="
-          ml-4 sm:ml-6 px-2 py-1 sm:px-3 sm:py-1 inline-block font-bold text-xs sm:text-sm md:text-base
+          ml-3 sm:ml-4 md:ml-6 px-2 py-1 sm:px-3 sm:py-1 inline-block font-bold text-xs sm:text-sm md:text-base
           bg-[#C1502E] text-[#F5E6D3]
           dark:bg-[#C1502E] dark:text-[#2C1810]
-          border-2 border-[#F5E6D3] dark:border-[#2C1810]
+          border-2 border-[#F5E6D3] dark:border-[#2C1810] whitespace-nowrap
         "
               >
                 {codeSnippets[currentSnippet]}
               </div>
 
-              <div className="font-bold text-[#C1502E]">{'}'}</div>
+              <div className="font-bold text-[#C1502E] whitespace-nowrap">{'}'}</div>
             </div>
           </div>
 
-          {/* Decorative elements */}
-          <div className="absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-[#C1502E] border-4 border-black -rotate-12"></div>
-          <div className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-[#F5E6D3] border-4 border-black rotate-45"></div>
+          {/* Decorative elements - hidden on very small screens to prevent overflow */}
+          <div className="hidden sm:block absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-[#C1502E] border-4 border-black -rotate-12"></div>
+          <div className="hidden sm:block absolute -top-3 -right-3 sm:-top-4 sm:-right-4 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-[#F5E6D3] border-4 border-black rotate-45"></div>
         </div>
       </div>
     </section>
