@@ -21,28 +21,24 @@ export default function Footer() {
       "
     >
       {/* Header */}
-      <div className="text-center mb-12">
-        <h1 className="text-xl sm:text-3xl md:text-4xl font-black tracking-widest">
+      <div className="text-center mb-8 sm:mb-12 px-4">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-widest">
           &lt; CALL OF CODE /&gt;
         </h1>
-        <p className="text-xs sm:text-sm opacity-80 mt-2">
+        <p className="text-xs sm:text-sm opacity-80 mt-2 max-w-2xl mx-auto">
           A platform where coders unite to learn, build, and collaborate.
         </p>
       </div>
 
       {/* CARDS */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 w-full max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 w-full max-w-6xl mx-auto">
         {/* About Us */}
         <div
           className={CARD_CLASS}
         >
           <h2 className="text-lg sm:text-xl font-black mb-3">About Us</h2>
-          <p className="text-[10px] sm:text-xs md:text-sm leading-relaxed">
-            Call Of Code is your go-to platform for coding tutorials,
-            <br />
-            challenges, and resources. Join us to explore the world
-            <br />
-            of programming and technology.
+          <p className="text-xs sm:text-sm md:text-base leading-relaxed">
+            Call Of Code is your go-to platform for coding tutorials, challenges, and resources. Join us to explore the world of programming and technology.
           </p>
         </div>
 
@@ -51,7 +47,7 @@ export default function Footer() {
           className={CARD_CLASS}
         >
           <h2 className="text-lg sm:text-xl font-black mb-3">Quick Links</h2>
-          <ul className="space-y-2 text-[10px] sm:text-xs md:text-sm">
+          <ul className="space-y-2 text-xs sm:text-sm md:text-base">
             {[
               { href: "#about", text: "About Us" },
               { href: "/interviewExp", text: "Interviews" },
@@ -78,11 +74,11 @@ export default function Footer() {
 
         {/* FOLLOW US */}
         <div
-            className={CARD_CLASS}
+          className={CARD_CLASS}
         >
           <h2 className="text-lg sm:text-xl font-black mb-3">Follow Us</h2>
 
-          <div className="grid grid-cols-2 gap-5 place-items-center mt-2">
+          <div className="grid grid-cols-2 gap-4 sm:gap-5 place-items-center mt-2">
             {[
               {
                 Icon: FaInstagram,
@@ -103,7 +99,7 @@ export default function Footer() {
                 onMouseEnter={() => setHoverIndex(index)}
                 onMouseLeave={() => setHoverIndex(null)}
                 className={`
-                  relative p-3 text-2xl sm:text-3xl border-4 rounded-md transition-all duration-150 bg-[#F5E6D3] text-[#2C1810] border-[#F5E6D3] shadow-[8px_8px_0px_0px_rgba(193,80,46,1)] dark:bg-[#3B2418] dark:text-[#F5E6D3] dark:border-[#3B2418] dark:shadow-[8px_8px_0px_0px_rgba(193,80,46,1)] ${hoverIndex===index?"translate-x-[4px] translate-y-[4px] hover:shadow-[10px_10px_0px_0px_rgba(193,80,46,1)] dark:hover:shadow-[10px_10px_0px_0px_rgba(193,80,46,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-[6px_6px_0px_0px_rgba(193,80,46,1)] dark:active:shadow-[6px_6px_0px_0px_rgba(193,80,46,1)] active:translate-x-0.5 active:translate-y-0.5":""}
+                  relative p-2.5 sm:p-3 text-xl sm:text-2xl md:text-3xl border-4 rounded-md transition-all duration-150 bg-[#F5E6D3] text-[#2C1810] border-[#F5E6D3] shadow-[6px_6px_0px_0px_rgba(193,80,46,1)] sm:shadow-[8px_8px_0px_0px_rgba(193,80,46,1)] dark:bg-[#3B2418] dark:text-[#F5E6D3] dark:border-[#3B2418] dark:shadow-[6px_6px_0px_0px_rgba(193,80,46,1)] sm:dark:shadow-[8px_8px_0px_0px_rgba(193,80,46,1)] ${hoverIndex === index ? "hover:shadow-[8px_8px_0px_0px_rgba(193,80,46,1)] sm:hover:shadow-[10px_10px_0px_0px_rgba(193,80,46,1)] dark:hover:shadow-[8px_8px_0px_0px_rgba(193,80,46,1)] sm:dark:hover:shadow-[10px_10px_0px_0px_rgba(193,80,46,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-[4px_4px_0px_0px_rgba(193,80,46,1)] sm:active:shadow-[6px_6px_0px_0px_rgba(193,80,46,1)] dark:active:shadow-[4px_4px_0px_0px_rgba(193,80,46,1)] sm:dark:active:shadow-[6px_6px_0px_0px_rgba(193,80,46,1)] active:translate-x-0.5 active:translate-y-0.5" : ""}
                 `}
               >
                 <Icon />
