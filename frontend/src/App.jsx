@@ -1,7 +1,6 @@
 import "./App.css";
-import { Navigate, Route , Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import ThemeToggle from "./components/common/ThemeToggle";
 import Home from "./pages/LandingPage";
 import DsaDashboard from "./pages/DsaDashboard";
 import InterviewExp from "./pages/InterviewExp";
@@ -16,19 +15,18 @@ function App() {
     <>
 
       <Toaster position="top-center" reverseOrder={false} />
-      <ThemeToggle />
       <Routes>
-          <Route path="/signup" element={<AuthPage/>} />
-            <Route path="/" element={<MainLayout/>} >
-                  <Route index element={<Navigate to="/home" />} />
-                  <Route path="/home" element={<Home/>} />
-                  <Route path="dsa" element={<DsaDashboard/>} />
-                  <Route path="interviewExp" element={<InterviewExp/>} />
-                  <Route element={<ProtectedRoute />}>
-                  <Route path="profile" element={<ProfilePage/>} />
-                  </Route>
+        <Route path="/signup" element={<AuthPage />} />
+        <Route path="/" element={<MainLayout />} >
+          <Route index element={<Navigate to="/home" />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="dsa" element={<DsaDashboard />} />
+          <Route path="interviewExp" element={<InterviewExp />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="profile" element={<ProfilePage />} />
           </Route>
-          <Route path="*" element={ <NotFound/>} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

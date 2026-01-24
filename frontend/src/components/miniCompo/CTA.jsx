@@ -4,25 +4,25 @@ import { useNavigate } from "react-router-dom";
 export default function CTASection() {
   const navigate = useNavigate();
   return (
-    <section className="px-6 py-20">
+    <section className="px-4 sm:px-6 py-12 sm:py-16 md:py-20">
       <div className="max-w-5xl mx-auto">
-        <div className="bg-[#C1502E] border-4 border-black p-16 shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] text-center relative overflow-hidden">
+        <div className="bg-[#C1502E] border-4 border-black p-6 sm:p-10 md:p-12 lg:p-16 shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] sm:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] md:shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] text-center relative overflow-hidden">
           <div className="relative z-10">
-            <div className="flex justify-center gap-2 mb-6">
+            <div className="flex justify-center gap-1 sm:gap-2 mb-4 sm:mb-6">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-8 w-8 fill-[#F5E6D3] text-[#F5E6D3]" />
+                <Star key={i} className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 fill-[#F5E6D3] text-[#F5E6D3]" />
               ))}
             </div>
-            <h3 className="text-5xl md:text-6xl font-black text-[#F5E6D3] mb-6">
+            <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-[#F5E6D3] mb-4 sm:mb-6">
               READY TO ANSWER<br />THE CALL?
             </h3>
-            <p className="text-2xl font-bold text-[#F5E6D3]/90 mb-10 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-[#F5E6D3]/90 mb-6 sm:mb-8 md:mb-10 max-w-2xl mx-auto px-2">
               Join hundreds of creative minds building the future, one line of code at a time.
             </p>
-            <button onClick={ () => ( navigate('/signup'))}
-              className="px-16 py-6 bg-[#F5E6D3] text-[#2C1810] text-2xl font-black border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] inline-flex items-center gap-4 transition-all duration-150 hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5">
+            <button onClick={() => (navigate('/signup'))}
+              className="px-8 py-4 sm:px-12 sm:py-5 md:px-16 md:py-6 bg-[#F5E6D3] text-[#2C1810] text-lg sm:text-xl md:text-2xl font-black border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] inline-flex items-center gap-3 sm:gap-4 transition-all duration-150 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] sm:hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:active:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5">
               JOIN CALL OF CODE
-              <ArrowRight className="h-8 w-8" />
+              <ArrowRight className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8" />
             </button>
           </div>
         </div>
