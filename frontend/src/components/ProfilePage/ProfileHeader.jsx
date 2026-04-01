@@ -1,5 +1,7 @@
 import { User, Camera, Edit2, Save, X } from "lucide-react";
 import { useRef } from "react";
+import { compressImage } from "@/utils/compressImage";
+import { globalToast } from "@/utils/toast";
 
 export const ProfileHeader = ({
   user,
@@ -17,13 +19,21 @@ export const ProfileHeader = ({
     if (isEditing && fileInputRef.current) fileInputRef.current.click();
   };
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files?.[0];
-    if (file && onImageChange) {
-      const reader = new FileReader();
-      reader.onloadend = () => onImageChange(file, reader.result);
-      reader.readAsDataURL(file);
+    if (!file || !onImageChange) return;
+
+    const MAX_SIZE_MB = 2;
+    let fileToUpload = file;
+
+    if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+      globalToast.info("Image is larger than 2 MB — compressing…");
+      fileToUpload = await compressImage(file, MAX_SIZE_MB);
+      globalToast.success("Image compressed successfully!");
     }
+    const reader = new FileReader();
+    reader.onloadend = () => onImageChange(fileToUpload, reader.result);
+    reader.readAsDataURL(fileToUpload);
   };
 
   const userName = user?.name || "Guest User";
