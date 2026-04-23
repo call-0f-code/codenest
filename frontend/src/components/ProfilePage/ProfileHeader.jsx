@@ -40,43 +40,28 @@ export const ProfileHeader = ({
   const userEmail = user?.email || "No email provided";
 
   return (
-    <section className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] p-7 shadow-[8px_8px_0_rgba(0,0,0,1)] dark:shadow-[8px_8px_0_rgba(245,230,211,0.3)] flex flex-col md:flex-row items-center justify-between gap-8 rounded-none overflow-hidden">
-      {/* --- Left: Info --- */}
-      <div className="flex-1 text-center md:text-left space-y-2 z-20">
-        <h1 className="text-[2.5rem] md:text-[4rem] font-black uppercase text-[#2C1810] dark:text-[#F5E6D3] tracking-tight leading-none">
-          {userName}
-        </h1>
-        <p className="text-base md:text-lg font-semibold text-[#C1502E] dark:text-[#F5E6D3]/70">
-          {userEmail}
-        </p>
-
-        {user?.isManager && (
-          <span className="inline-block mt-2 bg-[#C1502E] text-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] font-black px-3 py-0.5 shadow-[4px_4px_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_rgba(245,230,211,0.3)] text-sm rotate-[-1deg]">
-            MANAGER
-          </span>
-        )}
-
-        {/* Poster label */}
-        <div className="absolute -top-1 left-4 bg-[#2C1810] text-[#F5E6D3] text-xs font-black px-3 py-0.5 border-4 border-black dark:border-[#F5E6D3] rotate-[-3deg] shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.3)]">
-          PROFILE
-        </div>
+    <section className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] p-5 md:p-7 shadow-[8px_8px_0_rgba(0,0,0,1)] dark:shadow-[8px_8px_0_rgba(245,230,211,0.3)] flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 rounded-none overflow-hidden">
+      {/* Poster label */}
+      <div className="absolute -top-1 left-4 bg-[#2C1810] text-[#F5E6D3] text-xs font-black px-3 py-0.5 border-4 border-black dark:border-[#F5E6D3] rotate-[-3deg] shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.3)]">
+        PROFILE
       </div>
 
-      {/* --- Right: Profile Image --- */}
+      {/* --- Profile Image --- */}
       <div
-        className={`relative w-44 h-44 md:w-56 md:h-56 border-4 border-black dark:border-[#F5E6D3] bg-[#C1502E] dark:bg-[#F5E6D3]/10 overflow-hidden shadow-[6px_6px_0_rgba(0,0,0,1)] dark:shadow-[6px_6px_0_rgba(245,230,211,0.3)] group z-20 ${
+        className={`relative w-28 h-28 sm:w-36 sm:h-36 md:w-56 md:h-56 flex-shrink-0 border-4 border-black dark:border-[#F5E6D3] bg-[#C1502E] dark:bg-[#F5E6D3]/10 overflow-hidden shadow-[6px_6px_0_rgba(0,0,0,1)] dark:shadow-[6px_6px_0_rgba(245,230,211,0.3)] group z-20 ${
           isEditing ? "cursor-pointer" : ""
         } transition-all duration-300`}
         onClick={isEditing ? handleImageClick : undefined}
       >
         {user.profilePhoto ? (
-            <img src= {previewImg?`${previewImg}`:`${user.profilePhoto}?t=${new Date(user.updatedAt)}`}
+          <img
+            src={previewImg ? `${previewImg}` : `${user.profilePhoto}?t=${new Date(user.updatedAt)}`}
             alt={userName}
             className="object-cover w-full h-full"
           />
         ) : (
           <div className="flex items-center justify-center h-full text-[#F5E6D3] dark:text-[#C1502E]">
-            <User className="h-14 w-14" />
+            <User className="h-10 w-10 md:h-14 md:w-14" />
           </div>
         )}
 
@@ -92,39 +77,55 @@ export const ProfileHeader = ({
             <button
               onClick={handleImageClick}
               type="button"
-              className="absolute bottom-3 right-3 bg-[#F5E6D3] dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] p-2 font-black shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.3)] hover:bg-[#C1502E] hover:text-[#F5E6D3] transition-all"
+              className="absolute bottom-2 right-2 bg-[#F5E6D3] dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] p-1.5 font-black shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.3)] hover:bg-[#C1502E] hover:text-[#F5E6D3] transition-all"
             >
-              <Camera className="h-4 w-4" />
+              <Camera className="h-3 w-3 md:h-4 md:w-4" />
             </button>
           </>
         )}
       </div>
 
-      {/* --- Buttons --- */}
-      <div className="absolute top-4 right-4 flex flex-wrap gap-3 z-30">
-        {!isEditing ? (
-          <button
-            onClick={onEdit}
-            className="bg-[#C1502E] text-[#F5E6D3] text-sm md:text-base font-black px-5 py-2 border-4 border-black dark:border-[#F5E6D3] shadow-[4px_4px_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_rgba(245,230,211,0.3)] hover:-translate-y-[2px] transition-all flex items-center gap-1"
-          >
-            <Edit2 className="h-4 w-4" /> EDIT
-          </button>
-        ) : (
-          <>
-            <button
-              onClick={onSave}
-              className="bg-[#C1502E] text-[#F5E6D3] text-sm md:text-base font-black px-5 py-2 border-4 border-black dark:border-[#F5E6D3] shadow-[4px_4px_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_rgba(245,230,211,0.3)] hover:-translate-y-[2px] transition-all flex items-center gap-1"
-            >
-              <Save className="h-4 w-4" /> SAVE
-            </button>
-            <button
-              onClick={onCancel}
-              className="bg-[#F5E6D3] dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] text-sm md:text-base font-black px-5 py-2 border-4 border-black dark:border-[#F5E6D3] shadow-[4px_4px_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_rgba(245,230,211,0.3)] hover:-translate-y-[2px] transition-all flex items-center gap-1"
-            >
-              <X className="h-4 w-4" /> CANCEL
-            </button>
-          </>
+      {/* --- Info + Buttons --- */}
+      <div className="flex-1 flex flex-col items-center md:items-start gap-3 z-20 w-full min-w-0">
+        <h1 className="text-[1.8rem] sm:text-[2.5rem] md:text-[4rem] font-black uppercase text-[#2C1810] dark:text-[#F5E6D3] tracking-tight leading-none text-center md:text-left break-words w-full">
+          {userName}
+        </h1>
+        <p className="text-sm sm:text-base md:text-lg font-semibold text-[#C1502E] dark:text-[#F5E6D3]/70 text-center md:text-left break-all w-full">
+          {userEmail}
+        </p>
+
+        {user?.isManager && (
+          <span className="inline-block bg-[#C1502E] text-[#F5E6D3] border-4 border-black dark:border-[#F5E6D3] font-black px-3 py-0.5 shadow-[4px_4px_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_rgba(245,230,211,0.3)] text-sm rotate-[-1deg]">
+            MANAGER
+          </span>
         )}
+
+        {/* --- Buttons --- */}
+        <div className="flex flex-wrap gap-2 mt-1 justify-center md:justify-start">
+          {!isEditing ? (
+            <button
+              onClick={onEdit}
+              className="bg-[#C1502E] text-[#F5E6D3] text-sm font-black px-4 py-2 border-4 border-black dark:border-[#F5E6D3] shadow-[4px_4px_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_rgba(245,230,211,0.3)] hover:-translate-y-[2px] transition-all flex items-center gap-1"
+            >
+              <Edit2 className="h-4 w-4" /> EDIT
+            </button>
+          ) : (
+            <>
+              <button
+                onClick={onSave}
+                className="bg-[#C1502E] text-[#F5E6D3] text-sm font-black px-4 py-2 border-4 border-black dark:border-[#F5E6D3] shadow-[4px_4px_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_rgba(245,230,211,0.3)] hover:-translate-y-[2px] transition-all flex items-center gap-1"
+              >
+                <Save className="h-4 w-4" /> SAVE
+              </button>
+              <button
+                onClick={onCancel}
+                className="bg-[#F5E6D3] dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] text-sm font-black px-4 py-2 border-4 border-black dark:border-[#F5E6D3] shadow-[4px_4px_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_rgba(245,230,211,0.3)] hover:-translate-y-[2px] transition-all flex items-center gap-1"
+              >
+                <X className="h-4 w-4" /> CANCEL
+              </button>
+            </>
+          )}
+        </div>
       </div>
 
     </section>

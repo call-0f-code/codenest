@@ -50,7 +50,7 @@ export const SocialLinks = ({ user, isEditing, onChange }) => {
   return (
     <div className="space-y-10">
       {/* Social Links Section */}
-      <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] shadow-[8px_8px_0_rgba(0,0,0,1)] dark:shadow-[8px_8px_0_rgba(245,230,211,0.3)] p-8">
+      <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] shadow-[8px_8px_0_rgba(0,0,0,1)] dark:shadow-[8px_8px_0_rgba(245,230,211,0.3)] p-4 sm:p-6 md:p-8">
         {/* Brutalist Tag */}
         <div className="absolute -top-4 left-4 bg-[#2C1810] text-[#F5E6D3] text-xs font-black px-3 py-1 border-4 border-black dark:border-[#F5E6D3] rotate-[-3deg] shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.3)]">
           SOCIAL LINKS
@@ -63,7 +63,7 @@ export const SocialLinks = ({ user, isEditing, onChange }) => {
       </div>
 
       {/* Coding Platforms Section */}
-      <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] shadow-[8px_8px_0_rgba(0,0,0,1)] dark:shadow-[8px_8px_0_rgba(245,230,211,0.3)] p-8">
+      <div className="relative bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] shadow-[8px_8px_0_rgba(0,0,0,1)] dark:shadow-[8px_8px_0_rgba(245,230,211,0.3)] p-4 sm:p-6 md:p-8">
         {/* Brutalist Tag */}
         <div className="absolute -top-4 left-4 bg-[#C1502E] text-[#F5E6D3] text-xs font-black px-3 py-1 border-4 border-black dark:border-[#F5E6D3] rotate-[2deg] shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(245,230,211,0.3)]">
           CODING PLATFORMS

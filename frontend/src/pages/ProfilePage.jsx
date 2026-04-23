@@ -116,7 +116,7 @@ const ProfilePage = () => {
         theme === "dark" ? "dark bg-[#2C1810]" : "bg-[#F5E6D3]"
       }`}
     >
-      <section className="max-w-7xl mx-auto px-6 py-12 relative z-10">
+      <section className="max-w-7xl mx-auto px-3 sm:px-6 py-6 md:py-12 relative z-10">
         
         {/* 1. Header Section */}
         <div className="mb-12 relative">
@@ -138,7 +138,7 @@ const ProfilePage = () => {
         </div>
 
         {/* 2. Tab Navigation */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-8">
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
             const Icon = tab.icon;
@@ -148,8 +148,8 @@ const ProfilePage = () => {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`
-                  relative group flex items-center justify-center gap-3 px-6 py-4 
-                  font-black text-lg uppercase border-4 border-black dark:border-[#F5E6D3]
+                  relative group flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-3 px-2 sm:px-6 py-3 sm:py-4 
+                  font-black text-[0.6rem] sm:text-sm md:text-lg uppercase border-4 border-black dark:border-[#F5E6D3]
                   transition-all duration-200 outline-none
                   ${isActive 
                     ? "bg-[#C1502E] text-[#F5E6D3] translate-x-[4px] translate-y-[4px] shadow-none" 
@@ -157,12 +157,12 @@ const ProfilePage = () => {
                   }
                 `}
               >
-                <Icon className={`w-6 h-6 ${isActive ? "text-[#F5E6D3]" : "text-[#C1502E]"}`} />
-                {tab.label}
+                <Icon className={`w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 ${isActive ? "text-[#F5E6D3]" : "text-[#C1502E]"}`} />
+                <span className="hidden xs:inline sm:inline leading-tight text-center">{tab.label}</span>
                 
                 {/* Active Indicator Dot */}
                 {isActive && (
-                  <div className="absolute top-2 right-2 w-3 h-3 bg-[#F5E6D3] border-2 border-black rounded-none" />
+                  <div className="absolute top-1.5 right-1.5 w-2 h-2 sm:w-3 sm:h-3 bg-[#F5E6D3] border-2 border-black rounded-none" />
                 )}
               </button>
             );
@@ -201,7 +201,7 @@ const ProfilePage = () => {
               <div className="animate-in fade-in slide-in-from-bottom-4 duration-300">
                 {/* Removing wrapper card from component since we are in a tab container context now, 
                     but MyInterviewExperiences has its own structure, so we wrap it to match style */}
-                <div className="bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] p-8 shadow-[8px_8px_0_0_#000] dark:shadow-[8px_8px_0_rgba(245,230,211,0.3)]">
+                <div className="bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] p-4 sm:p-6 md:p-8 shadow-[8px_8px_0_0_#000] dark:shadow-[8px_8px_0_rgba(245,230,211,0.3)]">
                   <MyInterviewExperiences userId={userData?.id} />
                 </div>
               </div>

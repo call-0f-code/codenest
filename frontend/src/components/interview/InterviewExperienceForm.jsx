@@ -355,12 +355,12 @@ export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending
   };
 
   return (
-    <div className="bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] shadow-[12px_12px_0px_0px_rgba(193,80,46,1)] p-8 rotate-1 hover:rotate-0 hover:shadow-[16px_16px_0px_0px_rgba(193,80,46,1)] transition-all duration-300">
+    <div className="bg-[#F5E6D3] dark:bg-[#2C1810] border-4 border-black dark:border-[#F5E6D3] shadow-[8px_8px_0px_0px_rgba(193,80,46,1)] sm:shadow-[12px_12px_0px_0px_rgba(193,80,46,1)] p-4 sm:p-8 hover:shadow-[12px_12px_0px_0px_rgba(193,80,46,1)] sm:hover:shadow-[16px_16px_0px_0px_rgba(193,80,46,1)] transition-all duration-300">
       <div className="flex items-center gap-3 mb-6">
         <div className="bg-[#C1502E] p-3 border-4 border-black dark:border-[#F5E6D3] -rotate-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(245,230,211,1)]">
           <Briefcase className="h-6 w-6 text-[#F5E6D3]" />
         </div>
-        <h3 className="text-3xl font-black text-[#2C1810] dark:text-[#F5E6D3]">
+        <h3 className="text-2xl sm:text-3xl font-black text-[#2C1810] dark:text-[#F5E6D3]">
           {initialData ? "EDIT EXPERIENCE" : "SHARE YOUR EXPERIENCE"}
         </h3>
       </div>
@@ -459,11 +459,11 @@ export default function InterviewExperienceForm({ onSuccess, onSubmit, isPending
         </div>
 
         {/* Anonymous Toggle */}
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           <button
             type="button"
             onClick={() => setFormData(prev => ({ ...prev, isAnonymous: !prev.isAnonymous }))}
-            className={`flex items-center gap-3 px-6 py-3 font-black border-4 border-black dark:border-[#F5E6D3] transition-all duration-150 ${
+            className={`flex items-center justify-center gap-3 px-6 py-3 font-black border-4 border-black dark:border-[#F5E6D3] transition-all duration-150 ${
               formData.isAnonymous
                 ? "bg-[#C1502E] text-[#F5E6D3] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(245,230,211,1)] -translate-x-0.5 -translate-y-0.5"
                 : "bg-white dark:bg-[#2C1810] text-[#2C1810] dark:text-[#F5E6D3] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:shadow-[3px_3px_0px_0px_rgba(245,230,211,1)] hover:shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[5px_5px_0px_0px_rgba(245,230,211,1)] hover:-translate-x-0.5 hover:-translate-y-0.5"
